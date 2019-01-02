@@ -1,0 +1,3 @@
+class Grade < Party
+
+end

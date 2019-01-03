@@ -4,7 +4,8 @@ class GradesController < ApplicationController
   # GET /grades
   # GET /grades.json
   def index
-    @grades = Grade.all
+    opts = { parent_id: params[:department_id] }.delete_if { |key, value| value.blank?}
+    @grades = Grade.where(opts).page(params[:page])
   end
 
   # GET /grades/1
@@ -48,6 +49,6 @@ class GradesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def grade_params
-      params.fetch(:grade, {})
+      params.fetch(:grade, {}).permit!
     end
 end

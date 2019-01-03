@@ -8,6 +8,6 @@ module ModelBase
     field :actived, type: Boolean, default: true
     field :datatype, type: Symbol, default: :app #:sys, :app
     field :seq, type: Integer, default: 0
-    field :desc
+    field :desc, type: String, default: ''
   end
 end

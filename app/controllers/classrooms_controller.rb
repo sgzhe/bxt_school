@@ -4,7 +4,8 @@ class ClassroomsController < ApplicationController
   # GET /classrooms
   # GET /classrooms.json
   def index
-    @classrooms = Classroom.all
+    opts = { parent_id: params[:grade_id] }.delete_if { |key, value| value.blank?}
+    @classrooms = Classroom.where(opts).page(params[:page])
   end
 
   # GET /classrooms/1
@@ -48,6 +49,6 @@ class ClassroomsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def classroom_params
-      params.fetch(:classroom, {})
+      params.fetch(:classroom, {}).permit!
     end
 end

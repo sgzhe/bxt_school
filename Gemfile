@@ -12,7 +12,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -39,6 +39,6 @@ gem 'jwt'
 gem 'jwt_sessions'
 gem 'mongoid', '~> 7.0'
 gem 'mongoid-tree', require: 'mongoid/tree'
-gem 'kaminari'
+gem 'kaminari-mongoid'
 gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
 

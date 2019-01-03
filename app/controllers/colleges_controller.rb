@@ -1,9 +1,10 @@
 class CollegesController < ApplicationController
+  #before_action :authorize_access_request!
   before_action :set_college, only: [:show, :update, :destroy]
 
   # GET /colleges
   def index
-    @colleges = College.all
+    @colleges = College.all.page(params[:page])
 
     render json: @colleges
   end
@@ -46,6 +47,6 @@ class CollegesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def college_params
-      params.fetch(:college, {})
+      params.fetch(:college, {}).permit!
     end
 end

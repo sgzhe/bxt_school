@@ -43,6 +43,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
+    bcrypt (3.1.12-x64-mingw32)
     bootsnap (1.3.2)
       msgpack (~> 1.0)
     bson (4.3.0)
@@ -69,18 +70,10 @@ GEM
     jwt (2.1.0)
     jwt_sessions (2.3.0)
       jwt (>= 2.1, < 3)
-    kaminari (1.1.1)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.1.1)
-      kaminari-activerecord (= 1.1.1)
-      kaminari-core (= 1.1.1)
-    kaminari-actionview (1.1.1)
-      actionview
-      kaminari-core (= 1.1.1)
-    kaminari-activerecord (1.1.1)
-      activerecord
-      kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
+    kaminari-mongoid (1.0.1)
+      kaminari-core (~> 1.0)
+      mongoid
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -162,13 +155,14 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug
   carrierwave-mongoid
   jbuilder (~> 2.5)
   jwt
   jwt_sessions
-  kaminari
+  kaminari-mongoid
   mongoid (~> 7.0)
   mongoid-tree
   puma (~> 3.11)

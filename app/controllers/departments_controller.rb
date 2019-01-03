@@ -4,7 +4,8 @@ class DepartmentsController < ApplicationController
   # GET /departments
   # GET /departments.json
   def index
-    @departments = Department.all
+    opts = { parent_id: params[:college_id] }.delete_if { |key, value| value.blank?}
+    @departments = Department.where(opts).page(params[:page])
   end
 
   # GET /departments/1
@@ -48,6 +49,6 @@ class DepartmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def department_params
-      params.fetch(:department, {})
+      params.fetch(:department, {}).permit!
     end
 end

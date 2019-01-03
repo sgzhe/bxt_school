@@ -1,4 +1,4 @@
-class Party
+class Org
   include ModelBase
   include Mongoid::Tree
 

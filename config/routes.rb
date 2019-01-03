@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :beds
+  resources :students
+  resources :teachers
+  resources :managers
+  resources :rooms
+  resources :floors
+  resources :houses
   resources :classrooms
   resources :grades
   resources :departments

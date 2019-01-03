@@ -1,0 +1,3 @@
+class VideoRecorder < Facility
+
+end

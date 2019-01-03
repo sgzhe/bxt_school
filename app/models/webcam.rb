@@ -1,0 +1,3 @@
+class Webcam < Facility
+
+end

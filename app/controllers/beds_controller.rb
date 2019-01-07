@@ -1,4 +1,5 @@
 class BedsController < ApplicationController
+  #before_action :authorize_access_request!
   before_action :set_bed, only: [:show, :update, :destroy]
 
   # GET /beds

@@ -48,6 +48,6 @@ class CollegesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def college_params
-      params.fetch(:college, {})
+      params.fetch(:college, {}).permit!
     end
 end

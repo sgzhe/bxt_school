@@ -8,6 +8,7 @@ class ApplicationController < ActionController::API
 
   def paginate_meta(resource)
     { current_page: resource.current_page,
+      current_per_page: resource.current_per_page,
       next_page: resource.next_page,
       prev_page: resource.prev_page,
       total_pages: resource.total_pages,

@@ -5,7 +5,7 @@ class DepartmentsController < ApplicationController
   # GET /departments.json
   def index
     opts = { parent_id: params[:college_id] }.delete_if { |key, value| value.blank?}
-    @departments = Department.where(opts).page(params[:page])
+    @departments = paginate(Department.where(opts))
   end
 
   # GET /departments/1

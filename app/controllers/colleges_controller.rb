@@ -4,7 +4,7 @@ class CollegesController < ApplicationController
   # GET /colleges
   # GET /colleges.json
   def index
-    @colleges = College.all
+    @colleges = paginate(College.all)
   end
 
   # GET /colleges/1

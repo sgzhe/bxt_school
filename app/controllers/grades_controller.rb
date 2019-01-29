@@ -5,7 +5,7 @@ class GradesController < ApplicationController
   # GET /grades.json
   def index
     parent_id = params[:department_id] || params[:college_id]
-    opts = { parent_ids: parent_id && BSON::ObjectId(parent_id) }.delete_if { |key, value| value.blank?}
+    opts = { parent_ids: (!parent_id.blank?) && BSON::ObjectId(parent_id) }.delete_if { |key, value| value.blank?}
     @grades = paginate(Grade.where(opts))
   end
 

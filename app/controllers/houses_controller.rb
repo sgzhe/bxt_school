@@ -4,7 +4,9 @@ class HousesController < ApplicationController
   # GET /houses
   # GET /houses.json
   def index
-    @houses = House.all
+    parent_id = params[:house_id]
+    opts = { parent_ids: parent_id && BSON::ObjectId(parent_id) }.delete_if { |key, value| value.blank?}
+    @houses = paginate(House.where(opts))
   end
 
   # GET /houses/1
@@ -41,13 +43,14 @@ class HousesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_house
-      @house = House.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def house_params
-      params.fetch(:house, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_house
+    @house = House.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def house_params
+    params.fetch(:house, {}).permit!
+  end
 end

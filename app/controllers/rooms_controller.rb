@@ -4,7 +4,9 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-    @rooms = Room.all
+    parent_id = params[:floor_id] || params[:house_id]
+    opts = {parent_ids: parent_id && BSON::ObjectId(parent_id)}.delete_if {|key, value| value.blank?}
+    @rooms = paginate(Room.where(opts))
   end
 
   # GET /rooms/1
@@ -41,13 +43,14 @@ class RoomsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_room
-      @room = Room.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def room_params
-      params.fetch(:room, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_room
+    @room = Room.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def room_params
+    params.fetch(:room, {}).permit!
+  end
 end

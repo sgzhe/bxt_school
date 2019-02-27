@@ -4,7 +4,7 @@ class FloorsController < ApplicationController
   # GET /floors
   # GET /floors.json
   def index
-    @floors = Floor.all
+    @floors = paginate(Floor.all)
   end
 
   # GET /floors/1
@@ -41,13 +41,14 @@ class FloorsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_floor
-      @floor = Floor.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def floor_params
-      params.fetch(:floor, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_floor
+    @floor = Floor.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def floor_params
+    params.fetch(:floor, {}).permit!
+  end
 end

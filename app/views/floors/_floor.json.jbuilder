@@ -1,2 +1,4 @@
-json.extract! floor, :id, :created_at, :updated_at
-json.url floor_url(floor, format: :json)
+json.extract! floor, :id, :title, :parent_id, :created_at, :updated_at
+json.house do
+  json.partial! "houses/house", house: floor.house || House.new
+end

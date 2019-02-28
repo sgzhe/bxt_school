@@ -5,7 +5,9 @@ class BedsController < ApplicationController
   # GET /beds
   # GET /beds.json
   def index
-    @beds = Bed.all
+    parent_id = params[:room_id] || params[:floor_id] || params[:house_id]
+    opts = {parent_ids: parent_id && BSON::ObjectId(parent_id)}.delete_if {|key, value| value.blank?}
+    @beds = paginate(Bed.where(opts))
   end
 
   # GET /beds/1
@@ -49,6 +51,6 @@ class BedsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bed_params
-      params.fetch(:bed, {})
+      params.fetch(:bed, {}).permit!
     end
 end

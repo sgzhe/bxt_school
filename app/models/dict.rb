@@ -4,5 +4,5 @@ class Dict
   field :name
   field :title
 
-  embeds_many :dict_item
+  embeds_many :dict_items
 end

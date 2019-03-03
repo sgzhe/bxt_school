@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :dicts
   resources :orgs
   resources :beds
   resources :students
@@ -8,7 +9,6 @@ Rails.application.routes.draw do
   resources :floors
   resources :houses
   resources :classrooms
-  resources :grades
   resources :departments
   resources :colleges
   resources :menu_items

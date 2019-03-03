@@ -1,2 +1,1 @@
-json.extract! manager, :id, :created_at, :updated_at
-json.url manager_url(manager, format: :json)
+json.extract! manager, :id, :name, :gender, :id_card, :ic_card, :tel, :created_at, :updated_at

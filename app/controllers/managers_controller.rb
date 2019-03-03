@@ -4,7 +4,7 @@ class ManagersController < ApplicationController
   # GET /managers
   # GET /managers.json
   def index
-    @managers = Manager.all
+    @managers = paginate(Manager.all)
   end
 
   # GET /managers/1
@@ -41,13 +41,14 @@ class ManagersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_manager
-      @manager = Manager.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def manager_params
-      params.fetch(:manager, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_manager
+    @manager = Manager.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def manager_params
+    params.fetch(:manager, {}).permit!
+  end
 end

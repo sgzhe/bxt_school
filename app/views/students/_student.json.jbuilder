@@ -1,2 +1,7 @@
-json.extract! student, :id, :created_at, :updated_at
-json.url student_url(student, format: :json)
+json.extract! student, :id, :name, :gender, :id_card, :ic_card, :tel, :created_at, :updated_at
+json.classroom do
+  json.partial! "classrooms/classroom", classroom: student.classroom || Classroom.new
+end
+json.bed do
+  json.partial! "beds/bed", bed: student.bed || Bed.new
+end

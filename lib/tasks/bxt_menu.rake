@@ -22,7 +22,7 @@ namespace :bxt do
     end
     MenuItem.create title: '系统管理', icon: 'settings' do |m|
       m.children.build title: '菜单管理', path: 'menu_items'
-      m.children.build title: '字典管理', path: 'data_dicts'
+      m.children.build title: '字典管理', path: 'dicts'
       m.children.build title: '角色管理', path: 'roles'
       m.children.build title: '用户组管理', path: 'groups'
     end

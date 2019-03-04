@@ -4,6 +4,6 @@ class Trace
   field :pass_time, type: DateTime
   field :direction, type: Symbol #:in :out
 
-  belongs_to :facility
+  belongs_to :gateway
   embedded_in :tracker
 end

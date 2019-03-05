@@ -1,1 +1,1 @@
-json.extract! dict, :id, :name, :title, :created_at, :updated_at
+json.extract! dict, :id, :name, :title, :dict_items, :desc, :created_at, :updated_at

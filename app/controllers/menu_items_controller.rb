@@ -4,7 +4,7 @@ class MenuItemsController < ApplicationController
   # GET /menu_items
   # GET /menu_items.json
   def index
-    @menu_items = MenuItem.all
+    @menu_items = MenuItem.traverse {|mi| mi}
   end
 
   # GET /menu_items/1

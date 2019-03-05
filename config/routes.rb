@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :permissions
+  resources :groups
+  resources :roles
   resources :dicts
   resources :orgs
   resources :beds

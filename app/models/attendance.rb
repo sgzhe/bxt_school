@@ -2,7 +2,7 @@ class Attendance
   include Mongoid::Document
 
   field :day, type: Date
-  field :home_state
+  field :status
 
   embedded_in :tracker
 end

@@ -8,7 +8,7 @@ namespace :bxt do
       house = House.create(title: "楼栋#{i}")
       floor = Floor.create(title: "楼层#{i}", house: house)
       room = Room.create(title: "#{i}0#{i}室", floor: floor)
-      bed = Bed.create(title: "{i}床", room: room)
+      bed = Bed.create(title: "#{i}床", room: room)
       student = Student.create(name: "学生#{i}", password: '123456', classroom: classroom, bed: bed)
       teacher = Teacher.create(name: "教师#{i}", password: '123456', department: department)
     end

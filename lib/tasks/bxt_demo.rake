@@ -9,8 +9,8 @@ namespace :bxt do
       floor = Floor.create(title: "楼层#{i}", house: house)
       room = Room.create(title: "#{i}0#{i}室", floor: floor)
       bed = Bed.create(title: "#{i}床", room: room)
-      student = Student.create(name: "学生#{i}", password: '123456', classroom: classroom, bed: bed)
-      teacher = Teacher.create(name: "教师#{i}", password: '123456', department: department)
+      student = Student.create(name: "学生#{i}", password: 'bxt-123', classroom: classroom, bed: bed)
+      teacher = Teacher.create(name: "教师#{i}", password: 'bxt-123', department: department)
     end
   end
 end

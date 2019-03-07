@@ -1,5 +1,6 @@
 class Facility
   include ModelBase
+  include Mongoid::Tree
 
   field :title
 

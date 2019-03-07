@@ -1,2 +1,2 @@
 json.extract! role, :id, :title, :created_at, :updated_at
-json.url role_url(role, format: :json)
+json.groups role.groups, :id, :title, :created_at, :updated_at

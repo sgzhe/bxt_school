@@ -4,7 +4,7 @@ class PermissionsController < ApplicationController
   # GET /permissions
   # GET /permissions.json
   def index
-    @permissions = Permission.all
+    @permissions = paginate(Permission.all)
   end
 
   # GET /permissions/1

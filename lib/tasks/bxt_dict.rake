@@ -10,5 +10,10 @@ namespace :bxt do
       d.dict_items.build(name: '05', title: '大五')
     end
 
+    Dict.create name: 'menu_access', title: '菜单方向权限' do |d|
+      d.dict_items.build(name: 'view', title: '浏览')
+      d.dict_items.build(name: 'edit', title: '编辑')
+    end
+
   end
 end

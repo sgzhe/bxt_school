@@ -1,3 +1,3 @@
-class Group < PrivilegeSet
+class Group < CapabilitySet
 
 end

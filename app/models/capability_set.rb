@@ -1,4 +1,4 @@
-class PrivilegeSet
+class CapabilitySet
   include ModelBase
   include Mongoid::Tree
 

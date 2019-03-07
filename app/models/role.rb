@@ -1,3 +1,3 @@
-class Role < PrivilegeSet
+class Role < CapabilitySet
 
 end

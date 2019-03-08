@@ -12,5 +12,8 @@ namespace :bxt do
       student = Student.create(name: "学生#{i}", classroom: classroom, bed: bed)
       teacher = Teacher.create(name: "教师#{i}", department: department)
     end
+    group = Group.create(title: '校组')
+    role = Role.create(title: '校管', groups: [group])
+    manager = Manager.create(name: "管理员", login: 'admin', password: 'bxt-admin', roles: [role])
   end
 end

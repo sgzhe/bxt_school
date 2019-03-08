@@ -23,7 +23,7 @@ class User
 
   has_secure_password
 
-  set_callback(:create, :before) do |doc|
+  set_callback(:initialize, :before) do |doc|
     doc.password = 'bxt-123' if :new_record?
   end
 

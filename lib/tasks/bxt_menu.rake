@@ -8,7 +8,6 @@ namespace :bxt do
     end
     MenuItem.create title: '公寓管理', icon: 'location_city' do |m|
       m.children.build title: '楼栋管理', path: 'houses'
-      m.children.build title: '楼层管理', path: 'floors'
       m.children.build title: '房间管理', path: 'rooms'
       m.children.build title: '床位管理', path: 'beds'
     end

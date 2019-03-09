@@ -5,7 +5,7 @@ class BedsController < ApplicationController
   # GET /beds
   # GET /beds.json
   def index
-    parent_id = params[:room_id] || params[:floor_id] || params[:house_id]
+    parent_id = params[:room_id] || params[:house_id]
     opts = {parent_ids: parent_id && BSON::ObjectId(parent_id)}.delete_if {|key, value| value.blank?}
     @beds = paginate(Bed.where(opts))
   end

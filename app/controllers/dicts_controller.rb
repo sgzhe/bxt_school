@@ -4,7 +4,8 @@ class DictsController < ApplicationController
   # GET /dicts
   # GET /dicts.json
   def index
-    @dicts = paginate(Dict.all)
+    opts = { name: params[:dn] }.delete_if { |key, value| value.blank?}
+    @dicts = paginate(Dict.where(opts))
   end
 
   # GET /dicts/1

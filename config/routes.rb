@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :teachers
   resources :managers
   resources :rooms
-  resources :floors
   resources :houses
   resources :classrooms
   resources :departments

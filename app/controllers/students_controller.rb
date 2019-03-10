@@ -4,7 +4,9 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
-    @students = paginate(Student.all)
+    facility_id = params[:room_id]
+    opts = { facility_id: facility_id && BSON::ObjectId(facility_id)}.delete_if { |key, value| value.blank?}
+    @students = paginate(Student.where(opts))
   end
 
   # GET /students/1

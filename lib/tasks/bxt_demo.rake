@@ -7,9 +7,9 @@ namespace :bxt do
       classroom = Classroom.create(title: "班级#{i}", department: department)
       house = House.create(title: "楼栋#{i}")
       room = Room.create(title: "#{i}0#{i}室", house: house, floor: "0#{i}")
-      bed = Bed.create(title: "#{i}床", room: room)
-      student = Student.create(name: "学生#{i}", classroom: classroom, bed: bed)
+      student = Student.create(name: "学生#{i}", classroom: classroom, room: room)
       teacher = Teacher.create(name: "教师#{i}", department: department)
+      bed = Bed.create(title: "#{i}床", room: room, charge_person: student)
     end
     group = Group.create(title: '校组')
     role = Role.create(title: '校管', groups: [group])

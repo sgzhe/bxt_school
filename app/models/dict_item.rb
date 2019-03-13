@@ -1,7 +1,7 @@
 class DictItem
   include Mongoid::Document
 
-  field :name
+  field :mark
   field :title
   field :desc
 

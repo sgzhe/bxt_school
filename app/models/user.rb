@@ -4,7 +4,7 @@ class User
   include ActiveModel::SecurePassword
 
   field :name
-  field :gender, default: :male
+  field :gender_mark, default: :male
   field :id_card
   field :ic_card
   field :tel

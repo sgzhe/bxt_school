@@ -1,2 +1,2 @@
-json.extract! house, :id, :title, :desc, :floors, :created_at, :updated_at
-#json.url house_url(house, format: :json)
+json.extract! house, :id, :title, :desc, :created_at, :updated_at
+json.floors house.floors, :id, :title, :mark, :desc

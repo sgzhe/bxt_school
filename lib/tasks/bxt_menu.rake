@@ -6,7 +6,7 @@ namespace :bxt do
       m.children.build title: '系部管理', path: 'departments'
       m.children.build title: '班级管理', path: 'classrooms'
     end
-    MenuItem.create title: '公寓管理', icon: 'location_city' do |m|
+    MenuItem.create title: '设施管理', icon: 'location_city' do |m|
       m.children.build title: '楼栋管理', path: 'houses'
       m.children.build title: '房间管理', path: 'rooms'
       m.children.build title: '床位管理', path: 'beds'
@@ -16,8 +16,9 @@ namespace :bxt do
       m.children.build title: '教师管理', path: 'teachers'
       m.children.build title: '管理员', path: 'managers'
     end
-    MenuItem.create title: '安全管理', icon: 'track_changes' do |m|
+    MenuItem.create title: '公寓管理', icon: 'track_changes' do |m|
       m.children.build title: '门禁管理', path: 'trackers'
+      m.children.build title: '查寝管理', path: 'attendances'
     end
     MenuItem.create title: '系统管理', icon: 'settings' do |m|
       m.children.build title: '菜单管理', path: 'menu_items'

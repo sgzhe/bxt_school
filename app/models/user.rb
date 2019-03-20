@@ -46,8 +46,8 @@ class User
   end
 
   set_callback(:save, :before) do |doc|
-    doc.org_ids = doc.org.parent_ids if doc.org
-    doc.facility_ids = doc.facility.parent_ids if doc.facility
+    doc.org_ids = doc.org.parent_ids + [org_id] if doc.org
+    doc.facility_ids = doc.facility.parent_ids + [facility_id] if doc.facility
   end
 
 end

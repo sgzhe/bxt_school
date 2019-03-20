@@ -12,5 +12,12 @@ namespace :bxt do
       d.dict_items.build(mark: 'female', title: '女')
     end
 
+    Dict.create mark: 'attendance_status', title: '考勤状态' do |d|
+      d.dict_items.build(mark: 'back_late', title: '晚归')
+      d.dict_items.build(mark: 'not_back', title: '未归')
+      d.dict_items.build(mark: 'back', title: '已归')
+      d.dict_items.build(mark: 'continue', title: '延续')
+    end
+
   end
 end

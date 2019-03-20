@@ -18,10 +18,11 @@ namespace :bxt do
         h.floors.build(mark: '04', title: '四楼')
         h.floors.build(mark: '05', title: '五楼')
       end
+      gateway = Gateway.create(title: "#{house.title}门禁", parent: house)
       room = Room.create(title: "#{i}0#{i}室", house: house, floor_mark: "0#{(i % 5)+1}")
       student = Student.create(name: "学生#{i}", classroom: classroom, room: room)
       teacher = Teacher.create(name: "教师#{i}", department: department)
-      bed = Bed.create(title: "#{i}床", room: room, charge_person: student)
+      bed = Bed.create(title: "#{i}床", room: room, owner: student)
     end
     group = Group.create(title: '校组')
     role = Role.create(title: '校管', groups: [group])

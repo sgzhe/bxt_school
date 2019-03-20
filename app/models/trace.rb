@@ -6,4 +6,8 @@ class Trace
 
   belongs_to :gateway
   embedded_in :tracker
+
+  set_callback(:build, :after) do |doc|
+
+  end
 end

@@ -1,4 +1,4 @@
-json.extract! room, :id, :title, :parent_id, :floor_mark, :desc, :created_at, :updated_at
+json.extract! room, :id, :title, :parent_id, :floor_mark, :owner_id, :total_beds, :vacant_beds, :desc, :created_at, :updated_at
 json.house do
   json.partial! "houses/house", house: room.house || House.new
 end

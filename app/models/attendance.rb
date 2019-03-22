@@ -3,6 +3,7 @@ class Attendance
 
   field :day, type: Date
   field :status
+  field :updated_at, type: DateTime
 
   embedded_in :tracker
 end

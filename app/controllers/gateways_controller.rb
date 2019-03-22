@@ -4,7 +4,7 @@ class GatewaysController < ApplicationController
   # GET /gateways
   # GET /gateways.json
   def index
-    @gateways = Gateway.all
+    @gateways = paginate(Gateway.all)
   end
 
   # GET /gateways/1

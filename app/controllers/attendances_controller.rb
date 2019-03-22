@@ -4,7 +4,7 @@ class AttendancesController < ApplicationController
   # GET /attendances
   # GET /attendances.json
   def index
-    @attendances = paginate(Tracker.all)
+    @attendances = paginate(Attendance.all)
   end
 
   # GET /attendances/1

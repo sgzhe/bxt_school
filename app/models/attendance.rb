@@ -1,8 +1,8 @@
 class Attendance
-  include Mongoid::Document
+  include ModelBase
 
   field :day, type: Date
   field :status
 
-  embedded_in :tracker
+  belongs_to :user
 end

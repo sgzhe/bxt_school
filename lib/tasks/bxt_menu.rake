@@ -1,7 +1,7 @@
 namespace :bxt do
   desc 'init menu data'
   task menu: :environment do
-    MenuItem.create title: '组织管理', icon: 'business' do |m|
+    MenuItem.create title: '组织管理', icon: 'bubble_chart' do |m|
       m.children.build title: '学院管理', path: 'colleges'
       m.children.build title: '系部管理', path: 'departments'
       m.children.build title: '班级管理', path: 'classrooms'

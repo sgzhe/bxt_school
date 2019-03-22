@@ -7,7 +7,6 @@ class Tracker
 
   belongs_to :user
   embeds_many :traces
-  embeds_many :attendances
 
   validates :user_id, uniqueness: {scope: :month, message: "should happen once per month"}
 
@@ -29,7 +28,10 @@ class Tracker
         at.status = :back
       end
     end
+  end
 
+  def get_attendance(day)
+    attendances.detect { |a| a.day.day == day }
   end
 
   set_callback(:build, :after) do |doc|

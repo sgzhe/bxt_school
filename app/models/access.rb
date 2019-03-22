@@ -1,0 +1,3 @@
+class Access < Facility
+
+end

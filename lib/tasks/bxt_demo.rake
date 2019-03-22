@@ -21,8 +21,8 @@ namespace :bxt do
       gateway = Gateway.create(title: "#{house.title}门禁", parent: house)
       room = Room.create(title: "#{i}0#{i}室", house: house, floor_mark: "0#{(i % 5)+1}")
       student = Student.create(name: "学生#{i}", classroom: classroom, room: room)
-      Tracker.pass(student, gateway, :out, (11 - i).day.ago)
-      Tracker.pass(student, gateway, :in, (10 - i).day.ago)
+      Latecomer.create(user: student, day: (11 - i).day.ago, status: 'back_late')
+      Latecomer.create(user: student, day: (10 - i).day.ago, status: 'back_late')
       teacher = Teacher.create(name: "教师#{i}", department: department)
       bed = Bed.create(title: "#{i}床", room: room, owner: student)
     end

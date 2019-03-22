@@ -7,6 +7,6 @@ json.extract! student, :id, :org_id, :facility_id, :role_ids, :group_ids, :name,
 #end
 json.groups student.groups, :id, :title, :created_at, :updated_at
 json.roles student.roles, :id, :title, :created_at, :updated_at
-json.department student.department, :id, :title, :_type
+json.department student.department, :id, :title
 json.college student.college, :id, :title
 json.house student.house, :id, :title

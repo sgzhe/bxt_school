@@ -1,4 +1,4 @@
-json.extract! student, :id, :org_id, :facility_id, :role_ids, :group_ids, :name, :gender_mark, :id_card, :ic_card, :tel, :created_at, :updated_at
+json.extract! student, :id, :org_id, :room_id, :role_ids, :group_ids, :name, :gender_mark, :id_card, :ic_card, :tel, :created_at, :updated_at
 # json.classroom do
 #   json.partial! "classrooms/classroom", classroom: student.classroom || Classroom.new
 # end

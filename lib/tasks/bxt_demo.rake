@@ -19,12 +19,15 @@ namespace :bxt do
         h.floors.build(mark: '05', title: '五楼')
       end
       gateway = Gateway.create(title: "#{house.title}门禁", parent: house)
-      room = Room.create(title: "#{i}0#{i}室", house: house, floor_mark: "0#{(i % 5)+1}")
-      student = Student.create(name: "学生#{i}", classroom: classroom, room: room)
+      room = Room.create(title: "#{i}0#{i}室", house: house, floor_mark: "0#{(i % 5)+1}") do |r|
+        r.beds.build(bed_no: i)
+        r.beds.build(bed_no: 10 + i)
+      end
+      student = Student.create(name: "学生#{i}", classroom: classroom)
+      room.check_in(student)
       Latecomer.create(user: student, day: (11 - i).day.ago, status: 'back_late')
       Latecomer.create(user: student, day: (10 - i).day.ago, status: 'back_late')
       teacher = Teacher.create(name: "教师#{i}", department: department)
-      bed = Bed.create(title: "#{i}床", room: room, owner: student)
     end
     group = Group.create(title: '校组')
     role = Role.create(title: '校管', groups: [group])

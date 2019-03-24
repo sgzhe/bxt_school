@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :accommodations
   resources :accesses
   resources :webcams
   resources :gates

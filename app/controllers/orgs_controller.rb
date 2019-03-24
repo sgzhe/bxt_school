@@ -4,6 +4,7 @@ class OrgsController < ApplicationController
   # GET /orgs
   # GET /orgs.json
   def index
+
     @orgs = Org.traverse do |org|
       org
     end

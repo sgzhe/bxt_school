@@ -1,10 +1,19 @@
-class Bed < Facility
+class Bed
+  include Mongoid::Document
 
-  belongs_to :room, class_name: 'Room', foreign_key: :parent_id, inverse_of: :beds, required: false
+  field :bed_no, type: String
+  field :desc
+  field :owner_name
 
-  set_callback(:save, :after) do |doc|
-    doc.room.update(total_beds: doc.room.beds.count,
-                    vacant_beds: doc.room.beds.where(owner_id: nil).count)
+  belongs_to :owner, class_name: 'User', required: false
+  embedded_in :room, class_name: 'Room'
+
+  def title
+    "#{bed_no}床"
+  end
+
+  set_callback(:save, :before) do |doc|
+    doc.owner_name =  doc.owner.name if doc.owner
   end
 
 end

@@ -9,7 +9,6 @@ namespace :bxt do
     MenuItem.create title: '设施管理', icon: 'location_city' do |m|
       m.children.build title: '楼栋管理', path: 'houses'
       m.children.build title: '房间管理', path: 'rooms'
-      m.children.build title: '床位管理', path: 'beds'
     end
     MenuItem.create title: '人员管理', icon: 'people' do |m|
       m.children.build title: '学生管理', path: 'students'

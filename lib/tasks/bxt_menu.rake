@@ -16,6 +16,7 @@ namespace :bxt do
       m.children.build title: '管理员', path: 'managers'
     end
     MenuItem.create title: '公寓管理', icon: 'track_changes' do |m|
+      m.children.build title: '入住管理', path: 'accommodations'
       m.children.build title: '晚归管理', path: 'latecomers'
       m.children.build title: '宿管考勤', path: 'attendances'
     end

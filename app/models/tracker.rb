@@ -1,9 +1,11 @@
 class Tracker
   include ModelBase
 
-  field :month, type: Date, default: -> {Date.today.at_beginning_of_month}
+  field :month, type: Date, default: -> { Date.today.at_beginning_of_month }
   field :org_ids, type: Array, default: []
   field :facility_ids, type: Array, default: []
+  field :overtime_cause
+  field :pass_time_at_last, type: DateTime
 
   belongs_to :user
   embeds_many :traces

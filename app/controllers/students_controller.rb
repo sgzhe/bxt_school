@@ -6,7 +6,7 @@ class StudentsController < ApplicationController
   def index
     facility_id = params[:room_id]
     opts = { facility_id: facility_id && BSON::ObjectId(facility_id)}.delete_if { |key, value| value.blank?}
-    @students = paginate(Student.includes(:classroom, :room, :orgs, :facilities).where(opts))
+    @students = paginate(Student.where(opts))
   end
 
   # GET /students/1

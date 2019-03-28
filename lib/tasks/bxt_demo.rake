@@ -23,12 +23,14 @@ namespace :bxt do
           8.times { |t| r.beds.build(title: t) }
         end
       end
+      access = Access.create(title: "#{house.title}门禁#{i}", parent: house)
       house.rooms.each do |r|
         student = Student.create(name: "学生#{i}#{rand(9999)}", classroom: classroom)
+        student2 = Student.create(name: "学生2#{i}#{rand(9999)}", classroom: classroom)
         r.check_in(student)
-        Latecomer.create(user: student, pass_time: rand(72).hour.ago, status: 'back_late')
+        r.check_in(student2)
+        Tracker.pass(student, access, :in, (rand(72)).hour.ago)
       end
-      gateway = Gateway.create(title: "#{house.title}门禁", parent: house)
       teacher = Teacher.create(name: "教师#{i}", department: department)
     end
     group = Group.create(title: '校组')

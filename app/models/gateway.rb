@@ -1,3 +1,0 @@
-class Gateway < Facility
-
-end

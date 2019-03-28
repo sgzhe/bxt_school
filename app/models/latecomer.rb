@@ -2,9 +2,10 @@ class Latecomer
   include ModelBase
 
   field :pass_time, type: DateTime
+  field :day, type: Date
   field :status
   field :user_name
-
+  field :overtime, type: Integer, default: 0
 
   belongs_to :user
 

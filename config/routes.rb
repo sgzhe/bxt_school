@@ -5,13 +5,11 @@ Rails.application.routes.draw do
   resources :gates
   resources :latecomers
   resources :attendances
-  resources :gateways
   resources :permissions
   resources :groups
   resources :roles
   resources :dicts
   resources :orgs
-  resources :beds
   resources :students
   resources :teachers
   resources :managers

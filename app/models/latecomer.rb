@@ -9,6 +9,8 @@ class Latecomer
 
   belongs_to :user
 
+  default_scope -> { order_by(pass_time: -1) }
+
   set_callback(:save, :before) do |doc|
     doc.user_name = doc.user.name
   end

@@ -24,7 +24,7 @@ class Tracker
     t.traces.build(pass_time: pass_time, access: access, direction: direction)
     t.save
     if t.status_at_last.to_sym == :back_late
-      comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
+      comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date, overtime: t.overtime)
       comer.status = t.status_at_last
       comer.overtime = t.overtime
       comer.pass_time = pass_time
@@ -47,6 +47,10 @@ class Tracker
     t = pass_time_at_last.hour * 60
     t += pass_time_at_last.minute
     t - access_at_last.closing_at
+  end
+
+  def reside
+    (DateTime.now - pass_time_at_last).floor
   end
 
   def get_attendance(day)

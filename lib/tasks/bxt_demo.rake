@@ -29,7 +29,7 @@ namespace :bxt do
         student2 = Student.create(name: "学生2#{i}#{rand(9999)}", classroom: classroom)
         r.check_in(student)
         r.check_in(student2)
-        Tracker.pass(student, access, :in, (rand(72)).hour.ago)
+        Tracker.pass(student, access, :in, (rand(1720)).minute.ago)
       end
       teacher = Teacher.create(name: "教师#{i}", department: department)
     end

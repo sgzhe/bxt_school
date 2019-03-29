@@ -44,9 +44,8 @@ class Tracker
   end
 
   def overtime
-    t = pass_time_at_last.hour * 60
-    t += pass_time_at_last.minute
-    t - access_at_last.closing_at
+    t = (DateTime.now.at_beginning_of_day + access_at_last.closing_at / 60 / 24) - pass_time_at_last
+    (t * 24).to_f.round(1)
   end
 
   def get_attendance(day)

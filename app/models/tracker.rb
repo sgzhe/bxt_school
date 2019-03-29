@@ -9,9 +9,12 @@ class Tracker
   field :status_at_last
   field :direction_at_last
 
+
   belongs_to :access_at_last, class_name: 'Access', foreign_key: :access_id
   belongs_to :user
   embeds_many :traces
+
+  default_scope -> { order_by(pass_time_at_last: -1) }
 
   validates :user_id, uniqueness: { scope: :month, message: "should happen once per month" }
 
@@ -44,9 +47,14 @@ class Tracker
   end
 
   def overtime
+    pass_time_at_last
     t = pass_time_at_last.hour * 60
     t += pass_time_at_last.minute
     t - access_at_last.closing_at
+  end
+
+  def reside
+    (DateTime.now - pass_time_at_last).to_f
   end
 
   def get_attendance(day)

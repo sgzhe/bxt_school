@@ -23,7 +23,7 @@ namespace :bxt do
       m.children.build title: '宿管考勤', path: 'attendances'
     end
     MenuItem.create title: '设备管理', icon: 'settings_remote' do |m|
-      m.children.build title: '门禁管理', path: 'access'
+      m.children.build title: '门禁管理', path: 'accesses'
       m.children.build title: '摄像机管理', path: 'webcams'
       m.children.build title: '闸机管理', path: 'gates'
       m.children.build title: '闸机日志', path: 'gate-logs'

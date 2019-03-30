@@ -14,9 +14,9 @@ class User
 
   has_and_belongs_to_many :roles, class_name: 'Role', inverse_of: nil
   has_and_belongs_to_many :groups, class_name: 'Group', inverse_of: nil
+  has_many :trackers
 
   default_scope -> { order_by(id: -1) }
-
 
   def aros
     aro_set = roles

@@ -6,6 +6,7 @@ class Latecomer
   field :status
   field :user_name
   field :overtime, type: Integer, default: 0
+  field :overtime_cause
 
   belongs_to :user
 

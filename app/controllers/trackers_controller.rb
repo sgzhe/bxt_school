@@ -4,7 +4,7 @@ class TrackersController < ApplicationController
   # GET /trackers
   # GET /trackers.json
   def index
-    @trackers = paginate(Tracker.includes(:user, :access_at_last).all)
+    @trackers = paginate(Tracker.order_by('traces.pass_time': -1).all)
   end
 
   # GET /trackers/1

@@ -1,2 +1,3 @@
-json.extract! tracker, :id, :month, :overtime, :pass_time_at_last, :status_at_last, :direction_at_last, :reside, :created_at, :updated_at
+json.extract! tracker, :id, :pass_time, :direction, :status, :overtime
 json.user tracker.user, :id, :name
+json.access tracker.access, :id, :title

@@ -20,7 +20,7 @@ namespace :bxt do
       end
       house.floors.each do |f|
         room = Room.create(title: "#{i}0#{f.mark}", house: house, floor_mark: f.mark) do |r|
-          8.times { |t| r.beds.build(title: t) }
+          8.times { |t| r.beds.build(mark: t) }
         end
       end
       access = Access.create(title: "#{house.title}门禁#{i}", parent: house)

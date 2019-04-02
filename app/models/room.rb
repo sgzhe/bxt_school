@@ -17,7 +17,7 @@ class Room < Facility
     bed ||= beds.empties.first
     bed.owner = user
     user.room = self
-    user.bed_title = bed.title
+    user.bed_mark = bed.mark
     save && user.save
   end
 

@@ -1,7 +1,7 @@
 class Bed
   include Mongoid::Document
 
-  field :title, type: String
+  field :mark, type: String
   field :desc
   field :owner_name
 

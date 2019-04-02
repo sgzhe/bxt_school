@@ -11,13 +11,23 @@ class User
   field :avatar
   field :login
   field :password_digest
+  field :bed_mark
+  field :sno
 
   field :pass_time_at_last, type: DateTime
   field :status_at_last
   field :direction_at_last
   field :overtime_at_last, type: Integer, default: 0
 
+  field :org_ids, type: Array, :default => []
+  field :facility_ids, type: Array, :default => []
+
   belongs_to :access_at_last, class_name: 'Access', foreign_key: :access_id, required: false
+  belongs_to :house, required: false
+  belongs_to :room, class_name: 'Room', required: false
+  belongs_to :college, required: false
+  belongs_to :department, required: false
+  belongs_to :classroom, class_name: 'Classroom', required: false
   has_and_belongs_to_many :roles, class_name: 'Role', inverse_of: nil
   has_and_belongs_to_many :groups, class_name: 'Group', inverse_of: nil
   has_many :trackers
@@ -60,6 +70,14 @@ class User
     (DateTime.now - pass_time_at_last).to_i
   end
 
+  def dept_title
+    "#{college.title}>>#{department.title}"
+  end
+
+  def dorm_title
+    "#{house.title}>>#{room.title}"
+  end
+
   def aros
     aro_set = roles
     groups.each do |g|
@@ -73,6 +91,22 @@ class User
 
   set_callback(:initialize, :before) do |doc|
     doc.password = 'bxt-123' if :new_record?
+  end
+
+  set_callback(:save, :before) do |doc|
+    if doc.room_id_changed?
+      doc.house = doc.room.house
+      doc.facility_ids = doc.room.parent_ids + [doc.room_id]
+    end
+    if doc.department_id_changed?
+      doc.college = doc.department.college
+      doc.org_ids += doc.department.parent_ids + [doc.department_id]
+    end
+    if doc.classroom_id_changed?
+      doc.department = doc.classroom.department
+      doc.college = doc.classroom.department.college
+      doc.org_ids += doc.classroom.parent_ids + [doc.classroom_id]
+    end
   end
 
 end

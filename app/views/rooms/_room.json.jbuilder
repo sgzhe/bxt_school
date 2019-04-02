@@ -3,4 +3,4 @@ json.house do
   json.partial! "houses/house", house: room.house || House.new
 end
 json.floor room.floor, :id, :title, :desc
-json.beds room.beds, :id, :title, :owner_id, :owner_name
+json.beds room.beds, :id, :mark, :owner_id, :owner_name

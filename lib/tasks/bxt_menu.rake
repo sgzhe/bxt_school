@@ -34,6 +34,7 @@ namespace :bxt do
       m.children.build title: '字典管理', path: 'dicts'
       m.children.build title: '角色管理', path: 'roles'
       m.children.build title: '用户组管理', path: 'groups'
+      m.children.build title: '菜单访问', path: 'menu-accesses'
     end
   end
 end

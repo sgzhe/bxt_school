@@ -15,8 +15,8 @@ class User
   field :sno
 
   field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
-  field :status_at_last, default: :in
-  field :direction_at_last
+  field :status_at_last, default: :back
+  field :direction_at_last, default: :in
   field :overtime_at_last, type: Integer, default: 0
 
   field :org_ids, type: Array, :default => []
@@ -36,6 +36,7 @@ class User
 
   def pass(access, direction, pass_time = DateTime.now)
     last = (pass_time_at_last.at_beginning_of_day + access.closing_at.minutes).to_datetime
+    today = (DateTime.now.at_beginning_of_day + access.opening_at.minutes).to_datetime
     is_timeout = pass_time > last
     timeout = ((pass_time - last).to_f * 24).to_i
     timeout = is_timeout ? timeout : 0
@@ -43,8 +44,8 @@ class User
       state = :back
       state = :back_late if is_timeout
     else
-      state = :outgoing
-      state = :night_out if is_timeout
+      state = :go_out
+      state = :night_out if is_timeout && (pass_time < today)
     end
 
     self.status_at_last = state

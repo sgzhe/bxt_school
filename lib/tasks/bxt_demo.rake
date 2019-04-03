@@ -35,6 +35,9 @@ namespace :bxt do
         student.pass(access, :in, d + 3.hours)
       end
       teacher = Teacher.create(name: "教师#{i}", department: department)
+      Gate.create(title: "闸机#{i}", parent: access)
+      Webcam.create(title: "摄像机#{i}", parent: access)
+      VideoRecorder.create(title: "录像机#{i}")
     end
     group = Group.create(title: '校组')
     role = Role.create(title: '校管', groups: [group])

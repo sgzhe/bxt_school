@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :video_recorders
   resources :incomings
   resources :trackers
   resources :accommodations

@@ -1,1 +1,1 @@
-json.extract! gate, :id, :ip, :status, :created_at, :updated_at
+json.extract! gate, :id, :title, :ip, :status, :created_at, :updated_at

@@ -15,9 +15,9 @@ class PermissionsController < ApplicationController
   # POST /permissions
   # POST /permissions.json
   def create
-      @permission = Permission.new(permission_params)
+    @permission = Permission.new(permission_params)
 
-    if @permission&.save
+    if @permission.save
       render :show, status: :created, location: @permission
     else
       render json: @permission.errors, status: :unprocessable_entity

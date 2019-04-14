@@ -1,6 +1,8 @@
 class Room < Facility
 
   field :floor_mark
+  field :dorm_type
+  field :total_beds, type: Integer, default: 8
 
   belongs_to :house, class_name: 'House', foreign_key: :parent_id, inverse_of: :rooms, required: false
   embeds_many :beds, class_name: 'Bed', cascade_callbacks: true do
@@ -19,10 +21,6 @@ class Room < Facility
     user.room = self
     user.bed_mark = bed.mark
     save && user.save
-  end
-
-  def total_beds
-    beds.count
   end
 
   def vacant_beds

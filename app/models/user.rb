@@ -72,11 +72,11 @@ class User
   end
 
   def dept_title
-    "#{college.title}>>#{department.title}"
+    "#{college&.title}>>#{department&.title}"
   end
 
   def dorm_title
-    "#{house.title}>>#{room.title}"
+    "#{house&.title}>>#{room&.title}"
   end
 
   def aros

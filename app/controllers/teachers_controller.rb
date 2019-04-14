@@ -4,7 +4,13 @@ class TeachersController < ApplicationController
   # GET /teachers
   # GET /teachers.json
   def index
-    @teachers = paginate(Teacher.all)
+    query = []
+    unless params[:key].blank?
+      query << { name: /.*#{params[:key]}.*/ }
+      query << { sno: /.*#{params[:key]}.*/ }
+      query << { id_card: /.*#{params[:key]}.*/ }
+    end
+    @teachers = paginate(Teacher.or(query))
   end
 
   # GET /teachers/1

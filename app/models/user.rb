@@ -8,7 +8,7 @@ class User
   field :id_card
   field :ic_card
   field :tel
-  field :avatar
+  #field :avatar
   field :login
   field :password_digest
   field :bed_mark
@@ -21,6 +21,8 @@ class User
 
   field :org_ids, type: Array, :default => []
   field :facility_ids, type: Array, :default => []
+
+  #mount_base64_uploader :avatar, ImageUploader
 
   belongs_to :access_at_last, class_name: 'Access', foreign_key: :access_id, required: false
   belongs_to :house, required: false

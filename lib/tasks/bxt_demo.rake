@@ -30,9 +30,9 @@ namespace :bxt do
         r.check_in(student)
         r.check_in(student2)
         d = DateTime.now.change(hour: rand(24), min: rand(60))
-        student.pass(access, :in, d)
-        student.pass(access, :out, d + 2.hours)
-        student.pass(access, :in, d + 3.hours)
+        Tracker.create(user: student, direction: :in, pass_time: d, access: access)
+        Tracker.create(user: student, direction: :out, pass_time: d + 2.hours, access: access)
+        Tracker.create(user: student, direction: :in, pass_time: d + 3.hours, access: access)
       end
       teacher = Teacher.create(name: "教师#{i}", department: department)
       Gate.create(title: "闸机#{i}", parent: access)

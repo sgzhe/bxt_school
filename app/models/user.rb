@@ -36,37 +36,37 @@ class User
 
   #default_scope -> { order_by(id: -1) }
 
-  def pass(access, direction, pass_time = DateTime.now)
-    last = (pass_time_at_last.at_beginning_of_day + access.closing_at.minutes).to_datetime
-    today = (DateTime.now.at_beginning_of_day + access.opening_at.minutes).to_datetime
-    is_timeout = pass_time > last
-    timeout = ((pass_time - last).to_f * 24).to_i
-    timeout = is_timeout ? timeout : 0
-    if direction == :in
-      state = :back
-      state = :back_late if is_timeout
-    else
-      state = :go_out
-      state = :night_out if is_timeout && (pass_time < today)
-    end
-
-    self.status_at_last = state
-    self.pass_time_at_last = pass_time
-    self.direction_at_last = direction
-    self.overtime_at_last = timeout
-    self.access_at_last = access
-    self.save
-
-    Tracker.create(user: self, pass_time: pass_time, access: access, direction: direction, status: state, overtime: timeout)
-
-    if is_timeout
-      comer = Latecomer.find_or_initialize_by(user: self, day: pass_time.to_date)
-      comer.status = state
-      comer.overtime = timeout
-      comer.pass_time = pass_time
-      comer.save
-    end
-  end
+  # def pass(access, direction, pass_time = DateTime.now)
+  #   last = (pass_time_at_last.at_beginning_of_day + access.closing_at.minutes).to_datetime
+  #   today = (DateTime.now.at_beginning_of_day + access.opening_at.minutes).to_datetime
+  #   is_timeout = pass_time > last
+  #   timeout = ((pass_time - last).to_f * 24).to_i
+  #   timeout = is_timeout ? timeout : 0
+  #   if direction == :in
+  #     state = :back
+  #     state = :back_late if is_timeout
+  #   else
+  #     state = :go_out
+  #     state = :night_out if is_timeout && (pass_time < today)
+  #   end
+  #
+  #   self.status_at_last = state
+  #   self.pass_time_at_last = pass_time
+  #   self.direction_at_last = direction
+  #   self.overtime_at_last = timeout
+  #   self.access_at_last = access
+  #   self.save
+  #
+  #   Tracker.create(user: self, pass_time: pass_time, access: access, direction: direction, status: state, overtime: timeout)
+  #
+  #   if is_timeout
+  #     comer = Latecomer.find_or_initialize_by(user: self, day: pass_time.to_date)
+  #     comer.status = state
+  #     comer.overtime = timeout
+  #     comer.pass_time = pass_time
+  #     comer.save
+  #   end
+  # end
 
   def reside
     return 0 if pass_time_at_last.nil?

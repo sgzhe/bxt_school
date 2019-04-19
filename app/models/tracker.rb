@@ -7,11 +7,18 @@ class Tracker
   field :status
   field :timed_out, type: Boolean
   field :overtime, type: Integer, default: 0
+  field :user_sno
+  field :access_ip
 
-  belongs_to :access
-  belongs_to :user
+  belongs_to :access, required: false
+  belongs_to :user, required: false
 
   default_scope -> { order_by(pass_time: -1) }
+
+  set_callback(:initialize, :after) do |doc|
+    doc.user = User.find_by(sno: doc.user_sno) if doc.user_sno_changed?
+    doc.access = Access.find_by(ip: doc.access_ip) if doc.access_ip_changed?
+  end
 
   set_callback(:save, :before) do |doc|
     last = (user.pass_time_at_last.at_beginning_of_day + access.closing_at.minutes)

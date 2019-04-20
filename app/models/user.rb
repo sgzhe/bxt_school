@@ -19,10 +19,10 @@ class User
   field :direction_at_last, default: :in
   field :overtime_at_last, type: Integer, default: 0
 
-  field :org_ids, type: Array, :default => []
-  field :facility_ids, type: Array, :default => []
+  field :org_ids, type: Array, default: []
+  field :facility_ids, type: Array, default: []
 
-  #mount_base64_uploader :avatar, ImageUploader
+  mount_base64_uploader :avatar, AvatarUploader
 
   belongs_to :access_at_last, class_name: 'Access', foreign_key: :access_id, required: false
   belongs_to :house, required: false

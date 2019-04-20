@@ -37,11 +37,12 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+gem 'carrierwave-base64'
+gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
 gem 'jwt'
 gem 'jwt_sessions'
+gem 'kaminari-mongoid'
 gem 'mongoid', '~> 7.0'
 gem 'mongoid-tree', require: 'mongoid/tree'
-gem 'carrierwave-base64'
-gem 'kaminari-mongoid'
-gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
+
 

@@ -8,7 +8,6 @@ class User
   field :id_card
   field :ic_card
   field :tel
-  #field :avatar
   field :login
   field :password_digest
   field :bed_mark
@@ -35,6 +34,8 @@ class User
   has_many :trackers
 
   #default_scope -> { order_by(id: -1) }
+
+  validates :sno, uniqueness: { message: "is already taken." }
 
   # def pass(access, direction, pass_time = DateTime.now)
   #   last = (pass_time_at_last.at_beginning_of_day + access.closing_at.minutes).to_datetime

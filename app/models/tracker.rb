@@ -9,6 +9,7 @@ class Tracker
   field :overtime, type: Integer, default: 0
   field :user_sno
   field :access_ip
+  field :facility_ids, type: Array, default: []
 
   belongs_to :access, required: false
   belongs_to :user, required: false
@@ -18,6 +19,8 @@ class Tracker
   set_callback(:initialize, :after) do |doc|
     doc.user = User.find_by(sno: doc.user_sno) if doc.user_sno_changed?
     doc.access = Access.find_by(ip: doc.access_ip) if doc.access_ip_changed?
+    doc.direction = doc.access.direction
+    doc.facility_ids = doc.access.parent_ids + [doc.access.id]
   end
 
   set_callback(:save, :before) do |doc|

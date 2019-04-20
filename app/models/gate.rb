@@ -1,4 +1,4 @@
-class Gate <  Facility
+class Gate < Facility
 
   field :ip
   field :status

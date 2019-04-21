@@ -48,6 +48,6 @@ class AccessesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def access_params
-      params.fetch(:access, {})
+      params.fetch(:access, {}).permit!
     end
 end

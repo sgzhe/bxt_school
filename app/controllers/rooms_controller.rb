@@ -5,7 +5,7 @@ class RoomsController < ApplicationController
   # GET /rooms.json
   def index
     parent_id = params[:house_id]
-    opts = {parent_ids: parent_id && BSON::ObjectId(parent_id), floor: params[:floor]}.delete_if {|key, value| value.blank?}
+    opts = { parent_id: parent_id && BSON::ObjectId(parent_id), floor_mark: params[:floor_mark]}.delete_if {|key, value| value.blank?}
     @rooms = paginate(Room.where(opts))
   end
 

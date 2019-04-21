@@ -4,9 +4,7 @@ class HousesController < ApplicationController
   # GET /houses
   # GET /houses.json
   def index
-    parent_id = params[:house_id]
-    opts = { parent_ids: parent_id && BSON::ObjectId(parent_id) }.delete_if { |key, value| value.blank?}
-    @houses = paginate(House.where(opts))
+    @houses = paginate(House.all)
   end
 
   # GET /houses/1

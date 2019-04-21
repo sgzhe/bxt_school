@@ -7,9 +7,15 @@ class Tracker
   field :status
   field :timed_out, type: Boolean
   field :overtime, type: Integer, default: 0
+  field :user_name
+  field :user_dept_title
+  field :user_dorm_title
+  field :user_avatar_url
   field :user_sno
   field :access_ip
   field :facility_ids, type: Array, default: []
+  field :user_org_ids, type: Array, default: []
+  field :user_facility_ids, type: Array, default: []
 
   belongs_to :access, required: false
   belongs_to :user, required: false
@@ -19,7 +25,7 @@ class Tracker
   set_callback(:initialize, :after) do |doc|
     doc.user = User.find_by(sno: doc.user_sno) if doc.user_sno_changed?
     doc.access = Access.find_by(ip: doc.access_ip) if doc.access_ip_changed?
-    doc.direction = doc.access.direction
+    doc.direction = doc.access.direction if doc.access
     doc.facility_ids = doc.access.parent_ids + [doc.access.id]
   end
 
@@ -33,6 +39,12 @@ class Tracker
     else
       self.status = self.timed_out && (pass_time < today) ? :night_out : :go_out
     end
+    doc.user_name = doc.user.name
+    doc.user_sno = doc.user.sno
+    doc.user_dept_title = doc.user.dept_title
+    doc.user_dorm_title = doc.user.dorm_title
+    doc.user_org_ids = doc.user.org_ids
+    doc.user_facility_ids = doc.user.facility_ids
   end
 
   set_callback(:save, :after) do |doc|

@@ -3,6 +3,7 @@ json.extract! student, :id, :bed_mark, :room_id, :house_id, :classroom_id,
               :direction_at_last, :status_at_last, :pass_time_at_last, :overtime_at_last, :reside,
               :role_ids, :group_ids, :name, :gender_mark, :id_card, :ic_card, :tel, :created_at, :updated_at
 json.avatar_url(student.avatar.url)
+json.room_floor_mark(student.room.floor_mark)
 # json.classroom do
 #   json.partial! "classrooms/classroom", classroom: student.classroom || Classroom.new
 # end

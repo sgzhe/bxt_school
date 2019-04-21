@@ -35,7 +35,7 @@ class User
 
   #default_scope -> { order_by(id: -1) }
 
-  validates :sno, uniqueness: { message: "is already taken." }
+  #validates :sno, uniqueness: { message: "is already taken." }
 
   # def pass(access, direction, pass_time = DateTime.now)
   #   last = (pass_time_at_last.at_beginning_of_day + access.closing_at.minutes).to_datetime

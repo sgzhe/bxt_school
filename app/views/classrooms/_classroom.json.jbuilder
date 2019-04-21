@@ -1,4 +1,4 @@
-json.extract! classroom, :id, :title, :parent_id, :grade_mark, :desc, :created_at, :updated_at
+json.extract! classroom, :id, :title, :parent_id, :desc, :created_at, :updated_at
 json.department do
   json.partial! "departments/department", department: classroom.department || Department.new
 end

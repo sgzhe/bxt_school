@@ -11,6 +11,11 @@ namespace :bxt do
       d.dict_items.build(mark: 'female', title: '女')
     end
 
+    Dict.create mark: 'direction_type', title: '方向类型' do |d|
+      d.dict_items.build(mark: 'in', title: '进门')
+      d.dict_items.build(mark: 'out', title: '出门')
+    end
+
     Dict.create mark: 'sleep_status', title: '状态' do |d|
       d.dict_items.build(mark: 'back_late', title: '晚归')
       d.dict_items.build(mark: 'night_out', title: '夜出')

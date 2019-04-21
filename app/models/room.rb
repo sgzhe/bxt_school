@@ -17,9 +17,11 @@ class Room < Facility
 
   def check_in(user, bed = nil)
     bed ||= beds.empties.first
-    bed.owner = user
-    user.room = self
-    user.bed_mark = bed.mark
+    if bed
+      bed.owner = user
+      user.room = self
+      user.bed_mark = bed.mark
+    end
     save && user.save
   end
 

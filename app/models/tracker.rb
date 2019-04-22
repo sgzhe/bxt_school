@@ -44,8 +44,9 @@ class Tracker
     end
     doc.user_name = doc.user.name
     doc.user_sno = doc.user.sno
-    doc.user_dept_title = doc.user.dept_title
-    doc.user_dorm_title = doc.user.dorm_title
+    doc.user_dept_title = doc.user.dept_full_title
+    doc.user_dorm_title = doc.user.dorm_full_title
+    doc.user_avatar_url = doc.user.avatar.url
     doc.user_org_ids = doc.user.org_ids
     doc.user_facility_ids = doc.user.facility_ids
   end

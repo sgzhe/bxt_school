@@ -30,21 +30,17 @@ class User
   has_and_belongs_to_many :groups, class_name: 'Group', inverse_of: nil
   has_many :trackers
 
+  delegate :full_title, to: :dept, prefix: :dept
+  delegate :full_title, to: :dorm, prefix: :dorm
+
   #default_scope -> { order_by(id: -1) }
 
   #validates :sno, uniqueness: { message: "is already taken." }
 
+
   def reside
     return 0 if pass_time_at_last.nil?
     (DateTime.now - pass_time_at_last).to_i
-  end
-
-  def dept_title
-    "#{department.parent&.title}>>#{department&.title}"
-  end
-
-  def dorm_title
-    "#{dorm.parent&.title}>>#{dorm&.title}"
   end
 
   def aros

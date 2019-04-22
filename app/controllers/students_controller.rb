@@ -12,7 +12,7 @@ class StudentsController < ApplicationController
       query << { sno: /.*#{params[:key]}.*/ }
       query << { id_card: /.*#{params[:key]}.*/ }
     end
-    @students = paginate(Student.where(opts).or(query))
+    @students = paginate(Student.includes(:dept, :dorm).where(opts).or(query))
   end
 
   # GET /students/1

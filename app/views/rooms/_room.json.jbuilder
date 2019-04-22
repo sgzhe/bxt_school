@@ -1,6 +1,5 @@
-json.extract! room, :id, :title, :parent_id, :floor_mark, :owner_id, :total_beds, :vacant_beds, :desc, :created_at, :updated_at
-json.house do
-  json.partial! "houses/house", house: room.house || House.new
-end
-json.floor room.floor, :id, :title, :desc
+json.extract! room, :id, :title, :parent_id, :owner_id, :total_beds, :vacant_beds, :desc, :created_at, :updated_at
 json.beds room.beds, :id, :mark, :owner_id, :owner_name
+json.floor do
+  json.partial! "floors/floor", floor: room.floor || Floor.new
+end

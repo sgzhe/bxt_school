@@ -4,8 +4,13 @@ class OrgsController < ApplicationController
   # GET /orgs
   # GET /orgs.json
   def index
-
+    names = []
+    level = 0
     @orgs = Org.traverse do |org|
+      names.pop(level - org.depth + 1) if level >= org.depth
+      names << org.title
+      org.desc = names.join('>>').to_s
+      level = org.depth
       org
     end
   end

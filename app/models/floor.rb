@@ -1,9 +1,4 @@
-class Floor
-  include Mongoid::Document
+class Floor < Facility
 
-  field :mark
-  field :title
-  field :desc
-
-  embedded_in :house
+  belongs_to :house, class_name: 'House', foreign_key: :parent_id, inverse_of: :floors, required: false
 end

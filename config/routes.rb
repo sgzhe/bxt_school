@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :floors
   resources :menu_accesses
   resources :video_recorders
   resources :incomings

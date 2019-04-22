@@ -1,7 +1,7 @@
 class Student < User
 
   def dept_title
-    "#{college&.title}>>#{department&.title}>>#{classroom&.title}"
+    "#{dept.parent.parent&.title}>>#{dept.parent&.title}>>#{dept&.title}"
   end
 
 end

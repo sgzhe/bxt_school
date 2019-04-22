@@ -24,11 +24,8 @@ class User
   mount_base64_uploader :avatar, AvatarUploader
 
   belongs_to :access_at_last, class_name: 'Access', foreign_key: :access_id, required: false
-  belongs_to :house, required: false
-  belongs_to :room, class_name: 'Room', required: false
-  belongs_to :college, required: false
-  belongs_to :department, required: false
-  belongs_to :classroom, class_name: 'Classroom', required: false
+  belongs_to :dorm, class_name: 'Room', required: false
+  belongs_to :dept, class_name: 'Org', required: false
   has_and_belongs_to_many :roles, class_name: 'Role', inverse_of: nil
   has_and_belongs_to_many :groups, class_name: 'Group', inverse_of: nil
   has_many :trackers
@@ -37,49 +34,17 @@ class User
 
   #validates :sno, uniqueness: { message: "is already taken." }
 
-  # def pass(access, direction, pass_time = DateTime.now)
-  #   last = (pass_time_at_last.at_beginning_of_day + access.closing_at.minutes).to_datetime
-  #   today = (DateTime.now.at_beginning_of_day + access.opening_at.minutes).to_datetime
-  #   is_timeout = pass_time > last
-  #   timeout = ((pass_time - last).to_f * 24).to_i
-  #   timeout = is_timeout ? timeout : 0
-  #   if direction == :in
-  #     state = :back
-  #     state = :back_late if is_timeout
-  #   else
-  #     state = :go_out
-  #     state = :night_out if is_timeout && (pass_time < today)
-  #   end
-  #
-  #   self.status_at_last = state
-  #   self.pass_time_at_last = pass_time
-  #   self.direction_at_last = direction
-  #   self.overtime_at_last = timeout
-  #   self.access_at_last = access
-  #   self.save
-  #
-  #   Tracker.create(user: self, pass_time: pass_time, access: access, direction: direction, status: state, overtime: timeout)
-  #
-  #   if is_timeout
-  #     comer = Latecomer.find_or_initialize_by(user: self, day: pass_time.to_date)
-  #     comer.status = state
-  #     comer.overtime = timeout
-  #     comer.pass_time = pass_time
-  #     comer.save
-  #   end
-  # end
-
   def reside
     return 0 if pass_time_at_last.nil?
     (DateTime.now - pass_time_at_last).to_i
   end
 
   def dept_title
-    "#{college&.title}>>#{department&.title}"
+    "#{department.parent&.title}>>#{department&.title}"
   end
 
   def dorm_title
-    "#{house&.title}>>#{room&.title}"
+    "#{dorm.parent&.title}>>#{dorm&.title}"
   end
 
   def aros
@@ -98,18 +63,11 @@ class User
   end
 
   set_callback(:save, :before) do |doc|
-    if doc.room_id_changed?
-      doc.house = doc.room.house
-      doc.facility_ids = doc.room.parent_ids + [doc.room_id]
+    if doc.dorm_id_changed?
+      doc.facility_ids = doc.dorm.parent_ids + [doc.dorm_id]
     end
-    if doc.department_id_changed?
-      doc.college = doc.department.college
-      doc.org_ids += doc.department.parent_ids + [doc.department_id]
-    end
-    if doc.classroom_id_changed?
-      doc.department = doc.classroom.department
-      doc.college = doc.classroom.department.college
-      doc.org_ids += doc.classroom.parent_ids + [doc.classroom_id]
+    if doc.dept_id_changed?
+      doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
   end
 

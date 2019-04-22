@@ -1,5 +1,6 @@
 class Tracker
   include Mongoid::Document
+  include Mongoid::Timestamps
   store_in collection: -> { "trackers#{Time.now.strftime('%Y%m')}" }
 
   field :pass_time, type: DateTime, default: -> { DateTime.now }
@@ -19,6 +20,8 @@ class Tracker
 
   belongs_to :access, required: false
   belongs_to :user, required: false
+
+  mount_base64_uploader :snapshot, ImgUploader
 
   default_scope -> { order_by(pass_time: -1) }
 

@@ -9,10 +9,10 @@ class Latecomer
 
   field :user_name
   field :user_sno
-  field :dept_title
-  field :dorm_title
-  field :org_ids, type: Array, :default => []
-  field :facility_ids, type: Array, :default => []
+  field :user_dept_title
+  field :user_dorm_title
+  field :user_org_ids, type: Array, :default => []
+  field :user_facility_ids, type: Array, :default => []
 
   belongs_to :user
 
@@ -21,10 +21,10 @@ class Latecomer
   set_callback(:save, :before) do |doc|
     doc.user_name = doc.user.name
     doc.user_sno = doc.user.sno
-    doc.dept_title = doc.user.dept_title
-    doc.dorm_title = doc.user.dorm_title
-    doc.org_ids = doc.user.org_ids
-    doc.facility_ids = doc.user.facility_ids
+    doc.user_dept_title = doc.user.dept_full_title
+    doc.user_dorm_title = doc.user.dorm_full_title
+    doc.user_org_ids = doc.user.org_ids
+    doc.user_facility_ids = doc.user.facility_ids
   end
 
 end

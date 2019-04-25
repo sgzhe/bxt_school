@@ -6,7 +6,7 @@ class FloorsController < ApplicationController
   def index
     parent_id = params[:house_id]
     opts = { parent_ids: parent_id && BSON::ObjectId(parent_id), floor_mark: params[:floor_mark]}.delete_if {|key, value| value.blank?}
-    @floors = paginate(Floor.where(opts))
+    @floors = paginate(Floor.includes(:house).where(opts))
   end
 
   # GET /floors/1

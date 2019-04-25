@@ -50,6 +50,6 @@ class FloorsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def floor_params
-      params.fetch(:floor, {})
+      params.fetch(:floor, {}).permit!
     end
 end

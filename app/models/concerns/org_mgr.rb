@@ -6,14 +6,14 @@ class OrgMgr
   end
 
   def load
-    Rails.cache.write('bxt_orgs', Org.all.to_a)
+    Rails.cache.write('bxt_orgs', Org.traverse {|o| o})
   end
 
   alias reload load
 
   def orgs
     Rails.cache.fetch('bxt_orgs') do
-      Org.all.to_a
+      Org.traverse {|o| o}
     end
   end
 

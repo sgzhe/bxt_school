@@ -7,11 +7,14 @@ class User
   field :gender_mark, default: :male
   field :id_card
   field :ic_card
+  field :ic_card2
   field :tel
   field :login
   field :password_digest
   field :bed_mark
   field :sno
+  field :img
+  field :img2
 
   field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
   field :status_at_last, default: :back
@@ -30,8 +33,8 @@ class User
   has_and_belongs_to_many :groups, class_name: 'Group', inverse_of: nil
   has_many :trackers
 
-  delegate :full_title, to: :dept, prefix: :dept
-  delegate :full_title, to: :dorm, prefix: :dorm
+  delegate :full_title, to: :dept, prefix: :dept, allow_nil: true
+  delegate :full_title, to: :dorm, prefix: :dorm, allow_nil: true
 
   #default_scope -> { order_by(id: -1) }
 

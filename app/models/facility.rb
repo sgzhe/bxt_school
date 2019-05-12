@@ -4,6 +4,7 @@ class Facility
 
   field :title, default: ''
   field :full_title, default: ''
+  field :mark
 
   default_scope -> { order_by(id: -1) }
 

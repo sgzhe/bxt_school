@@ -1,2 +1,2 @@
-json.extract! org, :id, :parent_id, :depth,:title, :desc, :created_at, :updated_at
+json.extract! org, :id, :parent_id, :depth,:title, :full_title, :desc, :created_at, :updated_at
 

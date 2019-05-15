@@ -4,7 +4,7 @@ class OrgsController < ApplicationController
   # GET /orgs
   # GET /orgs.json
   def index
-    @orgs = OrgMgr.instance.orgs
+    @orgs = OrgMgr.instance.traverse
   end
 
   # GET /orgs/1

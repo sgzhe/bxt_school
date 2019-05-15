@@ -6,15 +6,13 @@ class OrgMgr
   end
 
   def load
-    Rails.cache.write('bxt_orgs', Org.traverse {|o| o})
+    @orgs = Org.all.to_a
   end
 
   alias reload load
 
   def orgs
-    Rails.cache.fetch('bxt_orgs') do
-      Org.traverse {|o| o}
-    end
+    @orgs
   end
 
   def find(id)
@@ -25,10 +23,13 @@ class OrgMgr
     orgs.select { |org| org.parent_id.to_s == parent_id.to_s }
   end
 
-  def traverse(parent_id = nil, depth = 99, &block)
-    find_by_parent(parent_id).select do |org|
-      [yield(org)] + send(:traverse, org.id, depth, &block) if depth > org.depth
+  def traverse(parent_id = nil)
+    result = []
+    find_by_parent(parent_id).each do |org|
+      result << org
+      result << find_by_parent(org.id)
     end
+    result.flatten
   end
 
 end

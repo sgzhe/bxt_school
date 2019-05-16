@@ -4,7 +4,11 @@ class DepartmentsController < ApplicationController
   # GET /departments
   # GET /departments.json
   def index
-    opts = { parent_id: params[:college_id] }.delete_if { |key, value| value.blank?}
+    opts = {
+      parent_id: params[:college_id]
+    }.delete_if { |key, value| value.blank?}
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+
     @departments = paginate(Department.includes(:college).where(opts))
   end
 

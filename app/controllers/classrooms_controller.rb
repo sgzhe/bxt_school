@@ -5,7 +5,11 @@ class ClassroomsController < ApplicationController
   # GET /classrooms.json
   def index
     parent_id = params[:department_id] || params[:college_id]
-    opts = { parent_id: parent_id && BSON::ObjectId(parent_id) }.delete_if { |key, value| value.blank?}
+    opts = {
+      parent_id: parent_id && BSON::ObjectId(parent_id)
+    }.delete_if { |key, value| value.blank? }
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+
     @classrooms = paginate(Classroom.where(opts))
   end
 

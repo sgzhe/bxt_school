@@ -4,7 +4,11 @@ class CollegesController < ApplicationController
   # GET /colleges
   # GET /colleges.json
   def index
-    @colleges = paginate(College.all)
+    opts = {
+    }.delete_if { |key, value| value.blank? }
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+
+    @colleges = paginate(College.where(opts))
   end
 
   # GET /colleges/1

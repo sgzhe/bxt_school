@@ -4,14 +4,19 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
-    facility_id = params[:room_id]
-    opts = { facility_id: facility_id && BSON::ObjectId(facility_id)}.delete_if { |key, value| value.blank?}
+    facility_id = params[:facility_id]
+    org_id = params[:org_id]
+    opts = {
+      facility_ids: facility_id && BSON::ObjectId(facility_id),
+      org_ids: org_id && BSON::ObjectId(org_id)
+    }.delete_if { |key, value| value.blank?}
     query = []
     unless params[:key].blank?
       query << { name: /.*#{params[:key]}.*/ }
       query << { sno: /.*#{params[:key]}.*/ }
       query << { id_card: /.*#{params[:key]}.*/ }
     end
+
     @students = paginate(Student.includes(:dept, :dorm).where(opts).or(query))
   end
 

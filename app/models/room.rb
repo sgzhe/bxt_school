@@ -1,7 +1,6 @@
 class Room < Facility
 
   field :dorm_type
-  field :total_beds, type: Integer, default: 8
 
   belongs_to :floor, class_name: 'Floor', foreign_key: :parent_id, inverse_of: :rooms, required: false
   embeds_many :beds, class_name: 'Bed', cascade_callbacks: true do
@@ -22,5 +21,9 @@ class Room < Facility
 
   def vacant_beds
     beds.empties.count
+  end
+
+  def total_beds
+    beds.count
   end
 end

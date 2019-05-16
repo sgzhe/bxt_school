@@ -4,7 +4,11 @@ class HousesController < ApplicationController
   # GET /houses
   # GET /houses.json
   def index
-    @houses = paginate(House.all)
+    opts = {
+    }.delete_if { |key, value| value.blank? }
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+
+    @houses = paginate(House.where(opts))
   end
 
   # GET /houses/1

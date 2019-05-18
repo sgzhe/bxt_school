@@ -37,6 +37,7 @@ class User
   delegate :full_title, to: :dorm, prefix: :dorm, allow_nil: true
 
   #default_scope -> { order_by(id: -1) }
+  #scope :reside, ->(reside) { where(:pass_time_at_last.lte => reside.days.ago) }
 
   #validates :sno, uniqueness: { message: "is already taken." }
 

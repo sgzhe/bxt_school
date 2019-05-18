@@ -5,7 +5,7 @@ class Tracker
 
   field :pass_time, type: DateTime, default: -> { DateTime.now }
   field :direction, type: Symbol #:in :out
-  field :status
+  field :status, type: Symbol
   field :timed_out, type: Boolean
   field :overtime, type: Integer, default: 0
   field :user_name
@@ -59,7 +59,7 @@ class Tracker
     doc.user.access_at_last = doc.access
     doc.user.save
 
-    if doc.timed_out
+    if self.status.to_sym != :back
       comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
       comer.status = doc.status
       comer.overtime = doc.overtime

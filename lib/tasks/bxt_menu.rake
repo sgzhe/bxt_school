@@ -18,9 +18,9 @@ namespace :bxt do
     end
     MenuItem.create title: '公寓管理', icon: 'track_changes' do |m|
       m.children.build title: '入住管理', path: 'accommodations'
-      m.children.build title: '归寝管理', path: 'incomings'
+      m.children.build title: '出入管理', path: 'incomings'
+      m.children.build title: '出入历史', path: 'trackers'
       m.children.build title: '晚归记录', path: 'latecomers'
-      m.children.build title: '出入记录', path: 'trackers'
       m.children.build title: '宿管考勤', path: 'attendances'
     end
     MenuItem.create title: '设备管理', icon: 'settings_remote' do |m|

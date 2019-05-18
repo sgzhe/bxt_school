@@ -28,4 +28,20 @@ namespace :hgc do
       end
     end
   end
+
+  task bed: :environment do
+    Student.all.each do |u|
+      unless u.bed_mark.blank?
+        b = u.dorm.beds.detect { |d| d.mark == u.bed_mark }
+        if b
+          b.owner = u
+          begin
+            u.dorm.save
+          rescue
+            p u
+          end
+        end
+      end
+    end
+  end
 end

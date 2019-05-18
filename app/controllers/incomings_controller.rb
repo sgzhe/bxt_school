@@ -8,6 +8,7 @@ class IncomingsController < ApplicationController
     opts = {
         facility_ids: facility_id && BSON::ObjectId(facility_id),
         org_ids: org_id && BSON::ObjectId(org_id),
+        status_at_last: params[:status],
         :overtime_at_last.gte => params[:overtime],
         :pass_time_at_last.lte => params[:reside].to_i.days.ago
     }.delete_if { |key, value| value.blank? }

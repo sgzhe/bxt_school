@@ -4,8 +4,18 @@ class TrackersController < ApplicationController
   # GET /trackers
   # GET /trackers.json
   def index
-    opts = { facility_ids: params[:facility_id] && BSON::ObjectId(params[:facility_id])}.delete_if { |key, value| value.blank? }
-    @trackers = paginate(Tracker.includes(:user, :access).where(opts).order_by(pass_time: -1))
+    facility_id = params[:facility_id]
+    org_id = params[:org_id]
+    opts = {
+      facility_ids: facility_id && BSON::ObjectId(facility_id),
+      org_ids: org_id && BSON::ObjectId(org_id),
+      status: params[:status]
+    }.delete_if { |key, value| value.blank? }
+    query = []
+    unless params[:key].blank?
+      query << { user_name: /.*#{params[:key]}.*/ }
+    end
+    @trackers = paginate(Tracker.includes(:user, :access).where(opts).or(query).order_by(pass_time: -1))
   end
 
   # GET /trackers/1

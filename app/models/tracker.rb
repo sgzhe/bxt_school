@@ -30,6 +30,8 @@ class Tracker
     doc.access = Access.find_by(ip: doc.access_ip) if doc.access_ip_changed?
     doc.direction = doc.access.direction if doc.access
     doc.facility_ids = doc.access.parent_ids + [doc.access.id]
+    doc.user_org_ids = doc.user.org_ids
+    doc.user_facility_ids = doc.user.facility_ids
   end
 
   set_callback(:save, :before) do |doc|
@@ -64,6 +66,9 @@ class Tracker
       comer.status = doc.status
       comer.overtime = doc.overtime
       comer.pass_time = doc.pass_time
+      comer.facility_ids = doc.access.parent_ids + [doc.access.id]
+      comer.user_org_ids = doc.user.org_ids
+      comer.user_facility_ids = doc.user.facility_ids
       comer.save
     end
   end

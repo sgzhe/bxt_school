@@ -48,6 +48,6 @@ class GatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def gate_params
-      params.fetch(:gate, {})
+      params.fetch(:gate, {}).permit!
     end
 end

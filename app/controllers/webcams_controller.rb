@@ -48,6 +48,6 @@ class WebcamsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def webcam_params
-      params.fetch(:webcam, {})
+      params.fetch(:webcam, {}).permit!
     end
 end

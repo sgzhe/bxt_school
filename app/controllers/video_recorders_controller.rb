@@ -48,6 +48,6 @@ class VideoRecordersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def video_recorder_params
-      params.fetch(:video_recorder, {})
+      params.fetch(:video_recorder, {}).permit!
     end
 end

@@ -4,7 +4,19 @@ class LatecomersController < ApplicationController
   # GET /latecomers
   # GET /latecomers.json
   def index
-    @latecomers = paginate(Latecomer.all)
+    facility_id = params[:facility_id]
+    org_id = params[:org_id]
+    opts = {
+        facility_ids: facility_id && BSON::ObjectId(facility_id),
+        user_org_ids: org_id && BSON::ObjectId(org_id),
+        status: params[:status]
+    }.delete_if { |key, value| value.blank? }
+    query = []
+    unless params[:key].blank?
+      query << { user_name: /.*#{params[:key]}.*/ }
+      query << { user_no: /.*#{params[:key]}.*/ }
+    end
+    @latecomers = paginate(Latecomer.where(opts).or(query))
   end
 
   # GET /latecomers/1

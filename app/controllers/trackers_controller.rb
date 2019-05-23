@@ -14,8 +14,9 @@ class TrackersController < ApplicationController
     query = []
     unless params[:key].blank?
       query << { user_name: /.*#{params[:key]}.*/ }
+      query << { user_no: /.*#{params[:key]}.*/ }
     end
-    @trackers = paginate(Tracker.includes(:user, :access).where(opts).or(query).order_by(pass_time: -1))
+    @trackers = paginate(Tracker.includes(:user, :access).where(opts).or(query))
   end
 
   # GET /trackers/1

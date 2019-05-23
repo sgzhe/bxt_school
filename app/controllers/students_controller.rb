@@ -17,7 +17,7 @@ class StudentsController < ApplicationController
       query << { id_card: /.*#{params[:key]}.*/ }
     end
 
-    @students = paginate(Student.includes(:dept, :dorm).where(opts).or(query))
+    @students = paginate(Student.includes(:dept, :dorm).where(opts).or(query).order_by(id: -1))
   end
 
   # GET /students/1

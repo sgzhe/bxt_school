@@ -44,4 +44,14 @@ namespace :hgc do
       end
     end
   end
+
+  task room: :environment do
+    Floor.each do |f|
+      f.update(title: f.title + '层')
+    end
+    Room.each do |r|
+      r.update(title: r.title + '室')
+    end
+
+  end
 end

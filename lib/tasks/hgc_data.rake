@@ -47,10 +47,10 @@ namespace :hgc do
 
   task room: :environment do
     Floor.each do |f|
-      f.update(title: f.title + '层')
+      f.update(title: f.title.gsub(/[层层]/, '层'))
     end
     Room.each do |r|
-      r.update(title: r.title + '室')
+      r.update(title: r.title.gsub(/[室室]/, '室'))
     end
 
   end

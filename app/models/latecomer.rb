@@ -6,6 +6,8 @@ class Latecomer
   field :status
   field :overtime, type: Integer, default: 0
   field :overtime_cause
+  field :confirmed, type: Boolean, default: false
+  field :cause
 
   field :user_name
   field :user_sno

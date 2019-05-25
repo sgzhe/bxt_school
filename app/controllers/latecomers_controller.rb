@@ -60,6 +60,6 @@ class LatecomersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def latecomer_params
-      params.fetch(:latecomer, {})
+      params.fetch(:latecomer, {}).permit!
     end
 end

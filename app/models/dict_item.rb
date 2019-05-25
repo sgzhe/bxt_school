@@ -4,6 +4,8 @@ class DictItem
   field :mark
   field :title
   field :desc
+  field :color
+
 
   embedded_in :dict
 

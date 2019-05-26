@@ -20,6 +20,7 @@ class User
   field :status_at_last, default: :back
   field :direction_at_last, default: :in
   field :overtime_at_last, type: Integer, default: 0
+  field :access_ids_at_last, type: Array, default: []
 
   field :org_ids, type: Array, default: []
   field :facility_ids, type: Array, default: []

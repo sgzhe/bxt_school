@@ -15,7 +15,7 @@ class Latecomer
   field :user_dorm_title
   field :user_org_ids, type: Array, :default => []
   field :user_facility_ids, type: Array, :default => []
-  field :facility_ids, type: Array, default: []
+  field :access_ids, type: Array, default: []
 
   belongs_to :user
 

@@ -14,9 +14,9 @@ class Tracker
   field :user_avatar_url
   field :user_sno
   field :access_ip
-  field :facility_ids, type: Array, default: []
   field :user_org_ids, type: Array, default: []
   field :user_facility_ids, type: Array, default: []
+  field :access_ids, type: Array, default: []
 
   belongs_to :access, required: false
   belongs_to :user, required: false
@@ -29,7 +29,7 @@ class Tracker
     doc.user = User.find_by(sno: doc.user_sno) if doc.user_sno_changed?
     doc.access = Access.find_by(ip: doc.access_ip) if doc.access_ip_changed?
     doc.direction = doc.access.direction if doc.access
-    doc.facility_ids = doc.access.parent_ids + [doc.access.id]
+    doc.access_ids = doc.access.parent_ids + [doc.access.id]
     doc.user_org_ids = doc.user.org_ids
     doc.user_facility_ids = doc.user.facility_ids
   end
@@ -54,19 +54,19 @@ class Tracker
   end
 
   set_callback(:save, :after) do |doc|
-    p user.update(status_at_last: doc.status,
-                    pass_time_at_last: doc.pass_time,
-                    direction_at_last: doc.direction,
-                    overtime_at_last: doc.overtime,
-                    access_at_last: doc.access)
-    p user.status_at_last
+    user.update(status_at_last: doc.status,
+                pass_time_at_last: doc.pass_time,
+                direction_at_last: doc.direction,
+                overtime_at_last: doc.overtime,
+                access_at_last: doc.access,
+                access_ids_at_last: doc.access_ids)
 
     if self.status.to_sym != :back
       comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
       comer.status = doc.status
       comer.overtime = doc.overtime
       comer.pass_time = doc.pass_time
-      comer.facility_ids = doc.access.parent_ids + [doc.access.id]
+      comer.access_ids = doc.access_ids
       comer.user_org_ids = doc.user.org_ids
       comer.user_facility_ids = doc.user.facility_ids
       comer.save

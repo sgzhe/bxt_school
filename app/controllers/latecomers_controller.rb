@@ -9,6 +9,7 @@ class LatecomersController < ApplicationController
     opts = {
         facility_ids: facility_id && BSON::ObjectId(facility_id),
         user_org_ids: org_id && BSON::ObjectId(org_id),
+        access_ids: params[:facility_access_id] && BSON::ObjectId(params[:facility_access_id]),
         status: params[:status]
     }.delete_if { |key, value| value.blank? }
     query = []

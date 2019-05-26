@@ -54,12 +54,12 @@ class Tracker
   end
 
   set_callback(:save, :after) do |doc|
-    doc.user.update(status_at_last: doc.status,
+    p user.update(status_at_last: doc.status,
                     pass_time_at_last: doc.pass_time,
                     direction_at_last: doc.direction,
                     overtime_at_last: doc.overtime,
                     access_at_last: doc.access)
-    p doc.user.errors
+    p user.status_at_last
 
     if self.status.to_sym != :back
       comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)

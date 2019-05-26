@@ -1,9 +1,9 @@
 class Tracker
   include Mongoid::Document
   include Mongoid::Timestamps
-  store_in collection: -> { "trackers#{Time.now.strftime('%Y%m')}" }
+  store_in collection: -> {"trackers#{Time.now.strftime('%Y%m')}"}
 
-  field :pass_time, type: DateTime, default: -> { DateTime.now }
+  field :pass_time, type: DateTime, default: -> {DateTime.now}
   field :direction, type: Symbol #:in :out
   field :status, type: Symbol
   field :timed_out, type: Boolean
@@ -23,7 +23,7 @@ class Tracker
 
   mount_base64_uploader :snapshot, ImgUploader
 
-  default_scope -> { order_by(pass_time: -1) }
+  default_scope -> {order_by(pass_time: -1)}
 
   set_callback(:initialize, :after) do |doc|
     doc.user = User.find_by(sno: doc.user_sno) if doc.user_sno_changed?
@@ -54,13 +54,11 @@ class Tracker
   end
 
   set_callback(:save, :after) do |doc|
-    doc.user.status_at_last = doc.status
-    doc.user.pass_time_at_last = doc.pass_time
-    doc.user.direction_at_last = doc.direction
-    doc.user.overtime_at_last = doc.overtime
-    doc.user.access_at_last = doc.access
-    p doc.user.save
-    p doc.user.status_at_last
+    doc.user.update(status_at_last: doc.status,
+                    pass_time_at_last: doc.pass_time,
+                    direction_at_last: doc.direction,
+                    overtime_at_last: doc.overtime,
+                    access_at_last: doc.access)
 
     if self.status.to_sym != :back
       comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)

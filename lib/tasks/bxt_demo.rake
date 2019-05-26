@@ -12,9 +12,4 @@ namespace :bxt do
     end
   end
 
-  task init: :environment do
-    group = Group.create(title: '校组')
-    role = Role.create(title: '校管', groups: [group])
-    manager = Manager.create(name: "管理员", login: 'admin', password: 'bxt-admin', roles: [role])
-  end
 end

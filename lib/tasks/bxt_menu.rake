@@ -1,6 +1,7 @@
 namespace :bxt do
   desc 'init menu data'
   task menu: :environment do
+
     MenuItem.create title: '组织管理', icon: 'bubble_chart' do |m|
       m.children.build title: '学院管理', path: 'colleges'
       m.children.build title: '系部管理', path: 'departments'
@@ -17,6 +18,7 @@ namespace :bxt do
       m.children.build title: '管理员', path: 'managers'
     end
     MenuItem.create title: '公寓管理', icon: 'track_changes' do |m|
+      m.children.build title: '仪表盘', path: 'dashboards'
       m.children.build title: '入住管理', path: 'accommodations'
       m.children.build title: '出入管理', path: 'incomings'
       m.children.build title: '出入历史', path: 'trackers'
@@ -38,5 +40,11 @@ namespace :bxt do
       m.children.build title: '用户组管理', path: 'groups'
       m.children.build title: '菜单访问', path: 'menu-accesses'
     end
+  end
+
+  task init: :environment do
+    group = Group.create(title: '校组')
+    role = Role.create(title: '校管', groups: [group])
+    manager = Manager.create(name: "管理员", login: 'admin', password: 'bxt-admin', roles: [role])
   end
 end

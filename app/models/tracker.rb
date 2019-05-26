@@ -59,7 +59,8 @@ class Tracker
     doc.user.direction_at_last = doc.direction
     doc.user.overtime_at_last = doc.overtime
     doc.user.access_at_last = doc.access
-    doc.user.save
+    p doc.user.save
+    p doc.user.status_at_last
 
     if self.status.to_sym != :back
       comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)

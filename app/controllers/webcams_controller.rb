@@ -4,7 +4,12 @@ class WebcamsController < ApplicationController
   # GET /webcams
   # GET /webcams.json
   def index
-    @webcams = paginate(Webcam.all)
+    parent_id = params[:facility_id]
+    opts = {
+        parent_ids: parent_id && BSON::ObjectId(parent_id)
+    }.delete_if {|key, value| value.blank?}
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+    @webcams = paginate(Webcam.where(opts))
   end
 
   # GET /webcams/1

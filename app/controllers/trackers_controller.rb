@@ -7,9 +7,9 @@ class TrackersController < ApplicationController
     facility_id = params[:facility_id]
     org_id = params[:org_id]
     opts = {
-      facility_ids: facility_id && BSON::ObjectId(facility_id),
+      user_facility_ids: facility_id && BSON::ObjectId(facility_id),
       org_ids: org_id && BSON::ObjectId(org_id),
-      access_ids: params[:facility_access_id] && BSON::ObjectId(params[:facility_access_id]),
+      access_ids: params[:access_id] && BSON::ObjectId(params[:access_id]),
       status: params[:status]
     }.delete_if { |key, value| value.blank? }
     query = []
@@ -17,7 +17,7 @@ class TrackersController < ApplicationController
       query << { user_name: /.*#{params[:key]}.*/ }
       query << { user_no: /.*#{params[:key]}.*/ }
     end
-    @trackers = paginate(Tracker.includes(:user, :access).where(opts).or(query))
+    @trackers = paginate(Tracker.includes().where(opts).or(query))
   end
 
   # GET /trackers/1

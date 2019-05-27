@@ -4,7 +4,12 @@ class AccessesController < ApplicationController
   # GET /accesses
   # GET /accesses.json
   def index
-    @accesses = paginate(Access.all)
+    parent_id = params[:facility_id]
+    opts = {
+        parent_ids: parent_id && BSON::ObjectId(parent_id)
+    }.delete_if {|key, value| value.blank?}
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+    @accesses = paginate(Access.where(opts))
   end
 
   # GET /accesses/1
@@ -41,13 +46,14 @@ class AccessesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_access
-      @access = Access.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def access_params
-      params.fetch(:access, {}).permit!
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_access
+    @access = Access.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def access_params
+    params.fetch(:access, {}).permit!
+  end
 end

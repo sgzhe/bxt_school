@@ -4,7 +4,12 @@ class GatesController < ApplicationController
   # GET /gates
   # GET /gates.json
   def index
-    @gates = paginate(Gate.all)
+    parent_id = params[:facility_id]
+    opts = {
+        parent_ids: parent_id && BSON::ObjectId(parent_id)
+    }.delete_if {|key, value| value.blank?}
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+    @gates = paginate(Gate.where(opts))
   end
 
   # GET /gates/1

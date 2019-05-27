@@ -4,7 +4,12 @@ class VideoRecordersController < ApplicationController
   # GET /video_recorders
   # GET /video_recorders.json
   def index
-    @video_recorders = paginate(VideoRecorder.all)
+    parent_id = params[:facility_id]
+    opts = {
+        parent_ids: parent_id && BSON::ObjectId(parent_id)
+    }.delete_if {|key, value| value.blank?}
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+    @video_recorders = paginate(VideoRecorder.where(opts))
   end
 
   # GET /video_recorders/1

@@ -15,6 +15,7 @@ class User
   field :sno
   field :img
   field :img2
+  field :face_id
 
   field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
   field :status_at_last, default: :back

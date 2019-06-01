@@ -26,4 +26,14 @@ class Room < Facility
   def total_beds
     beds.count
   end
+
+
+
+  def self.stats
+    Room.collection.aggregate([
+                                  {"$match": {"_type": "Room"}},
+                                  {"$project": {beds: 1, owners: {"$filter": {input: "$beds", as: "item", cond: {"$ifNull": ["$$item.owner_id", false]}}}}},
+                                  {"$group" => {"_id" => "null", "count" => {"$sum" => {"$size" => "$beds"}}, "owners" => {"$sum" => {"$size" => "$owners"}}}}
+                              ]).to_a
+  end
 end

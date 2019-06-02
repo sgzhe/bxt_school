@@ -16,6 +16,8 @@ class User
   field :img
   field :img2
   field :face_id
+  field :access_ips, type: Hash, default: {}
+  field :access_status, type: Boolean, default: false
 
   field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
   field :status_at_last, default: :back
@@ -42,7 +44,11 @@ class User
   #scope :reside, ->(reside) { where(:pass_time_at_last.lte => reside.days.ago) }
 
   #validates :sno, uniqueness: { message: "is already taken." }
-
+  def house_access_ips
+    h = dorm && dorm.parent && dorm.parent.parent
+    return Access.ips(h.id) if h
+    []
+  end
 
   def reside
     return 0 if pass_time_at_last.nil?
@@ -70,6 +76,14 @@ class User
     end
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
+    end
+    if doc.access_ips_changed?
+      f = doc.access_ips.detect { |ip| ip == false }
+      if f
+        doc.access_status = false
+      else
+        doc.access_status = true
+      end
     end
   end
 

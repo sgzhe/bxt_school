@@ -4,7 +4,7 @@ class Api::V1::FacesController < ApplicationController
   # GET /api/v1/faces
   # GET /api/v1/faces.json
   def index
-    @api_v1_faces = paginate(Student.all)
+    @api_v1_faces = paginate(Student.where(access_status: nil))
   end
 
   # GET /api/v1/faces/1

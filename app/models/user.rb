@@ -77,8 +77,8 @@ class User
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
-    if doc.access_ips_changed?
-      f = doc.access_ips.detect { |ip| ip == false }
+    if doc.access_ips_changed? 
+      f = doc.access_ips.detect { |ip| ip != 1}
       if f
         doc.access_status = false
       else

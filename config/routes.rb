@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      resources :faces
+    end
+  end
+  namespace :api do
+    namespace :v1 do
       resources :incomings
     end
   end

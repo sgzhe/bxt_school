@@ -1,4 +1,19 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      resources :incomings
+    end
+  end
+  namespace :api do
+    namespace :v1 do
+      resources :students
+    end
+  end
+  namespace :api do
+    namespace :v1 do
+      resources :trackers
+    end
+  end
   resources :doors
   resources :floors
   resources :menu_accesses

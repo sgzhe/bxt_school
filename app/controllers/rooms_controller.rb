@@ -7,7 +7,11 @@ class RoomsController < ApplicationController
     parent_id = params[:house_id] || params[:parent_id]
     opts = { parent_ids: parent_id && BSON::ObjectId(parent_id), floor_mark: params[:floor_mark]}.delete_if {|key, value| value.blank?}
     opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+
     @rooms = paginate(Room.where(opts))
+    match = { parent_ids: parent_id && BSON::ObjectId(parent_id) }.delete_if { |key, value| value.blank? }
+    @bed_stats = Room.bed_stats(match)
+
   end
 
   # GET /rooms/1

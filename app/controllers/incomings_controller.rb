@@ -20,7 +20,7 @@ class IncomingsController < ApplicationController
     end
     match = {facility_ids: facility_id && BSON::ObjectId(facility_id),
              org_ids: org_id && BSON::ObjectId(org_id)}.delete_if { |key, value| value.blank? }
-    @group_by_status = Student.group_by_status(match)
+    @status_stats = Student.status_stats(match)
     @users = paginate(Student.includes(:dept, :dorm).where(opts).or(query).order_by(pass_time_at_last: -1).all)
 
   end

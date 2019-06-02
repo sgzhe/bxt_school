@@ -2,7 +2,7 @@ class Student < User
   field :grade
   field :entranced_at, type: Date
 
-  def self.group_by_status(opts = {})
+  def self.status_stats(opts = {})
     status = {}
     self.collection.aggregate([
                                   {"$match" => opts.merge({"_type" => "Student"})},

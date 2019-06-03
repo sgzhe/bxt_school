@@ -1,2 +1,2 @@
-json.result @api_v1_faces, partial: "api/v1/faces/api_v1_face", as: :api_v1_face
-json.paginate_meta(paginate_meta(@api_v1_faces))
+json.result @faces, partial: "api/v1/faces/face", as: :face
+json.paginate_meta(paginate_meta(@faces))

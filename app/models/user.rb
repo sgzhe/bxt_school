@@ -17,7 +17,7 @@ class User
   field :img2
   field :face_id
   field :access_ips, type: Hash, default: {}
-  field :access_status, type: Boolean, default: false
+  field :access_status, type: Boolean, default: true
 
   field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
   field :status_at_last, default: :back
@@ -77,9 +77,9 @@ class User
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
-    if doc.access_ips_changed?
-      f = doc.access_ips.detect { |ip| ip == false }
-      if f
+    if doc.access_ips_changed? || doc.avatar_changed?
+      f = doc.access_ips.detect { |k, v| v != 1 }
+      if f || doc.access_ips.empty?
         doc.access_status = false
       else
         doc.access_status = true

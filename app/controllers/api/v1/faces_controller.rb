@@ -4,7 +4,12 @@ class Api::V1::FacesController < ApplicationController
   # GET /api/v1/faces
   # GET /api/v1/faces.json
   def index
-    @faces = paginate(Student.where(access_status: nil))
+    parent_id = params[:facility_id]
+    opts = {
+        facility_ids: parent_id && BSON::ObjectId(parent_id)
+    }.delete_if {|key, value| value.blank?}
+    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+    @faces = paginate(Student.where(opts.merge(access_status: false)))
   end
 
   # GET /api/v1/faces/1

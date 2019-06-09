@@ -24,17 +24,17 @@ class Tracker
 
   mount_base64_uploader :snapshot, ImgUploader
 
-  default_scope -> {order_by(pass_time: -1)}
+  default_scope -> { order_by(pass_time: -1) }
 
   set_callback(:initialize, :after) do |doc|
     if doc.face_id_changed?
-      doc.user = User.find_by(face_id: doc.face_id) 
+      doc.user = User.find_by(face_id: doc.face_id)
       if doc.user
         doc.user_org_ids = doc.user.org_ids
         doc.user_facility_ids = doc.user.facility_ids
       end
     end
-    
+
     if doc.access_ip_changed?
       doc.access = Access.find_by(ip: doc.access_ip) 
       if doc.access

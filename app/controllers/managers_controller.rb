@@ -4,7 +4,7 @@ class ManagersController < ApplicationController
   # GET /managers
   # GET /managers.json
   def index
-    @managers = paginate(Manager.all)
+    @managers = paginate(Manager.app)
   end
 
   # GET /managers/1

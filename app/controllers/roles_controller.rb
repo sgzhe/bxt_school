@@ -4,7 +4,7 @@ class RolesController < ApplicationController
   # GET /roles
   # GET /roles.json
   def index
-    @roles = paginate(Role.all)
+    @roles = paginate(Role.app)
   end
 
   # GET /roles/1

@@ -40,6 +40,7 @@ class User
   delegate :full_title, to: :dept, prefix: :dept, allow_nil: true
   delegate :full_title, to: :dorm, prefix: :dorm, allow_nil: true
 
+  scope :app, -> { where(datatype: :app) }
   #default_scope -> { order_by(id: -1) }
   #scope :reside, ->(reside) { where(:pass_time_at_last.lte => reside.days.ago) }
 
@@ -55,6 +56,16 @@ class User
     (DateTime.now - pass_time_at_last).to_i
   end
 
+  def role?(role_mark)
+    roles.any? { |role| role.mark.to_s == role_mark.to_s }
+  end
+
+  def allow?(aco_id, operation)
+    aros.any? do |aro|
+      aro.allow?(aco_id, operation)
+    end
+  end
+
   def aros
     aro_set = roles
     groups.each do |g|
@@ -64,10 +75,10 @@ class User
     aro_set
   end
 
-  has_secure_password
+  has_secure_password validations: false
 
   set_callback(:initialize, :before) do |doc|
-    doc.password = 'bxt-123' if :new_record?
+    doc.password = 'bxt-123' if :new_record? && doc.password.blank?
   end
 
   set_callback(:save, :before) do |doc|

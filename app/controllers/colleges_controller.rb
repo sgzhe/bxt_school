@@ -1,4 +1,5 @@
 class CollegesController < ApplicationController
+  before_action :authorize_access_request!
   before_action :set_college, only: [:show, :update, :destroy]
 
   # GET /colleges

@@ -1,10 +1,13 @@
 class MenuItemsController < ApplicationController
+  before_action :authorize_access_request!
   before_action :set_menu_item, only: [:show, :update, :destroy]
 
   # GET /menu_items
   # GET /menu_items.json
   def index
-    @menu_items = MenuItem.traverse {|mi| mi}
+    @menu_items = MenuItemMgr.instance.traverse.select do |item|
+      current_user.allow?(item.id, :view) || current_user.role?(:sys_admin)
+    end
   end
 
   # GET /menu_items/1

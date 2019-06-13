@@ -4,9 +4,9 @@ class Api::V1::FacesController < ApplicationController
   # GET /api/v1/faces
   # GET /api/v1/faces.json
   def index
-    parent_id = params[:facility_id]
+    parent_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
     opts = {
-        facility_ids: parent_id && BSON::ObjectId(parent_id)
+        facility_ids: parent_id
     }.delete_if {|key, value| value.blank?}
     opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
     @faces = paginate(Student.where(opts.merge(access_status: false)))

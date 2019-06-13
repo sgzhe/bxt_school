@@ -88,14 +88,17 @@ class User
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
-    if doc.access_ips_changed? || doc.avatar_changed?
-      f = doc.access_ips.detect { |k, v| v != 1 }
-      if f || doc.access_ips.empty?
-        doc.access_status = false
-      else
-        doc.access_status = true
-      end
+    if doc.avatar_changed?
+      doc.access_status = false
     end
-  end
+    
+      doc.access_status = true  
+      doc.house_access_ips.each do |k| 
+        if doc.access_ips[k.to_s] != 1 
+          doc.access_status = false     
+        end
+      end
+    
+  end  
 
 end

@@ -32,9 +32,8 @@ class Api::V1::FacesController < ApplicationController
   # PATCH/PUT /api/v1/faces/face_id
   # PATCH/PUT /api/v1/faces/1.json
   def update
-    #p face_params[:access_ips] =  
-    #@face.access_ips.merge(ips)    
-    if @face.update(access_ips: @face.access_ips.merge(face_params[:access_ips]))
+    ips = @face.access_ips.merge(face_params[:access_ips])
+    if @face.update(face_params.merge(access_ips: ips))
       render :show, status: :ok, location: @face
     else
       render json: @face.errors, status: :unprocessable_entity

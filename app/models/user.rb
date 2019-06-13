@@ -91,14 +91,9 @@ class User
     if doc.avatar_changed?
       doc.access_status = false
     end
-    
-      doc.access_status = true  
-      doc.house_access_ips.each do |k| 
-        if doc.access_ips[k.to_s] != 1 
-          doc.access_status = false     
-        end
-      end
-    
-  end  
+    if doc.access_ips_changed?
+      doc.access_status = doc.house_access_ips.none? { |k| p doc.access_ips[k.to_s] != 1 }
+    end
+  end
 
 end

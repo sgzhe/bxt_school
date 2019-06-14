@@ -46,9 +46,7 @@ class User
 
   #validates :sno, uniqueness: { message: "is already taken." }
   def house_access_ips
-    h = dorm && dorm.parent && dorm.parent.parent
-    return Access.ips(h.id) if h
-    []
+    Access.where(:parent_id.in => self.facility_ids).map(&:ip).delete_if { |k| k.blank? }
   end
 
   def reside
@@ -92,7 +90,9 @@ class User
       doc.access_status = false
     end
     if doc.access_ips_changed?
-      doc.access_status = doc.house_access_ips.none? { |k| p doc.access_ips[k.to_s] != 1 }
+      ips = doc.house_access_ips
+      doc.access_ips.delete_if { |k, v| v == -1 }
+      doc.access_status = ips.none? { |ip| p doc.access_ips[ip] != 1 }
     end
   end
 

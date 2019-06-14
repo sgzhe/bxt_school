@@ -7,11 +7,7 @@ class Access < Facility
   field :status
 
   def self.ips(facility_id)
-    ips = []
-    Access.where(parent_ids: facility_id ).each do |a|
-      ips << a.ip unless a.ip.blank?
-    end
-    ips
+    Access.where(parent_ids: facility_id).map(&:ip).delete_if { |k, v| v.blank?}
   end
 
 end

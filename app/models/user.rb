@@ -82,6 +82,7 @@ class User
   set_callback(:save, :before) do |doc|
     if doc.dorm_id_changed?
       doc.facility_ids = doc.dorm.parent_ids + [doc.dorm_id]
+      doc.access_status = false
     end
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]

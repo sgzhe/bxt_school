@@ -4,13 +4,15 @@ class LatecomersController < ApplicationController
   # GET /latecomers
   # GET /latecomers.json
   def index
-    facility_id = params[:facility_id]
-    org_id = params[:org_id]
+    facility_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
+    org_id = BSON::ObjectId(params[:org_id]) unless params[:org_id].blank?
     opts = {
-        facility_ids: facility_id && BSON::ObjectId(facility_id),
-        user_org_ids: org_id && BSON::ObjectId(org_id),
+        facility_ids: facility_id,
+        user_org_ids: org_id,
         access_ids: params[:facility_access_id] && BSON::ObjectId(params[:facility_access_id]),
-        status: params[:status]
+        status: params[:status],
+        :pass_time.gte => params[:start_at],
+        :pass_time.lte => params[:end_at]
     }.delete_if { |key, value| value.blank? }
     query = []
     unless params[:key].blank?

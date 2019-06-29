@@ -1,4 +1,5 @@
 class DepartmentsController < ApplicationController
+  before_action :authorize_access_request!
   before_action :set_department, only: [:show, :update, :destroy]
 
   # GET /departments

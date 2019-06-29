@@ -9,5 +9,13 @@ module ModelBase
     field :datatype, type: Symbol, default: :app #:sys, :app
     field :seq, type: Integer, default: 0
     field :desc, type: String, default: ''
+
+    default_scope -> { where(activated: true) }
+
+    alias :orgin_destroy :destroy
+
+    def destroy
+      update(activated: false)
+    end
   end
 end

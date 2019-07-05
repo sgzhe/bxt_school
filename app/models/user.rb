@@ -82,19 +82,44 @@ class User
   set_callback(:save, :before) do |doc|
     if doc.dorm_id_changed?
       doc.facility_ids = doc.dorm.parent_ids + [doc.dorm_id]
-      doc.access_status = false
+      as = {}
+      doc.house_access_ips.each do |ip|
+        as[ip.gsub('.','-')] = -1
+      end
+      unless as.blank?
+        Face.create(status: :add, access_ips: as, user: doc, face_id: doc.face_id, facility_ids: doc.facility_ids)
+        Face.where(status: :added, user: doc, facility_ids: previous_changes['facility_ids']).update_all(status: :delete)
+      end
+      #doc.access_status = false
     end
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
     if doc.avatar_changed?
-      doc.access_status = false
+      #doc.access_status = false
+      as = {}
+      doc.house_access_ips.each do |ip|
+        as[ip.gsub('.','-')] = -1
+      end
+      unless as.blank?
+        Face.create(status: :add, access_ips: as, user: doc, face_id: doc.face_id, facility_ids: doc.facility_ids)
+      end
+
     end
-    if doc.access_ips_changed?
-      ips = doc.house_access_ips
-      doc.access_ips.delete_if { |k, v| v == -1 }
-      doc.access_status = ips.none? { |ip| p doc.access_ips[ip] != 1 }
-    end
+    # if doc.access_ips_changed?
+    #   ips = doc.house_access_ips
+    #
+    #   doc.access_ips.delete_if { |k, v| v == -1 }
+    #   doc.access_status = ips.none? { |ip| p doc.access_ips[ip] != 1 }
+    # end
+  end
+
+  set_callback(:destroy, :before) do |doc|
+    Face.where(status: :added, user: doc, facility_ids: previous_changes['facility_ids']).update_all(status: :delete)
+  end
+
+  def notify_face
+    Face.create(user: self, house_access_ips: self.house_access_ips )
   end
 
 end

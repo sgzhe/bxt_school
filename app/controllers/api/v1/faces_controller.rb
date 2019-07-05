@@ -8,8 +8,8 @@ class Api::V1::FacesController < ApplicationController
     opts = {
         facility_ids: parent_id
     }.delete_if {|key, value| value.blank?}
-    opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
-    @faces = paginate(Student.where(opts.merge(access_status: false)))
+
+    @faces = paginate(Face.where(opts))
   end
 
   # GET /api/v1/faces/1
@@ -20,7 +20,7 @@ class Api::V1::FacesController < ApplicationController
   # POST /api/v1/faces
   # POST /api/v1/faces.json
   def create
-    @face = Api::V1::Face.new(face_params)
+    @face = Face.new(face_params)
 
     if @face.save
       render :show, status: :created, location: @face
@@ -49,7 +49,7 @@ class Api::V1::FacesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_face
-      @face = Student.find_by(face_id: params[:id])
+      @face = Face.find_by(face_id: params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

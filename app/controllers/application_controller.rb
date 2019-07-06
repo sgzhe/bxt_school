@@ -23,7 +23,6 @@ class ApplicationController < ActionController::API
   end
 
   def not_authorized
-    p claimless_payload
     render json: { error: 'Not authorized' }, status: :unauthorized
   end
 

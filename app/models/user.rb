@@ -87,8 +87,10 @@ class User
         as[ip.gsub('.','-')] = -1
       end
       unless as.blank?
+        r = Room.find_by(id: doc.changes['dorm_id'][0])
+        Face.where(:status.in => [:add, :added], user: doc, facility_ids: r && r.parent_id).update_all({status: :delete})
         Face.create(status: :add, access_ips: as, user: doc, face_id: doc.face_id, facility_ids: doc.facility_ids)
-        Face.where(status: :added, user: doc, facility_ids: previous_changes['facility_ids']).update_all(status: :delete)
+
       end
       #doc.access_status = false
     end
@@ -106,6 +108,10 @@ class User
       end
 
     end
+
+    if doc.activated == false
+      Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
+    end
     # if doc.access_ips_changed?
     #   ips = doc.house_access_ips
     #
@@ -115,7 +121,7 @@ class User
   end
 
   set_callback(:destroy, :before) do |doc|
-    Face.where(status: :add, user: doc, facility_ids: previous_changes['facility_ids']).update_all(status: :delete)
+    Face.where(status: :added, user: doc, facility_ids: doc.dorm.parent_id)
   end
 
 end

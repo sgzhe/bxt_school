@@ -1,5 +1,5 @@
 class MenuItemsController < ApplicationController
-  #before_action :authorize_access_request!
+  before_action :authorize_access_request!
   #before_action :authorize_refresh_request!
   before_action :set_menu_item, only: [:show, :update, :destroy]
 

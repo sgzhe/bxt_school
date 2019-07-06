@@ -1,24 +1,4 @@
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      resources :faces
-    end
-  end
-  namespace :api do
-    namespace :v1 do
-      resources :incomings
-    end
-  end
-  namespace :api do
-    namespace :v1 do
-      resources :students
-    end
-  end
-  namespace :api do
-    namespace :v1 do
-      resources :trackers
-    end
-  end
   resources :doors
   resources :floors
   resources :menu_accesses
@@ -48,5 +28,6 @@ Rails.application.routes.draw do
   resources :menu_items
   resources :sessions
   resources :refreshs
+  resources :faces
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

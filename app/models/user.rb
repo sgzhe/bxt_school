@@ -115,11 +115,7 @@ class User
   end
 
   set_callback(:destroy, :before) do |doc|
-    Face.where(status: :added, user: doc, facility_ids: previous_changes['facility_ids']).update_all(status: :delete)
-  end
-
-  def notify_face
-    Face.create(user: self, house_access_ips: self.house_access_ips )
+    Face.where(status: :add, user: doc, facility_ids: previous_changes['facility_ids']).update_all(status: :delete)
   end
 
 end

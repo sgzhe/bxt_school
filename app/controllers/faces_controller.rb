@@ -1,24 +1,25 @@
-class Api::V1::FacesController < ApplicationController
+class FacesController < ApplicationController
   before_action :set_face, only: [:show, :update, :destroy]
 
-  # GET /api/v1/faces
-  # GET /api/v1/faces.json
+  # GET /faces
+  # GET /faces.json
   def index
     parent_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
     opts = {
-        facility_ids: parent_id
+        facility_ids: parent_id,
+        status: params[:status]
     }.delete_if {|key, value| value.blank?}
 
     @faces = paginate(Face.where(opts))
   end
 
-  # GET /api/v1/faces/1
-  # GET /api/v1/faces/1.json
+  # GET /faces/1
+  # GET /faces/1.json
   def show
   end
 
-  # POST /api/v1/faces
-  # POST /api/v1/faces.json
+  # POST /faces
+  # POST /faces.json
   def create
     @face = Face.new(face_params)
 
@@ -29,8 +30,8 @@ class Api::V1::FacesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /api/v1/faces/face_id
-  # PATCH/PUT /api/v1/faces/1.json
+  # PATCH/PUT /faces/1
+  # PATCH/PUT /faces/1.json
   def update
     p ips = @face.access_ips.merge(face_params[:access_ips])
     p face_params
@@ -41,10 +42,8 @@ class Api::V1::FacesController < ApplicationController
     end
   end
 
-
-
-  # DELETE /api/v1/faces/1
-  # DELETE /api/v1/faces/1.json
+  # DELETE /faces/1
+  # DELETE /faces/1.json
   def destroy
     @face.destroy
   end

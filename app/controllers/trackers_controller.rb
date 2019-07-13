@@ -8,7 +8,7 @@ class TrackersController < ApplicationController
     org_id = params[:org_id]
     opts = {
       user_facility_ids: facility_id && BSON::ObjectId(facility_id),
-      org_ids: org_id && BSON::ObjectId(org_id),
+      user_org_ids: org_id && BSON::ObjectId(org_id),
       access_ids: params[:access_id] && BSON::ObjectId(params[:access_id]),
       status: params[:status]
     }.delete_if { |key, value| value.blank? }

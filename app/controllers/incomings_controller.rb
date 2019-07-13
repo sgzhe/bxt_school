@@ -4,7 +4,7 @@ class IncomingsController < ApplicationController
   # GET /incomings.json
   def index
     facility_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
-    org_id = BSON::ObjectId(org_id) unless params[:org_id].blank?
+    org_id = BSON::ObjectId(params[:org_id]) unless params[:org_id].blank?
     opts = {
         facility_ids: facility_id,
         org_ids: org_id,

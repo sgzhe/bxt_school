@@ -76,7 +76,7 @@ class User
   has_secure_password validations: false
 
   set_callback(:initialize, :before) do |doc|
-    doc.password = 'bxt-123' if :new_record? && doc.password.blank?
+    doc.password = 'bxt-123' if :new_record? && doc.password_digest.blank?
   end
 
   set_callback(:save, :before) do |doc|

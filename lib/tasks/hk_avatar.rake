@@ -8,4 +8,13 @@ namespace :hk_avatar do
       p u
     end
   end
+
+  task face_id: :environment do
+    Student.all.each do |u|
+      p u.face_id
+      p u.update_attribute(:face_id, u.face_id.to_i)
+
+
+    end
+  end
 end

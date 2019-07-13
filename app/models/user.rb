@@ -12,10 +12,10 @@ class User
   field :login
   field :password_digest
   field :bed_mark
-  field :sno
+
   field :img
   field :img2
-  field :face_id
+
   field :access_ips, type: Hash, default: {}
   field :access_status, type: Boolean, default: true
 

@@ -24,6 +24,18 @@ namespace :bxt do
       d.dict_items.build(mark: 'back', title: '已归', color: 'green')
     end
 
+    Dict.create mark: 'dorm_type', title: '寝室类型' do |d|
+      d.dict_items.build(mark: 'men', title: '男寝', color: 'blue')
+      d.dict_items.build(mark: 'women', title: '女寝', color: 'red')
+    end
+
+    Dict.create mark: 'dorm_toward', title: '寝室方向' do |d|
+      d.dict_items.build(mark: 'east', title: '东')
+      d.dict_items.build(mark: 'south', title: '南')
+      d.dict_items.build(mark: 'west', title: '西')
+      d.dict_items.build(mark: 'north', title: '北')
+    end
+
 
 
   end

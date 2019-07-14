@@ -1,6 +1,7 @@
 class Room < Facility
 
-  field :dorm_type
+  field :dorm_type, type: Symbol, default: :men #men woman
+  field :dorm_toward, type: Symbol, default: :east #south west north
 
   belongs_to :floor, class_name: 'Floor', foreign_key: :parent_id, inverse_of: :rooms, required: false
   embeds_many :beds, class_name: 'Bed', cascade_callbacks: true do

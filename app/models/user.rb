@@ -87,6 +87,14 @@ class User
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
     doc.notify_face
+    doc.check_in
+  end
+
+  def check_in
+    if self.dorm_id_changed? || self.bed_mark_changed?
+      b = dorm.beds.detect { |bed| bed.mark == self.bed_mark}
+      b.owner = self if b
+    end
   end
 
   def notify_face

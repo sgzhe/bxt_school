@@ -2,7 +2,7 @@ class Face
   include ModelBase
   field :status, type: Symbol, default: :normal #:delete, add
   field :access_ips, type: Hash, default: {}
-  field :face_id
+  field :face_id, type: Integer, default: 0
   field :facility_ids, type: Array, default: []
 
   belongs_to :user

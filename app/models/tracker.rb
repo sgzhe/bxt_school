@@ -14,7 +14,7 @@ class Tracker
   field :user_avatar_url
   field :user_sno
   field :access_ip
-  field :face_id
+  field :face_id, type: Integer, default: 0
   field :user_org_ids, type: Array, default: []
   field :user_facility_ids, type: Array, default: []
   field :access_ids, type: Array, default: []
@@ -27,7 +27,7 @@ class Tracker
   default_scope -> { order_by(pass_time: -1) }
 
   set_callback(:initialize, :after) do |doc|
-    doc.user ||= User.find_by(face_id: doc.face_id)
+    doc.user ||= User.find_by(face_id: doc.face_id.to_i)
     if doc.user
       doc.user_org_ids = doc.user.org_ids
       doc.user_facility_ids = doc.user.facility_ids

@@ -5,7 +5,11 @@ class Face
   field :face_id, type: Integer, default: 0
   field :facility_ids, type: Array, default: []
 
-  belongs_to :user
+  belongs_to :user, required: false
+
+  # set_callback(:initialize, :before) do |doc|
+  #   self.user = Student.where(face_id: self.face_id).first
+  # end
 
   set_callback(:save, :before) do |doc|
     if doc.access_ips_changed?

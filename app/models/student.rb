@@ -5,7 +5,7 @@ class Student < User
   field :face_id, type: Integer, default: 0
 
   validates :sno, uniqueness: { message: "is already taken." }
-  validates :face_id, uniqueness: { message: "is already taken." }
+  #validates :face_id, uniqueness: { message: "is already taken." }
 
   def self.status_stats(opts = {})
     status = {}

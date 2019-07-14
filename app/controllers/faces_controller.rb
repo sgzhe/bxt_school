@@ -34,8 +34,8 @@ class FacesController < ApplicationController
   # PATCH/PUT /faces/1.json
   def update
     p ips = @face.access_ips.merge(face_params[:access_ips])
-    p face_params
-    if @face.update(face_params.merge({access_ips: ips}))
+    
+    if @face.update(access_ips: ips)
       render :show, status: :ok, location: @face
     else
       render json: @face.errors, status: :unprocessable_entity
@@ -51,7 +51,7 @@ class FacesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_face
-      @face = Face.find_by(face_id: params[:id])
+      @face = Face.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

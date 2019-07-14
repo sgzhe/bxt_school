@@ -17,6 +17,16 @@ class SessionsController < ApplicationController
     end
   end
 
+  def update
+    @user = User.find_by(id: params[:id])
+
+    if @user.update(password: params[:new_password], password_confirmation: params[:confirm_password])
+      render json: {id: @user.id}, status: :ok
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     session = JWTSessions::Session.new(payload: payload)
     session.flush_by_access_payload

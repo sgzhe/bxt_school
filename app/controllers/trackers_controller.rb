@@ -10,12 +10,14 @@ class TrackersController < ApplicationController
       user_facility_ids: facility_id && BSON::ObjectId(facility_id),
       user_org_ids: org_id && BSON::ObjectId(org_id),
       access_ids: params[:access_id] && BSON::ObjectId(params[:access_id]),
-      status: params[:status]
+      status: params[:status],
+      :pass_time.gte => params[:start_at],
+      :pass_time.lte => params[:end_at]
     }.delete_if { |key, value| value.blank? }
     query = []
     unless params[:key].blank?
       query << { user_name: /.*#{params[:key]}.*/ }
-      query << { user_no: /.*#{params[:key]}.*/ }
+      query << { user_sno: /.*#{params[:key]}.*/ }
     end
     @trackers = paginate(Tracker.includes().where(opts).or(query))
   end

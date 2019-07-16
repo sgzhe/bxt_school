@@ -17,7 +17,7 @@ class LatecomersController < ApplicationController
     query = []
     unless params[:key].blank?
       query << { user_name: /.*#{params[:key]}.*/ }
-      query << { user_no: /.*#{params[:key]}.*/ }
+      query << { user_sno: /.*#{params[:key]}.*/ }
     end
     @latecomers = paginate(Latecomer.where(opts).or(query))
   end

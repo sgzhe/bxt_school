@@ -35,7 +35,8 @@ class User
   belongs_to :dept, class_name: 'Org', required: false
   has_and_belongs_to_many :roles, class_name: 'Role', inverse_of: nil
   has_and_belongs_to_many :groups, class_name: 'Group', inverse_of: nil
-  has_many :trackers
+  has_many :trackers, class_name: 'Tracker', dependent: :delete_all
+  has_many :latecomer, class_name: 'Latecomer', dependent: :delete_all
 
   delegate :full_title, to: :dept, prefix: :dept, allow_nil: true
   delegate :full_title, to: :dorm, prefix: :dorm, allow_nil: true

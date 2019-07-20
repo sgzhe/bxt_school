@@ -1,1 +1,1 @@
-json.partial! "refreshes/refresh", refresh: @refresh
+json.partial! "refreshes/refresh", refreshs: @refresh

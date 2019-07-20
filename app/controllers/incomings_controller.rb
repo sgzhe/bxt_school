@@ -14,7 +14,10 @@ class IncomingsController < ApplicationController
         :pass_time_at_last.gte => params[:start_at],
         :pass_time_at_last.lte => params[:end_at]
     }.delete_if { |key, value| value.blank? }
-    query = []
+    query = [
+      { status_at_last: :back_late, :overtime_at_last.gte => 4 },
+      { :pass_time_at_last.lte => 1.days.ago }
+    ]
     unless params[:key].blank?
       query << { name: /.*#{params[:key]}.*/ }
       query << { sno: /.*#{params[:key]}.*/ }

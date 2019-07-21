@@ -20,9 +20,10 @@ namespace :bxt do
     MenuItem.create title: '公寓管理', icon: 'track_changes' do |m|
       m.children.build title: '仪表盘', path: 'dashboards'
       m.children.build title: '入住管理', path: 'accommodations'
-      m.children.build title: '出入管理', path: 'incomings'
-      m.children.build title: '出入历史', path: 'trackers'
-      m.children.build title: '出入异常', path: 'latecomers'
+      m.children.build title: '出入预警', path: 'incomings'
+      m.children.build title: '异常记录', path: 'latecomers'
+      m.children.build title: '门禁记录', path: 'trackers'
+
       m.children.build title: '宿管考勤', path: 'attendances'
       m.children.build title: '调寝管理', path: 'exchanges'
     end

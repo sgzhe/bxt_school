@@ -1,1 +1,1 @@
-json.partial! "incomings/incoming", incoming: @incoming
+json.partial! "incomings/incoming", user: @user

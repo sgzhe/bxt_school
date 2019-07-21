@@ -19,7 +19,7 @@ class RefreshsController < ApplicationController
   end
 
   def access_payload
-    user = User.find_by!(email: payload["user_id"])
+    user = User.find_by!(id: payload["user_id"])
     { user_id: user.id }
   end
 end

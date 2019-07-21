@@ -24,6 +24,8 @@ class User
   field :direction_at_last, default: :in
   field :overtime_at_last, type: Integer, default: 0
   field :access_ids_at_last, type: Array, default: []
+  field :confirmed_at_last, type: Symbol, default: 'false'
+  field :cause_at_last
 
   field :org_ids, type: Array, default: []
   field :facility_ids, type: Array, default: []
@@ -89,6 +91,22 @@ class User
     end
     doc.notify_face
     doc.check_in
+    doc.notify_latecomer
+  end
+
+  def notify_latecomer
+    if self.cause_at_last_changed? && self.confirmed_at_last == :true
+      comer = Latecomer.find_or_initialize_by(user: self, day: self.pass_time_at_last.to_date)
+      comer.status = self.status_at_last
+      comer.overtime = self.overtime_at_last
+      comer.pass_time = self.pass_time_at_last
+      comer.access_ids = self.access_ids_at_last
+      comer.cause = self.cause_at_last
+      comer.confirmed = self.confirmed_at_last
+      comer.user_org_ids = self.org_ids
+      comer.user_facility_ids = self.facility_ids
+      comer.save
+    end
   end
 
   def check_in

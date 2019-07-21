@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     if user&.authenticate(params[:password])
       payload = { user_id: user.id }
       refresh_payload = { user_id: user.id }
-      session = JWTSessions::Session.new(payload: payload, refresh_payload: refresh_payload, access_exp: 10)
+      session = JWTSessions::Session.new(payload: payload, refresh_payload: refresh_payload)
       tokens = session.login
       response.set_cookie(JWTSessions.refresh_cookie,
                           value: tokens[:refresh],

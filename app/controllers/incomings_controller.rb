@@ -9,7 +9,8 @@ class IncomingsController < ApplicationController
     opts = {
         facility_ids: facility_id,
         org_ids: org_id,
-        status_at_last: params[:status]
+        status_at_last: params[:status],
+        :confirmed_at_last.in => [:false, nil]
         # :overtime_at_last.gte => params[:overtime],
         # :pass_time_at_last.lte => params[:reside] && params[:reside].to_i.days.ago,
         # :pass_time_at_last.gte => params[:start_at],

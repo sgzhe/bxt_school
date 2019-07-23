@@ -37,6 +37,7 @@ class PermissionsController < ApplicationController
   # DELETE /permissions/1
   # DELETE /permissions/1.json
   def destroy
+    p @permission
     @permission.destroy
   end
 

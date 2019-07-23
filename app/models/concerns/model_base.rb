@@ -12,10 +12,10 @@ module ModelBase
 
     default_scope -> { where(activated: true) }
 
-    alias :orgin_destroy :destroy
-
-    def destroy
-      update(activated: false)
-    end
+    # alias :orgin_destroy :destroy
+    #
+    # def destroy
+    #   update(activated: false)
+    # end
   end
 end

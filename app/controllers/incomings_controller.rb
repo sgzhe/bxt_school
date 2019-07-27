@@ -1,4 +1,5 @@
 class IncomingsController < ApplicationController
+  before_action :set_user, only: [:show, :update, :destroy]
 
   # GET /incomings
   # GET /incomings.json
@@ -9,10 +10,11 @@ class IncomingsController < ApplicationController
         facility_ids: facility_id,
         org_ids: org_id,
         status_at_last: params[:status],
-        :overtime_at_last.gte => params[:overtime],
-        :pass_time_at_last.lte => params[:reside] && params[:reside].to_i.days.ago,
-        :pass_time_at_last.gte => params[:start_at],
-        :pass_time_at_last.lte => params[:end_at]
+        :confirmed_at_last.in => [:false, nil]
+        # :overtime_at_last.gte => params[:overtime],
+        # :pass_time_at_last.lte => params[:reside] && params[:reside].to_i.days.ago,
+        # :pass_time_at_last.gte => params[:start_at],
+        # :pass_time_at_last.lte => params[:end_at]
     }.delete_if { |key, value| value.blank? }
     query = []
     unless params[:key].blank?
@@ -23,8 +25,32 @@ class IncomingsController < ApplicationController
     match = {facility_ids: facility_id,
              org_ids: org_id}.delete_if { |key, value| value.blank? }
     @status_stats = Student.status_stats(match)
-    @users = paginate(Student.includes(:dept, :dorm).where(opts).or(query).order_by(pass_time_at_last: -1))
+    @users = paginate(Student.includes(:dept, :dorm).where(opts).and(
+      Student.or({ status_at_last: :back_late, :overtime_at_last.gte => 4 }, { :pass_time_at_last.lte => 1.days.ago }).selector,
+      Student.or(query).selector
+    ).order_by(pass_time_at_last: -1))
 
   end
 
+  def update
+    if @user.update(user_params)
+      render :show, status: :ok, location: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  def show
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = Student.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.fetch(:user, {}).permit!
+  end
 end

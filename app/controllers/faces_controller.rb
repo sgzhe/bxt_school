@@ -7,7 +7,7 @@ class FacesController < ApplicationController
     parent_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
     opts = {
         facility_ids: parent_id,
-        status: params[:status]
+        :status.in => [:add, :added]
     }.delete_if {|key, value| value.blank?}
 
     @faces = paginate(Face.where(opts))
@@ -33,9 +33,9 @@ class FacesController < ApplicationController
   # PATCH/PUT /faces/1
   # PATCH/PUT /faces/1.json
   def update
-    p ips = @face.access_ips.merge(face_params[:access_ips])
-    
-    if @face.update(access_ips: ips)
+    ips = @face.access_ips.merge(face_params[:access_ips])
+
+    if @face.update(face_params.merge({access_ips: ips}))
       render :show, status: :ok, location: @face
     else
       render json: @face.errors, status: :unprocessable_entity

@@ -66,7 +66,7 @@ class Tracker
                 access_at_last: doc.access,
                 access_ids_at_last: doc.access_ids)
 
-    if self.status.to_sym != :back
+    if [:back_late, :night_out].include?(doc.status.to_sym)
       comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
       comer.status = doc.status
       comer.overtime = doc.overtime

@@ -24,6 +24,8 @@ class User
   field :direction_at_last, default: :in
   field :overtime_at_last, type: Integer, default: 0
   field :access_ids_at_last, type: Array, default: []
+  field :confirmed_at_last, type: Symbol, default: 'false'
+  field :cause_at_last
 
   field :org_ids, type: Array, default: []
   field :facility_ids, type: Array, default: []
@@ -35,7 +37,8 @@ class User
   belongs_to :dept, class_name: 'Org', required: false
   has_and_belongs_to_many :roles, class_name: 'Role', inverse_of: nil
   has_and_belongs_to_many :groups, class_name: 'Group', inverse_of: nil
-  has_many :trackers
+  has_many :trackers, class_name: 'Tracker', dependent: :delete_all
+  has_many :latecomer, class_name: 'Latecomer', dependent: :delete_all
 
   delegate :full_title, to: :dept, prefix: :dept, allow_nil: true
   delegate :full_title, to: :dorm, prefix: :dorm, allow_nil: true
@@ -59,6 +62,8 @@ class User
   end
 
   def allow?(aco_id, operation)
+    return true if role?(:sys_admin)
+
     aros.any? do |aro|
       aro.allow?(aco_id, operation)
     end
@@ -88,6 +93,22 @@ class User
     end
     doc.notify_face
     doc.check_in
+    doc.notify_latecomer
+  end
+
+  def notify_latecomer
+    if self.cause_at_last_changed? && self.confirmed_at_last == :true
+      comer = Latecomer.find_or_initialize_by(user: self, day: self.pass_time_at_last.to_date)
+      comer.status = self.status_at_last
+      comer.overtime = self.overtime_at_last
+      comer.pass_time = self.pass_time_at_last
+      comer.access_ids = self.access_ids_at_last
+      comer.cause = self.cause_at_last
+      comer.confirmed = self.confirmed_at_last
+      comer.user_org_ids = self.org_ids
+      comer.user_facility_ids = self.facility_ids
+      comer.save
+    end
   end
 
   def check_in

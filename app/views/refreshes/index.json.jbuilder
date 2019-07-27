@@ -1,1 +1,1 @@
-json.array! @refreshes, partial: "refreshes/refresh", as: :refresh
+json.array! @refreshes, partial: "refreshes/refresh", as: :refreshs

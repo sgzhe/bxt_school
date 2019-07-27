@@ -2,6 +2,7 @@ namespace :bxt do
   desc 'init menu data'
   task menu: :environment do
 
+    MenuItem.all.delete
     MenuItem.create title: '组织管理', icon: 'bubble_chart' do |m|
       m.children.build title: '学院管理', path: 'colleges'
       m.children.build title: '系部管理', path: 'departments'
@@ -20,9 +21,10 @@ namespace :bxt do
     MenuItem.create title: '公寓管理', icon: 'track_changes' do |m|
       m.children.build title: '仪表盘', path: 'dashboards'
       m.children.build title: '入住管理', path: 'accommodations'
-      m.children.build title: '出入管理', path: 'incomings'
-      m.children.build title: '出入历史', path: 'trackers'
-      m.children.build title: '出入异常', path: 'latecomers'
+      m.children.build title: '出入预警', path: 'incomings'
+      m.children.build title: '异常记录', path: 'latecomers'
+      m.children.build title: '门禁记录', path: 'trackers'
+
       m.children.build title: '宿管考勤', path: 'attendances'
       m.children.build title: '调寝管理', path: 'exchanges'
     end
@@ -38,7 +40,8 @@ namespace :bxt do
       m.children.build title: '字典管理', path: 'dicts'
       m.children.build title: '角色管理', path: 'roles'
       m.children.build title: '用户组管理', path: 'groups'
-      m.children.build title: '菜单访问', path: 'menu-accesses'
+      m.children.build title: '菜单权限', path: 'menu-accesses'
+      m.children.build title: '公寓权限', path: 'house-accesses'
     end
   end
 

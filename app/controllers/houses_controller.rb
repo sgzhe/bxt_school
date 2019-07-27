@@ -1,4 +1,5 @@
 class HousesController < ApplicationController
+  before_action :authorize_access_request!
   before_action :set_house, only: [:show, :update, :destroy]
 
   # GET /houses
@@ -8,7 +9,10 @@ class HousesController < ApplicationController
     }.delete_if { |key, value| value.blank? }
     opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
 
-    @houses = paginate(House.where(opts))
+    @houses = House.where(opts).select do |house|
+      current_user.allow?(house.id, :view)
+    end
+    @houses = paginate(Kaminari.paginate_array(@houses))
   end
 
   # GET /houses/1

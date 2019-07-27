@@ -19,7 +19,7 @@ class TrackersController < ApplicationController
       query << { user_name: /.*#{params[:key]}.*/ }
       query << { user_sno: /.*#{params[:key]}.*/ }
     end
-    @trackers = paginate(Tracker.includes().where(opts).or(query))
+    @trackers = paginate(Tracker.where(opts).or(query))
   end
 
   # GET /trackers/1

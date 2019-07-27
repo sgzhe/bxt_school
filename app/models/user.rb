@@ -62,6 +62,8 @@ class User
   end
 
   def allow?(aco_id, operation)
+    return true if role?(:sys_admin)
+
     aros.any? do |aro|
       aro.allow?(aco_id, operation)
     end

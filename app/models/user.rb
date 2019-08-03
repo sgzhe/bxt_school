@@ -58,7 +58,7 @@ class User
   def reside
     return 0 if pass_time_at_last.nil?
 
-    (DateTime.now - pass_time_at_last).to_i
+    ((DateTime.now - pass_time_at_last) * 24).to_i
   end
 
   def status

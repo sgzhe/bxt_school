@@ -62,21 +62,13 @@ class User
   end
 
   def status
-    #@status = status_at_last    
-    if reside >= 24
-      case direction_at_last
+    @reside = reside
+    case direction_at_last
       when :in
-        @status = :days_in
-      when :out
-        @status = :days_out
-      end
-    else
-      case direction_at_last
-      when :in
-
+        @status = :days_in if @reside >= 24
       when :out
         @status = :go_out if pre_back_at_last < DateTime.now
-      end
+        @status = :days_out if @reside >= 24
     end
     @status
   end

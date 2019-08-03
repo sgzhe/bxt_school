@@ -2,6 +2,7 @@ class Latecomer
   include Mongoid::Document
 
   field :day, type: Date
+  field :direction, type: Symbol #:in :out
   field :pass_time, type: DateTime
   field :status
   field :overtime, type: Integer, default: 0

@@ -58,18 +58,24 @@ class User
   def reside
     return 0 if pass_time_at_last.nil?
 
-    ((DateTime.now - pass_time_at_last) * 24).to_i
+    ((DateTime.now - pass_time_at_last).to_f * 24).to_i
   end
 
   def status
-    @status = status_at_last
-    @status = :go_out if pre_back_at_last < DateTime.now
-    if reside >= 1
+    #@status = status_at_last    
+    if reside >= 24
       case direction_at_last
       when :in
         @status = :days_in
       when :out
         @status = :days_out
+      end
+    else
+      case direction_at_last
+      when :in
+
+      when :out
+        @status = :go_out if pre_back_at_last < DateTime.now
       end
     end
     @status

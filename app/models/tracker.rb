@@ -44,18 +44,19 @@ class Tracker
     today = (pass_time.at_beginning_of_day + access.opening_at.minutes)
     if direction == :in
       if pass_time > last105
-        self.overtime = ((pass_time - last105).to_f * 24).to_i
-        self.status = :back_late
-        self.status = :go_out if user.pre_back_at_last < DateTime.now
-        if user.reside >= 1
+        if user.reside >= 24
           self.status = user.status
           self.reside = user.reside
+        else
+          self.overtime = ((pass_time - last105).to_f * 24).to_i
+          self.status = :back_late
         end
       end
     else
-      if user.reside >= 1
+      if user.reside >= 24
         self.status = user.status
         self.reside = user.reside
+
       end
     end
     doc.user_name = doc.user.name
@@ -78,6 +79,7 @@ class Tracker
 
     if [:back_late, :go_out, :days_in, :days_out].include?(doc.status.try(:to_sym))
       comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
+      comer.direction = doc.direction
       comer.status = doc.status
       comer.overtime = doc.overtime
       comer.reside = doc.reside

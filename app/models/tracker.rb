@@ -56,9 +56,9 @@ class Tracker
 
   def rev_status
     last105 = user.pass_time_at_last.at_beginning_of_day + access.closing_at.minutes
-    last055 = user.pass_time_at_last.at_beginning_of_day + 1770.minutes
+    last055 = user.pass_time_at_last.at_beginning_of_day + 1710.minutes
     today105 = pass_time.at_beginning_of_day + access.opening_at.minutes
-    today055 = pass_time.at_beginning_of_day + 1770.minutes
+    today055 = pass_time.at_beginning_of_day + 1710.minutes
     self.reside = rev_reside
     case direction
     when :in
@@ -69,7 +69,7 @@ class Tracker
         self.status = :back_late
         self.overtime = ((pass_time - today105).to_f * 24).to_i
       elsif reside >= 24
-          self.status = :days_out
+        self.status = :days_out
       end
     when :out
       if reside >= 24

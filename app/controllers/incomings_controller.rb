@@ -10,7 +10,7 @@ class IncomingsController < ApplicationController
         facility_ids: facility_id,
         org_ids: org_id,
         status_at_last: params[:status],
-        :confirmed_at_last.in => [:false, nil]
+        # :confirmed_at_last.in => [:false, nil]
         # :overtime_at_last.gte => params[:overtime],
         # :pass_time_at_last.lte => params[:reside] && params[:reside].to_i.days.ago,
         # :pass_time_at_last.gte => params[:start_at],
@@ -26,7 +26,7 @@ class IncomingsController < ApplicationController
              org_ids: org_id}.delete_if { |key, value| value.blank? }
     @status_stats = Student.status_stats(match)
     @users = paginate(Student.includes(:dept, :dorm).where(opts).and(
-      Student.or({ status_at_last: :back_late, :overtime_at_last.gte => 4 }, { :pass_time_at_last.lte => 1.days.ago }).selector,
+      Student.or({ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }, { :pass_time_at_last.lte => 1.days.ago }).selector,
       Student.or(query).selector
     ).order_by(pass_time_at_last: -1))
 

@@ -17,4 +17,12 @@ namespace :hk_avatar do
 
     end
   end
+
+  task pre_back: :environment do
+    Student.all.each do |u|
+      p u.pass_time_at_last
+      p u.update_attribute(:pre_back_at_last, u.pass_time_at_last.at_beginning_of_day + 1770.minutes)
+
+    end
+  end
 end

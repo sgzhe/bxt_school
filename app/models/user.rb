@@ -3,6 +3,8 @@ class User
   include ModelBase
   include ActiveModel::SecurePassword
 
+  attr_readonly :status, :reside
+
   field :name
   field :gender_mark, default: :male
   field :id_card
@@ -19,8 +21,9 @@ class User
   field :access_ips, type: Hash, default: {}
   field :access_status, type: Boolean, default: true
 
+  field :pre_back_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
   field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
-  field :status_at_last, default: :back
+  field :status_at_last, default: :normal
   field :direction_at_last, default: :in
   field :overtime_at_last, type: Integer, default: 0
   field :access_ids_at_last, type: Array, default: []
@@ -54,7 +57,22 @@ class User
 
   def reside
     return 0 if pass_time_at_last.nil?
+
     (DateTime.now - pass_time_at_last).to_i
+  end
+
+  def status
+    @status = status_at_last
+    @status = :go_out if pre_back_at_last < DateTime.now
+    if reside >= 1
+      case direction_at_last
+      when :in
+        @status = :days_in
+      when :out
+        @status = :days_out
+      end
+    end
+    @status
   end
 
   def role?(role_mark)
@@ -93,7 +111,7 @@ class User
     end
     doc.notify_face
     doc.check_in
-    doc.notify_latecomer
+    #doc.notify_latecomer
   end
 
   def notify_latecomer

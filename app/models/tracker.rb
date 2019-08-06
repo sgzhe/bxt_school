@@ -1,12 +1,12 @@
 class Tracker
   include Mongoid::Document
   include Mongoid::Timestamps
-  store_in collection: -> {"trackers#{Time.now.strftime('%Y%m')}"}
+  #store_in collection: -> {"trackers#{Time.now.strftime('%Y%m')}"}
 
   field :pass_time, type: DateTime, default: -> {DateTime.now}
   field :direction, type: Symbol #:in :out
   field :status, type: Symbol
-  field :timed_out, type: Boolean
+  field :reside, type: Integer, default: 0
   field :overtime, type: Integer, default: 0
   field :user_name
   field :user_dept_title
@@ -40,14 +40,23 @@ class Tracker
   end
 
   set_callback(:save, :before) do |doc|
-    last = (user.pass_time_at_last.at_beginning_of_day + access.closing_at.minutes)
+    last105 = (user.pass_time_at_last.at_beginning_of_day + access.closing_at.minutes)
     today = (pass_time.at_beginning_of_day + access.opening_at.minutes)
-    self.timed_out = pass_time > last
-    self.overtime = timed_out ? ((pass_time - last).to_f * 24).to_i : 0
     if direction == :in
-      self.status = self.timed_out ? :back_late : :back
+      if pass_time > last105
+        self.overtime = ((pass_time - last105).to_f * 24).to_i
+        self.status = :back_late
+        self.status = :go_out if user.pre_back_at_last < DateTime.now
+        if user.reside >= 1
+          self.status = user.status
+          self.reside = user.reside
+        end
+      end
     else
-      self.status = self.timed_out && (pass_time < today) ? :night_out : :go_out
+      if user.reside >= 1
+        self.status = user.status
+        self.reside = user.reside
+      end
     end
     doc.user_name = doc.user.name
     doc.user_sno = doc.user.sno
@@ -60,16 +69,18 @@ class Tracker
 
   set_callback(:save, :after) do |doc|
     user.update(status_at_last: doc.status,
+                pre_back_at_last: doc.pass_time.at_beginning_of_day + 1770.minutes,
                 pass_time_at_last: doc.pass_time,
                 direction_at_last: doc.direction,
                 overtime_at_last: doc.overtime,
                 access_at_last: doc.access,
                 access_ids_at_last: doc.access_ids)
 
-    if [:back_late, :night_out].include?(doc.status.to_sym)
+    if [:back_late, :go_out, :days_in, :days_out].include?(doc.status.try(:to_sym))
       comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
       comer.status = doc.status
       comer.overtime = doc.overtime
+      comer.reside = doc.reside
       comer.pass_time = doc.pass_time
       comer.access_ids = doc.access_ids
       comer.user_org_ids = doc.user.org_ids

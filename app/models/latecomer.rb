@@ -5,6 +5,7 @@ class Latecomer
   field :pass_time, type: DateTime
   field :status
   field :overtime, type: Integer, default: 0
+  field :reside, type: Integer, default: 0
   field :overtime_cause
   field :confirmed, type: Boolean, default: false
   field :cause

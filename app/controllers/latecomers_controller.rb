@@ -19,7 +19,7 @@ class LatecomersController < ApplicationController
       query << { user_name: /.*#{params[:key]}.*/ }
       query << { user_sno: /.*#{params[:key]}.*/ }
     end
-    @latecomers = paginate(Latecomer.where(opts).or(query))
+    p @latecomers = paginate(Latecomer.where(opts).or(query))
   end
 
   # GET /latecomers/1

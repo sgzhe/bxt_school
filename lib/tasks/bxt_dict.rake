@@ -19,15 +19,16 @@ namespace :bxt do
     end
 
     Dict.create mark: 'direction_type', title: '方向类型' do |d|
-      d.dict_items.build(mark: 'in', title: '进门')
-      d.dict_items.build(mark: 'out', title: '出门')
+      d.dict_items.build(mark: 'in', title: '入寝')
+      d.dict_items.build(mark: 'out', title: '出寝')
     end
 
-    Dict.create mark: 'sleep_status', title: '状态' do |d|
-      d.dict_items.build(mark: 'back_late', title: '晚归', color: 'orange')
-      d.dict_items.build(mark: 'night_out', title: '夜出', color: 'blue')
-      d.dict_items.build(mark: 'go_out', title: '未归', color: 'red')
-      d.dict_items.build(mark: 'back', title: '已归', color: 'green')
+    Dict.create mark: 'sleep_status', title: '异常状态' do |d|
+      d.dict_items.build(mark: 'back_late', title: '晚归', color: 'navy')
+      d.dict_items.build(mark: 'go_out', title: '未归', color: 'peru')
+      d.dict_items.build(mark: 'days_in', title: '多日未出', color: 'red')
+      d.dict_items.build(mark: 'days_out', title: '多日未归', color: 'purple')
+      d.dict_items.build(mark: 'normal', title: '正常', color: '')
     end
 
     Dict.create mark: 'dorm_type', title: '寝室类型' do |d|

@@ -65,13 +65,11 @@ class Tracker
       if last105 < pass_time && pass_time < last055
         self.status = :back_late
         self.overtime = ((pass_time - last105).to_f * 24).to_i
+      elsif today105 < pass_time && pass_time < today055
+        self.status = :back_late
+        self.overtime = ((pass_time - today105).to_f * 24).to_i
       elsif reside >= 24
-        if today105 < pass_time && pass_time < today055
-          self.status = :back_late
-          self.overtime = ((pass_time - today105).to_f * 24).to_i
-        else
           self.status = :days_out
-        end
       end
     when :out
       if reside >= 24

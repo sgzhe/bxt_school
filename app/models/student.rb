@@ -17,11 +17,11 @@ class Student < User
   end
 
   set_callback(:initialize, :before) do |doc|
-    if doc.new_record?
-      m = Student.order(face_id: -1).first.face_id
-      m = 50000 if m < 50000
-      doc.face_id = m + 1
-    end
+    # if doc.new_record?
+    #   m = Student.order(face_id: -1).first.face_id
+    #   m = 70000 if m < 70000
+    #   doc.face_id = m + 1
+    # end
   end
 
 

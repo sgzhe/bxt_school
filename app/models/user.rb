@@ -17,6 +17,7 @@ class User
 
   field :img
   field :img2
+  field :img3
 
   field :access_ips, type: Hash, default: {}
   field :access_status, type: Boolean, default: true

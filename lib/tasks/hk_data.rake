@@ -50,14 +50,63 @@ namespace :hk_data do
   end
 
   task uid: :environment do
-    con = PG.connect host: "127.0.0.1", user: "postgres", password: "Hik12345", dbname: "icms", port: "5432"
+    con = PG.connect host: "10.200.2.251", user: "postgres", password: "Hik12345", dbname: "icms", port: "5432"
     rs1 = con.exec "SELECT * From person_info"
     rs1.each do |row1|
       s = Student.where(sno: row1['person_code']).first      
       if s
         p s.face_id = row1['uid']
-        s.save
+        #s.save
       end      
+    end
+  end
+
+  task uid11: :environment do
+    con = PG.connect host: "127.0.0.1", user: "postgres", password: "Hik12345", dbname: "bxt_tmp", port: "5432"
+    rs1 = con.exec "SELECT * From person_info"
+    rs1.each do |row1|
+      s = Student.find_or_initialize_by(sno: row1['person_code'])
+      s.name = row1['name']
+      p "#{s.face_id} = #{row1['uid']}"
+      s.face_id = row1['uid']
+      p s.img3 = 'faced_add' if s.new_record?
+      s.save
+    end
+  end
+
+  task uid22: :environment do
+    con = PG.connect host: "127.0.0.1", user: "postgres", password: "Hik12345", dbname: "bxt_tmp", port: "5432"
+    rs1 = con.exec "SELECT * From person_info"
+    
+    rs1.each do |row1|
+      rs2 = con.exec "SELECT edu_person.person_name,edu_person.person_code, edu_person.gendar, edu_person.photourl, edu_dorm.building_code, edu_dorm.floor_no, edu_dorm.room_no, edu_dorm.bed_no FROM edu_person JOIN edu_dorm ON edu_person.person_code = edu_dorm.person_code where edu_person.person_code='#{row1['person_code']}'" 
+      if rs2
+        row2 = rs2[0]
+        h = House.find_by(mark: row2['building_code'])
+        f = Floor.find_or_initialize_by(title: row2['floor_no'], mark: row2['floor_no'], parent_id: h.id)
+        f.save if f.new_record?
+        r = Room.find_or_initialize_by(title: row2['room_no'], mark: row2['room_no'], parent_id: f.id)
+        r.save if r.new_record?
+        s = Student.find_or_initialize_by(sno: row2['person_code'])
+        if s
+          b = r.beds.detect {|b| b.mark.to_s == row2['bed_no'].to_s}
+          b = r.beds.build(mark: row2['bed_no']) unless b
+          b.owner = s
+          b.save
+          # s.avatar = s.img
+          # s.save
+          # s.name = row2['person_name']
+          # s.gender_mark = row2['gendar'] == '1' ? :male : :female
+          # s.sno = row2['person_code']
+          # s.dorm = r
+          # s.bed_mark = row2['bed_no']
+          # id = row2['photourl'].split('id=')[1]
+          # s.img = id + '.jpg'  if id
+          # s.face_id = row1['uid']
+          # s.save if s.new_record?       
+          p s.name
+        end  
+      end
     end
   end
 

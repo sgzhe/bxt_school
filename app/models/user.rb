@@ -143,10 +143,10 @@ class User
 
     if self.dorm_id_changed? || self.avatar_changed?
       unless as.blank?
-        unless self.changes['dorm_id'][0].blank?
+        if self.changes['dorm_id']
           r = Room.find_by(id: self.changes['dorm_id'][0])
           Face.where(:status.in => [:add, :added], user: self, facility_ids: r && r.parent_id).update_all({status: :delete})
-        end         
+        end
         Face.create(status: :add, access_ips: as, user: self, face_id: self.face_id, facility_ids: self.facility_ids)
       end
     end

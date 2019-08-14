@@ -10,8 +10,6 @@ class Room < Facility
     end
   end
 
-
-
   def check_in(user, bed = nil)
     bed ||= beds.empties.first
     if bed

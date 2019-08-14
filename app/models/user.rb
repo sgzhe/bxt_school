@@ -14,6 +14,7 @@ class User
   field :login
   field :password_digest
   field :bed_mark
+  field :nationality
 
   field :img
   field :img2
@@ -132,6 +133,7 @@ class User
     if self.dorm_id_changed? || self.bed_mark_changed?
       b = dorm.beds.detect { |bed| bed.mark == self.bed_mark}
       b.owner = self if b
+      b.save
     end
   end
 
@@ -143,8 +145,8 @@ class User
 
     if self.dorm_id_changed? || self.avatar_changed?
       unless as.blank?
-        if self.changes['dorm_id']
-          r = Room.find_by(id: self.changes['dorm_id'][0])
+        unless self.changes['dorm_id'].blank?
+          r = Room.find_by(id: self.changes['dorm_id'][1])
           Face.where(:status.in => [:add, :added], user: self, facility_ids: r && r.parent_id).update_all({status: :delete})
         end
         Face.create(status: :add, access_ips: as, user: self, face_id: self.face_id, facility_ids: self.facility_ids)
@@ -154,7 +156,11 @@ class User
   end
 
   set_callback(:destroy, :before) do |doc|
-    Face.where(:status.in => [:add, :added], user: self).update_all(status: :delete)
+    Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
+    b = doc.dorm.beds.detect { |bed| bed.mark == doc.bed_mark}
+    b.owner_id = nil
+    b.owner_name = nil
+    doc.dorm.save
   end
 
 

@@ -5,7 +5,7 @@ class Student < User
   field :face_id, type: Integer, default: 0
 
   validates :sno, uniqueness: { message: "is already taken." }
-  #validates :face_id, uniqueness: { message: "is already taken." }
+  validates :face_id, uniqueness: { message: "is already taken." }
 
   def self.status_stats(opts = {})
     status = {}
@@ -17,11 +17,11 @@ class Student < User
   end
 
   set_callback(:initialize, :before) do |doc|
-    # if doc.new_record?
-    #   m = Student.order(face_id: -1).first.face_id
-    #   m = 70000 if m < 70000
-    #   doc.face_id = m + 1
-    # end
+    if doc.new_record?
+      m = Student.order(face_id: -1).first.try(:face_id)
+      m = 70000 if m.to_i < 70000
+      doc.face_id = m + 1
+    end
   end
 
 

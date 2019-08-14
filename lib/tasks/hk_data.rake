@@ -50,13 +50,18 @@ namespace :hk_data do
   end
 
   task uid: :environment do
-    con = PG.connect host: "127.0.0.1", user: "postgres", password: "Hik12345", dbname: "icms", port: "5432"
+    con = PG.connect host: "10.200.2.253", user: "postgres", password: "Hik12345", dbname: "icms", port: "5432"
     rs1 = con.exec "SELECT * From person_info"
     rs1.each do |row1|
       s = Student.where(sno: row1['person_code']).first      
       if s
         p s.face_id = row1['uid']
-        s.save
+        #
+        #
+        #
+        #
+        #
+        # s.save
       end      
     end
   end

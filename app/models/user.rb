@@ -150,10 +150,11 @@ class User
         Face.create(status: :add, access_ips: as, user: self, face_id: self.face_id, facility_ids: self.facility_ids)
       end
     end
-    
-    if self.activated == false
-      Face.where(:status.in => [:add, :added], user: self).update_all(status: :delete)
-    end
+
+  end
+
+  set_callback(:destroy, :before) do |doc|
+    Face.where(:status.in => [:add, :added], user: self).update_all(status: :delete)
   end
 
 

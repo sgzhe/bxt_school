@@ -153,16 +153,19 @@ class User
       as[ip.gsub('.','-')] = -1
     end
 
-    if self.dorm_id_changed? || self.avatar_changed?
-      unless as.blank?
+    unless as.blank?
+      if self.dorm_id_changed?
         unless self.changes['dorm_id'].blank?
-          r = Room.find_by(id: self.changes['dorm_id'][1])
-          Face.where(:status.in => [:add, :added], user: self, facility_ids: r && r.parent_id).update_all({status: :delete})
+          if self.changes['dorm_id'][0]
+            r = Room.find_by(id: self.changes['dorm_id'][0])
+            Face.where(:status.in => [:add, :added], user: self, facility_ids: r && r.parent_id).update_all({status: :delete})
+          end
         end
+      end
+      if self.avatar_changed?
         Face.create(status: :add, access_ips: as, user: self, face_id: self.face_id, facility_ids: self.facility_ids)
       end
     end
-
   end
 
   set_callback(:destroy, :before) do |doc|

@@ -26,8 +26,8 @@ class Face
     end
     if doc.user
       doc.face_url = doc.user.avatar.url
-      doc.user_name = doc.user.id
-      doc.user_id = doc.user.name
+      doc.user_name = doc.user.name
+      doc.user_id = doc.user.id
     end
   end
 end

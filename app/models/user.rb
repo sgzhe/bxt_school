@@ -131,6 +131,16 @@ class User
 
   def check_in
     if self.dorm_id_changed? || self.bed_mark_changed?
+      old_bed_mark = self.changes['bed_mark'][0] unless self.changes['bed_mark'].blank?
+      old_dorm_id = self.changes['dorm_id'][0] unless self.changes['dorm_id'].blank?
+      if old_bed_mark
+        room = dorm
+        room = Room.find(old_dorm_id) if old_dorm_id
+        bed = room.beds.detect { |bed| bed.mark == old_bed_mark}
+        bed.owner_id = nil
+        bed.owner_name = nil
+        room.save
+      end
       b = dorm.beds.detect { |bed| bed.mark == self.bed_mark}
       b.owner = self if b
       b.save

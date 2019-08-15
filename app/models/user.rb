@@ -109,25 +109,15 @@ class User
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
-    doc.notify_face
+
     doc.check_in
-    #doc.notify_latecomer
+
   end
 
-  def notify_latecomer
-    if self.cause_at_last_changed? && self.confirmed_at_last == :true
-      comer = Latecomer.find_or_initialize_by(user: self, day: self.pass_time_at_last.to_date)
-      comer.status = self.status_at_last
-      comer.overtime = self.overtime_at_last
-      comer.pass_time = self.pass_time_at_last
-      comer.access_ids = self.access_ids_at_last
-      comer.cause = self.cause_at_last
-      comer.confirmed = self.confirmed_at_last
-      comer.user_org_ids = self.org_ids
-      comer.user_facility_ids = self.facility_ids
-      comer.save
-    end
+  set_callback(:save, :after) do |doc|
+    doc.notify_face
   end
+
 
   def check_in
     if self.dorm_id_changed? || self.bed_mark_changed?

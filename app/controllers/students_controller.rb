@@ -58,7 +58,6 @@ class StudentsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_student
     begin
-      BSON::ObjectId(params[:id])
       @student = Student.find(params[:id])
     rescue StandardError
       @student = Student.find_by(sno: params[:id])

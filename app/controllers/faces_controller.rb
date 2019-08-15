@@ -7,7 +7,7 @@ class FacesController < ApplicationController
     parent_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
     opts = {
         facility_ids: parent_id,
-        :status.in => [:add, :added]
+        :status.in => [:add, :delete]
     }.delete_if {|key, value| value.blank?}
 
     @faces = paginate(Face.where(opts))

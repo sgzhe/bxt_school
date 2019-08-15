@@ -4,6 +4,9 @@ class Face
   field :access_ips, type: Hash, default: {}
   field :face_id, type: Integer, default: 0
   field :facility_ids, type: Array, default: []
+  field :face_url
+  field :user_id
+  field :user_name
 
   belongs_to :user, required: false
 
@@ -20,6 +23,11 @@ class Face
       if doc.status == :delete
         doc.status = :deleted if doc.access_ips.none? { |k, v| v == 1 }
       end
+    end
+    if doc.user
+      doc.face_url = doc.user.avatar.url
+      doc.user_name = doc.user.id
+      doc.user_id = doc.user.name
     end
   end
 end

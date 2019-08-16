@@ -158,10 +158,16 @@ class User
 
   set_callback(:destroy, :before) do |doc|
     Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
-    b = doc.dorm.beds.detect { |bed| bed.mark == doc.bed_mark}
-    b.owner_id = nil
-    b.owner_name = nil
-    doc.dorm.save
+    if doc.dorm
+      b = doc.dorm.beds.detect { |bed| bed.mark == doc.bed_mark}
+      if b
+        b.owner_id = nil
+        b.owner_name = nil
+        doc.dorm.save
+      end
+
+    end
+
   end
 
 

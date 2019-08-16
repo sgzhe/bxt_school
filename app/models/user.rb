@@ -111,12 +111,10 @@ class User
     end
 
     doc.check_in
-
-  end
-
-  set_callback(:save, :after) do |doc|
     doc.notify_face
   end
+
+  
 
 
   def check_in

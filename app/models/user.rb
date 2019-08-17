@@ -53,9 +53,7 @@ class User
   #scope :reside, ->(reside) { where(:pass_time_at_last.lte => reside.days.ago) }
 
   #validates :sno, uniqueness: { message: "is already taken." }
-  def house_access_ips
-    Access.where(:parent_id.in => self.facility_ids).map(&:ip).delete_if { |k| k.blank? }
-  end
+
 
   def reside
     return 0 if pass_time_at_last.nil?
@@ -110,49 +108,33 @@ class User
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
 
-    doc.check_in
+    doc.notify_dorm
     doc.notify_face
   end
 
-  
-
-
-  def check_in
-    if self.dorm_id_changed? || self.bed_mark_changed?
-      old_bed_mark = self.changes['bed_mark'][0] unless self.changes['bed_mark'].blank?
-      old_dorm_id = self.changes['dorm_id'][0] unless self.changes['dorm_id'].blank?
-      if old_bed_mark
-        room = dorm
-        room = Room.find(old_dorm_id) if old_dorm_id
-        bed = room.beds.detect { |bed| bed.mark == old_bed_mark}
-        bed.owner_id = nil
-        bed.owner_name = nil
-        room.save
-      end
-      b = dorm.beds.detect { |bed| bed.mark == self.bed_mark}
-      b.owner = self if b
-      b.save
-    end
+  def notify_dorm
+    return unless dorm_id_changed? || bed_mark_changed?
+    old_bed_mark = changes['bed_mark'][0] if bed_mark_changed?
+    old_dorm_id = changes['dorm_id'][0] if dorm_id_changed?
+    old_room = Room.find(old_dorm_id) if old_dorm_id
+    old_bed_mark ||= bed_mark
+    old_room ||= dorm
+    old_room.check_out({bed_mark: old_bed_mark})
+    dorm.check_in(self, bed_mark)
   end
 
   def notify_face
-    as = {}
-    self.house_access_ips.each do |ip|
-      as[ip.gsub('.','-')] = -1
+    if dorm_id_changed?
+      if changes['dorm_id'][0]
+        old_room = Room.find(changes['dorm_id'][0])
+        Face.create(status: :delete, access_ips: old_room.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+      end
+      if changes['dorm_id'][1]
+        Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+      end
     end
-
-    unless as.blank?
-      if self.dorm_id_changed?
-        unless self.changes['dorm_id'].blank?
-          if self.changes['dorm_id'][0]
-            r = Room.find_by(id: self.changes['dorm_id'][0])
-            Face.where(:status.in => [:add, :added], user: self, facility_ids: r && r.parent_id).update_all({status: :delete})
-          end
-        end
-      end
-      if self.avatar_changed?
-        Face.create(status: :add, access_ips: as, user: self, face_id: self.face_id, facility_ids: self.facility_ids)
-      end
+    if avatar_changed?
+      Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
     end
   end
 

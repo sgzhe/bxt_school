@@ -17,11 +17,11 @@ class Face
   set_callback(:save, :before) do |doc|
     if doc.access_ips_changed?
       if doc.status == :add
-        doc.status = :added if doc.access_ips.none? { |k, v| v == -1 }
+        doc.status = :added if doc.access_ips.any? { |k, v| v == 1 }
       end
 
       if doc.status == :delete
-        doc.status = :deleted if doc.access_ips.none? { |k, v| v == 1 }
+        doc.status = :deleted if doc.access_ips.any? { |k, v| v == -1 }
       end
     end
     # if doc.user

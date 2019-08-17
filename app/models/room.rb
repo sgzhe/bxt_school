@@ -10,14 +10,34 @@ class Room < Facility
     end
   end
 
-  def check_in(user, bed = nil)
+  def house_access_ips
+    as = {}
+    ips = Access.where(:parent_id.in => self.parent_ids).map(&:ip).delete_if { |k| k.blank? }
+    ips.each do |ip|
+      as[ip.tr('.', '-')] = 0
+    end
+    as
+  end
+
+  def check_in(user, bed_mark = nil)
+    bed = beds.detect { |bed| bed.mark == bed_mark }
     bed ||= beds.empties.first
     if bed
       bed.owner = user
-      user.dorm = self
-      user.bed_mark = bed.mark
+      save
     end
-    save && user.save
+  end
+
+  def check_out(opts = { user_id: nil, bed_mark: nil })
+    bed = beds.detect { |bed| bed.owner_id == opts[:user_id] || bed.mark == opts[:bed_mark] }
+    if bed
+      bed.owner.dorm = nil
+      bed.owner.bed_mark = nil
+      bed.owner.save
+      bed.owner_id = nil
+      bed.owner_name = nil
+      bed.save
+    end
   end
 
   def vacant_beds

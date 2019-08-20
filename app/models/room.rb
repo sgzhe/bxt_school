@@ -47,8 +47,8 @@ class Room < Facility
 
   def self.bed_stats(opts = {})
     Room.collection.aggregate([
-                                  {"$match": opts.merge({"_type": "Room"})},
-                                  {"$project": {beds: 1, owners: {"$filter": {input: "$beds", as: "item", cond: {"$ifNull": ["$$item.owner_id", false]}}}}},
+                                  {"$match": opts.merge({"_type": "Room", beds: { "$exists": true }})},
+                                  {"$project": {beds: 1, owners: {"$filter": {input: "$beds", as: "item", cond: {"$and":[{"$ifNull": ["$$item", false]},{"$ifNull": ["$$item.owner_id", false]}]}}}}},
                                   {"$group" => {"_id" => "null", "total" => {"$sum" => {"$size" => "$beds"}}, "owners" => {"$sum" => {"$size" => "$owners"}}}}
                               ]).first
   end

@@ -124,17 +124,18 @@ class User
   end
 
   def notify_face
+    add = nil
     if dorm_id_changed? && avatar.url
       if changes['dorm_id'][0]
         old_room = Room.find(changes['dorm_id'][0])
         Face.create(status: :delete, access_ips: old_room.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
       end
       if changes['dorm_id'][1]
-        Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+        add = Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
       end
     end
     if avatar_changed?
-      Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+      add ||= Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
     end
   end
 

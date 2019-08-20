@@ -25,4 +25,16 @@ namespace :hk_avatar do
 
     end
   end
+
+  task avatar13: :environment do
+    Student.where(facility_ids: BSON::ObjectId('5cc6c65588dba063c404a78d')).each do |s|
+      img = s.img.split('.')[0] + '.jpg.thumbnail.jpg'
+      source = 'F:/Projects/bxt_school/public/uploads/student/avatar2019/'
+      dest = 'F:/Projects/a13/' + img
+      p jpg = source + img
+      FileUtils.cp(jpg, dest) if File.exists?(jpg)
+
+    end
+
+  end
 end

@@ -18,7 +18,7 @@ class ImportStudentsController < ApplicationController
     @import_student = ImportStudent.new(import_student_params)
 
     if @import_student.save
-      render json: 'ok', status: :created
+      render :show, status: :ok, location: @import_student
     else
       render json: @import_student.errors, status: :unprocessable_entity
     end

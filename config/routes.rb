@@ -30,5 +30,6 @@ Rails.application.routes.draw do
   resources :refreshs
   resources :faces
   resources :import_students
+  resources :import_avatars
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

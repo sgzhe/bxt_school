@@ -1,4 +1,5 @@
 class FloorsController < ApplicationController
+  before_action :authorize_access_request!
   before_action :set_floor, only: [:show, :update, :destroy]
 
   # GET /floors
@@ -7,8 +8,11 @@ class FloorsController < ApplicationController
     parent_id = params[:house_id] || params[:parent_id]
     opts = { parent_ids: parent_id && BSON::ObjectId(parent_id), floor_mark: params[:floor_mark]}.delete_if {|key, value| value.blank?}
     opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
+    @floors = Floor.includes(:house).where(opts).select do |floor|
+      current_user.allow?(floor.parent_id, :view)
+    end
 
-    @floors = paginate(Floor.includes(:house).where(opts))
+    @floors = paginate(Kaminari.paginate_array(@floors))
   end
 
   # GET /floors/1

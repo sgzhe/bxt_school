@@ -37,4 +37,16 @@ namespace :hk_avatar do
     end
 
   end
+
+  task avatar22: :environment do
+    Room.where(:"beds.owner_name" => nil).each do |r|
+      r.beds.each do |b|
+        if b.owner_name.blank?
+          p b.owner_name = b.owner.try(:name)
+        end
+      end
+      r.save
+    end
+  end
+
 end

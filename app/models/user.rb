@@ -15,6 +15,10 @@ class User
   field :password_digest
   field :bed_mark
   field :nationality
+  field :nation
+  field :birthday, type: Date
+  field :hometown
+  field :cls_group
 
   field :img
   field :img2

@@ -2,9 +2,9 @@ class Facility
   include ModelBase
   include Mongoid::Tree
 
-  field :title, default: ''
-  field :full_title, default: ''
-  field :mark
+  field :title, type: String, default: ''
+  field :full_title, type: String, default: ''
+  field :mark, type: String
 
   default_scope -> { order_by(seq: 1, id: -1) }
 

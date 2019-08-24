@@ -35,7 +35,7 @@ class Room < Facility
     if bed && bed.owner_id
       bed.owner_id = nil
       bed.owner_name = nil
-      bed.save
+      save
     end
   end
 

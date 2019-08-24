@@ -6,11 +6,12 @@ class StudentsController < ApplicationController
   def index
     facility_id = params[:facility_id]
     org_id = params[:org_id]
-    dorm_id = params[:dorm_id]
+    #dorm_id = params[:dorm_id]
+    facility_id = params[:dorm_id] || params[:floor_id] || params[:house_id] || params[:facility_id]
     opts = {
       facility_ids: facility_id && BSON::ObjectId(facility_id),
       org_ids: org_id && BSON::ObjectId(org_id),
-      dorm_id: dorm_id && BSON::ObjectId(dorm_id)
+      #dorm_id: dorm_id && BSON::ObjectId(dorm_id)
     }.delete_if { |key, value| value.blank?}
     query = []
     unless params[:key].blank?

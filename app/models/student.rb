@@ -19,7 +19,7 @@ class Student < User
   set_callback(:initialize, :before) do |doc|
     if doc.new_record?
       m = Student.order(face_id: -1).first.try(:face_id)
-      m = 70000 if m.to_i < 70000
+      m = 700000 if m.to_i < 700000
       doc.face_id = m + 1
     end
   end

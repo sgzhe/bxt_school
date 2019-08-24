@@ -20,7 +20,7 @@ namespace :hgc do
             s.entranced_at = Date.parse(row[8].to_s.ljust(8, '01'))
             s.ic_card = row[10].to_s.rjust(10, '0')
             s.ic_card2 = row[9]
-            s.save
+            #s.save
           end
         end
       rescue

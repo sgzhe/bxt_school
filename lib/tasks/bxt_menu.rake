@@ -4,8 +4,8 @@ namespace :bxt do
 
     MenuItem.all.delete
     MenuItem.create title: '组织管理', icon: 'bubble_chart' do |m|
-      m.children.build title: '学院管理', path: 'colleges'
-      m.children.build title: '系部管理', path: 'departments'
+      m.children.build title: '院系管理', path: 'colleges'
+      m.children.build title: '专业管理', path: 'departments'
       m.children.build title: '班级管理', path: 'classrooms'
     end
     MenuItem.create title: '设施管理', icon: 'location_city' do |m|

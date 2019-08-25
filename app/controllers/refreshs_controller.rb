@@ -14,6 +14,7 @@ class RefreshsController < ApplicationController
   # end
 
   def create
+    p access_payload
     tokens = JWTSessions::Session.new(payload: access_payload).refresh(found_token)
     render json: tokens
   end

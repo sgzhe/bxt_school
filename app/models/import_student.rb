@@ -3,7 +3,7 @@ class ImportStudent
   attr_reader :data
 
   def initialize(opts = {})
-    p @data = opts
+    @data = opts
   end
 
   def save
@@ -33,7 +33,7 @@ class ImportStudent
     b.owner = s
     b.save
     s.name = @data[:name]
-    s.gender_mark = @data[:gendar] == '男' ? :male : :female
+    s.gender_mark = @data[:gender] == '男' ? :male : :female
     s.sno = @data[:sno]
     s.dorm = r
     s.bed_mark = @data[:bed]

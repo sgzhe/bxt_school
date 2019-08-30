@@ -144,8 +144,8 @@ class User
   end
 
   set_callback(:destroy, :before) do |doc|
+    doc.dorm && doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
     Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
-    doc.dorm &. doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
   end
 
 

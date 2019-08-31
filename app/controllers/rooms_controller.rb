@@ -4,7 +4,7 @@ class RoomsController < ApplicationController
   # GET /rooms
   # GET /rooms.json
   def index
-    parent_id = params[:parent_id] || params[:floor_id] || params[:house_id]
+    parent_id = params[:parent_id] || params[:facility_id] || params[:floor_id] || params[:house_id]
     opts = { parent_ids: parent_id && BSON::ObjectId(parent_id)}.delete_if {|key, value| value.blank?}
     opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
 

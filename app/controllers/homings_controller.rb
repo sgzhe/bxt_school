@@ -7,9 +7,9 @@ class HomingsController < ApplicationController
     org_id = BSON::ObjectId(params[:org_id]) unless params[:org_id].blank?
     facility_id = params[:dorm_id] || params[:floor_id] || params[:house_id] || params[:facility_id]
     facility_id = facility_id && BSON::ObjectId(facility_id)
-    opts = {
-        facility_ids: facility_id,
-        org_ids: org_id
+    opts = {facility_ids: facility_id,
+        org_ids: org_id,
+        direction_at_last: params[:direction]
     }.delete_if { |key, value| value.blank? }
     query = []
     unless params[:key].blank?
@@ -17,9 +17,7 @@ class HomingsController < ApplicationController
       query << { sno: /.*#{params[:key]}.*/ }
       query << { id_card: /.*#{params[:key]}.*/ }
     end
-    match = {facility_ids: facility_id,
-             org_ids: org_id}.delete_if { |key, value| value.blank? }
-    @direct_stats = Student.direct_stats(match)
+    @direct_stats = Student.direct_stats(opts)
     @homings = paginate(Student.includes(:dept, :dorm).where(opts).or(query))
   end
 

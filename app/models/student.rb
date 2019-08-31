@@ -16,6 +16,15 @@ class Student < User
     return status
   end
 
+  def self.direct_stats(opts = {})
+    status = {}
+    self.collection.aggregate([
+                                  {"$match" => opts.merge({"_type" => "Student"})},
+                                  { "$group" => { "_id" => "$direction_at_last", "count" => { "$sum" => 1 }}}
+                              ]).each { |s| status[s["_id"]] = s["count"] }
+    return status
+  end
+
   set_callback(:initialize, :before) do |doc|
     if doc.new_record?
       m = Student.order(face_id: -1).first.try(:face_id)

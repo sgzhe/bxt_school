@@ -76,7 +76,7 @@ class Tracker
         self.status = :days_in
       end
     end
-    self.status = :normal if HolidayMgr.instance.check(pass_time)
+    self.status = :normal unless HolidayMgr.instance.check(pass_time).blank?
   end
 
   set_callback(:save, :after) do |doc|

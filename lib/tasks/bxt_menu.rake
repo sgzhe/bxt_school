@@ -19,13 +19,14 @@ namespace :bxt do
       m.children.build title: '管理员', path: 'managers'
     end
     MenuItem.create title: '公寓管理', icon: 'track_changes' do |m|
-      m.children.build title: '仪表盘', path: 'dashboards'
       m.children.build title: '住宿统计', path: 'accommodations'
       m.children.build title: '归寝统计', path: 'homings'
       m.children.build title: '出入预警', path: 'incomings'
       m.children.build title: '异常记录', path: 'latecomers'
       m.children.build title: '门禁记录', path: 'trackers'
-
+    end
+    MenuItem.create title: '宿管管理', icon: 'dashboard' do |m|
+      m.children.build title: '仪表盘', path: 'dashboards'
       m.children.build title: '宿管考勤', path: 'attendances'
       m.children.build title: '调寝管理', path: 'exchanges'
     end

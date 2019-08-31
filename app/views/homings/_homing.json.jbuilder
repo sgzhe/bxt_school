@@ -1,0 +1,5 @@
+json.extract! homing, :id, :bed_mark, :dorm_id, :dept_id,
+              :dept_full_title, :dorm_full_title, :sno, :nationality,
+              :direction_at_last, :status_at_last, :pass_time_at_last, :overtime_at_last, :reside,
+              :role_ids, :group_ids, :name, :login, :gender_mark, :id_card, :ic_card, :tel, :face_id, :created_at, :updated_at
+json.avatar_url(homing.avatar.url)

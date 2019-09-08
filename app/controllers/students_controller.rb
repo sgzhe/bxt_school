@@ -5,7 +5,7 @@ class StudentsController < ApplicationController
   # GET /students.json
   def index
     org_id = params[:org_id]
-    facility_id = params[:dorm_id] || params[:floor_id] || params[:house_id] || params[:facility_id]
+    facility_id = params[:facility_id] || params[:dorm_id] || params[:floor_id] || params[:house_id]
     opts = {
       facility_ids: facility_id && BSON::ObjectId(facility_id),
       org_ids: org_id && BSON::ObjectId(org_id),

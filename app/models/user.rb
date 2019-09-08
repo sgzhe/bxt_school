@@ -141,13 +141,15 @@ class User
     if avatar_changed?
       add ||= Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
     end
+    if activated == false
+      doc.dorm && doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
+      Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
+    end
   end
 
   set_callback(:destroy, :before) do |doc|
     doc.dorm && doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
     Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
   end
-
-
 
 end

@@ -18,6 +18,7 @@ class TrackersController < ApplicationController
     unless params[:key].blank?
       query << { user_name: /.*#{params[:key]}.*/ }
       query << { user_sno: /.*#{params[:key]}.*/ }
+      query << { user_nationality: /.*#{params[:key]}.*/ }
     end
     @trackers = paginate(Tracker.where(opts).or(query))
   end

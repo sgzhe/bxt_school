@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :shifts
   resources :homings
   resources :holidays
   resources :doors

@@ -48,6 +48,7 @@ class Tracker
     doc.user_avatar_url = doc.user.avatar.url
     doc.user_org_ids = doc.user.org_ids
     doc.user_facility_ids = doc.user.facility_ids
+    doc.user_nationality = doc.user.nationality
   end
 
   def rev_reside

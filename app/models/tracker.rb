@@ -13,6 +13,7 @@ class Tracker
   field :user_dorm_title
   field :user_avatar_url
   field :user_sno
+  field :user_nationality
   field :access_ip
   field :face_id, type: Integer, default: 0
   field :user_org_ids, type: Array, default: []

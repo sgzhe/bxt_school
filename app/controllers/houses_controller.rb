@@ -1,5 +1,5 @@
 class HousesController < ApplicationController
-  # before_action :authorize_access_request!
+  before_action :authorize_access_request!
   before_action :set_house, only: [:show, :update, :destroy]
 
   # GET /houses

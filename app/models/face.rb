@@ -8,7 +8,7 @@ class Face
 
   set_callback(:initialize, :after) do |doc|
     if self.user
-      self.status = :add
+      self.status = :add if self.status == :normal
       self.access_ips = self.user.dorm.house_access_ips
       self.face_id = self.user.face_id
       self.facility_ids = self.user.facility_ids

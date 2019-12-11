@@ -6,6 +6,15 @@ class Face
   field :facility_ids, type: Array, default: []
   belongs_to :user, required: false
 
+  set_callback(:initialize, :after) do |doc|
+    if self.user
+      self.status = :add
+      self.access_ips = self.user.dorm.house_access_ips
+      self.face_id = self.user.face_id
+      self.facility_ids = self.user.facility_ids
+    end
+  end
+
   set_callback(:save, :before) do |doc|
     if doc.access_ips_changed?
       if doc.status == :add

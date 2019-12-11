@@ -35,6 +35,7 @@ class User
   field :access_ids_at_last, type: Array, default: []
   field :confirmed_at_last, type: Symbol, default: 'false'
   field :cause_at_last
+  field :face_id, type: Integer, default: 0
 
   field :org_ids, type: Array, default: []
   field :facility_ids, type: Array, default: []
@@ -145,6 +146,10 @@ class User
       doc.dorm && doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
       Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
     end
+  end
+
+  def send_face
+    Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
   end
 
   set_callback(:destroy, :before) do |doc|

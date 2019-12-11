@@ -21,6 +21,7 @@ class FacesController < ApplicationController
   # POST /faces
   # POST /faces.json
   def create
+
     @face = Face.new(face_params)
 
     if @face.save

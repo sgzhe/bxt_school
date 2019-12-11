@@ -2,7 +2,7 @@ class Student < User
   field :grade
   field :entranced_at, type: Date
   field :sno
-  field :face_id, type: Integer, default: 0
+
 
   validates :sno, uniqueness: { message: "is already taken." }
   validates :face_id, uniqueness: { message: "is already taken." }

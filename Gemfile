@@ -42,6 +42,7 @@ gem 'carrierwave-mongoid', require: 'carrierwave/mongoid'
 gem 'jwt'
 gem 'jwt_sessions'
 gem 'kaminari-mongoid'
+gem 'bson', '~> 4.5.0'
 gem 'mongoid', '~> 7.0'
 gem 'mongoid-tree', require: 'mongoid/tree'
 

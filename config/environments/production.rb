@@ -70,7 +70,7 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
-  logger = ActiveSupport::Logger.new("log/production.log", "daily")
+  logger = ActiveSupport::Logger.new("log/production.log")
   config.logger = ActiveSupport::TaggedLogging.new(logger)
   #config.logger = ActiveSupport::Logger.new(config.paths['log'].first, shift_age = 'daily')
 

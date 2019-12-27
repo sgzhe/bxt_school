@@ -1,4 +1,4 @@
-class ImgUploader < CarrierWave::Uploader::Base
+class FileUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -41,10 +41,7 @@ class ImgUploader < CarrierWave::Uploader::Base
 
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  def filename
-    if original_filename
-      @name ||= Digest::MD5.hexdigest(current_path)
-      "#{@name}.#{file.extension}"
-    end
-  end
+  # def filename
+  #   "something.jpg" if original_filename
+  # end
 end

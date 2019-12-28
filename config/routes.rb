@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  namespace :client do
+    resources :dicts
+    resources :incomings
+    resources :trackers
+    resources :latecomers
+    resources :students
+    resources :houses
+    resources :faces
+    resources :packages
+  end
   resources :packages
   resources :shifts
   resources :homings

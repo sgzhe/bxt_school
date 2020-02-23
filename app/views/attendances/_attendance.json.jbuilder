@@ -1,4 +1,3 @@
-json.extract! attendance, :month, :created_at, :updated_at
-json.user attendance.user, :id, :name
-json.attendances attendance.attendances, :day, :status
+json.extract! attendance, :id, :day, :user_name, :status, :on_duty_time,:off_duty_time, :created_at, :updated_at
+
 

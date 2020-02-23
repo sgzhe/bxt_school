@@ -9,6 +9,7 @@ class Tracker
   field :reside, type: Integer, default: 0
   field :overtime, type: Integer, default: 0
   field :user_name
+  field :access_full_title
   field :user_dept_title
   field :user_dorm_title
   field :user_avatar_url
@@ -37,19 +38,22 @@ class Tracker
     if doc.access
       doc.direction = doc.access.direction
       doc.access_ids = doc.access.parent_ids + [doc.access_id]
+      doc.access_full_title = doc.access.full_title
     end
   end
 
   set_callback(:save, :before) do |doc|
-    doc.rev_status
-    doc.user_name = doc.user.name
-    doc.user_sno = doc.user.sno
-    doc.user_dept_title = doc.user.dept_full_title
-    doc.user_dorm_title = doc.user.dorm_full_title
-    doc.user_avatar_url = doc.user.avatar.url
-    doc.user_org_ids = doc.user.org_ids
-    doc.user_facility_ids = doc.user.facility_ids
-    doc.user_nationality = doc.user.nationality
+    if doc.is_a?(Student)
+      doc.rev_status
+      doc.user_name = doc.user.name
+      doc.user_sno = doc.user.sno
+      doc.user_dept_title = doc.user.dept_full_title
+      doc.user_dorm_title = doc.user.dorm_full_title
+      doc.user_avatar_url = doc.user.avatar.url
+      doc.user_org_ids = doc.user.org_ids
+      doc.user_facility_ids = doc.user.facility_ids
+      doc.user_nationality = doc.user.nationality
+    end
   end
 
   def rev_reside
@@ -101,6 +105,18 @@ class Tracker
       comer.user_org_ids = doc.user.org_ids
       comer.user_facility_ids = doc.user.facility_ids
       comer.save
+    end
+  end
+
+  set_callback(:save, :after) do |doc|
+    unless doc.user.is_a?(Student)
+      now = DateTime.now
+      attendance = Attendance.find_or_initialize_by(user: doc.user, day: now.to_date)
+      p 'sgz-------------'
+      attendance.access = doc.access
+      p attendance.errors
+      p attendance.save
+
     end
   end
 

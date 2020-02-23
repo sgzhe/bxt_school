@@ -4,7 +4,16 @@ class AttendancesController < ApplicationController
   # GET /attendances
   # GET /attendances.json
   def index
-    @attendances = paginate(Attendance.all)
+    opts = {
+        access_ids: params[:access_id] && BSON::ObjectId(params[:access_id]),
+        :day.gte => params[:start_at],
+        :day.lte => params[:end_at]
+    }.delete_if { |key, value| value.blank? }
+    query = []
+    unless params[:key].blank?
+      query << { user_name: /.*#{params[:key]}.*/ }
+    end
+    @attendances = paginate(Attendance.where(opts).or(query))
   end
 
   # GET /attendances/1

@@ -6,7 +6,7 @@ class MenuItemMgr
   end
 
   def load
-    @menu_items = MenuItem.all.to_a
+    @menu_items = MenuItem.includes(:parent).all.to_a
   end
 
   alias reload load

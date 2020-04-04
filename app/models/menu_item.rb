@@ -9,4 +9,12 @@ class MenuItem
 
   has_many :permissions, as: :aco, class_name: 'Permission'
 
+  set_callback(:save, :after) do |doc|
+    MenuItemMgr.instance.reload
+  end
+
+  set_callback(:destroy, :after) do |doc|
+    MenuItemMgr.instance.reload
+  end
+
 end

@@ -36,5 +36,8 @@ module BxtSchool
     config.generators do |g|
       g.orm :mongoid
     end
+
+    config.action_cable.disable_request_forgery_protection = true
+    config.action_cable.url = "/cable"
   end
 end

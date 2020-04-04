@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   namespace :client do
     resources :dicts
     resources :incomings
@@ -8,6 +9,8 @@ Rails.application.routes.draw do
     resources :houses
     resources :faces
     resources :packages
+    resources :cards
+    resources :floors
   end
   resources :packages
   resources :shifts
@@ -21,6 +24,7 @@ Rails.application.routes.draw do
   resources :trackers
   resources :accommodations
   resources :accesses
+  resources :card_accesses
   resources :webcams
   resources :gates
   resources :gate_logs
@@ -43,6 +47,7 @@ Rails.application.routes.draw do
   resources :sessions
   resources :refreshs
   resources :faces
+  resources :cards
   resources :import_students
   resources :import_avatars
   resources :exchanges

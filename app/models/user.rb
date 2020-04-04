@@ -26,6 +26,8 @@ class User
 
   field :access_ips, type: Hash, default: {}
   field :access_status, type: Boolean, default: true
+  field :card_access_ips, type: Hash, default: {}
+  field :card_access_status, type: Boolean, default: true
 
   field :pre_back_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
   field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
@@ -59,6 +61,9 @@ class User
 
   #validates :sno, uniqueness: { message: "is already taken." }
 
+  def house
+    @house ||= HouseMgr.instance.find(facility_ids)
+  end
 
   def reside
     return 0 if pass_time_at_last.nil?
@@ -133,28 +138,37 @@ class User
     if dorm_id_changed? && avatar.url
       if changes['dorm_id'][0]
         old_room = Room.find(changes['dorm_id'][0])
-        Face.create(status: :delete, access_ips: old_room.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
-      end
-      if changes['dorm_id'][1]
-        add = Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+        if old_room.parent_id != dorm.parent_id
+          send_face(:delete, HouseMgr.instance.find(old_room.parent_id).try(:access_ips))
+          send_face(:add, HouseMgr.instance.find(dorm.parent_id).try(:access_ips))
+          send_card(:delete, HouseMgr.instance.find(old_room.parent_id).try(:card_access_ips))
+          send_card(:add, HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips))
+          add = true
+        end
       end
     end
     if avatar_changed?
-      add ||= Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+      add ||= send_face(:add, HouseMgr.instance.find(dorm.parent_id).try(:access_ips))
     end
     if activated == false
       doc.dorm && doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
       Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
+      Card.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
     end
   end
 
-  def send_face
-    Face.create(status: :add, access_ips: dorm.house_access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+  def send_face(status = :add, access_ips = {})
+    Face.create(status: status, access_ips: access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+  end
+
+  def send_card(status = :add, card_access_ips = {})
+    Card.create(status: status, card_access_ips: card_access_ips, user: self, id_card: self.id_card, facility_ids: self.facility_ids, house: self.house)
   end
 
   set_callback(:destroy, :before) do |doc|
     doc.dorm && doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
     Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
+    Card.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
   end
 
 end

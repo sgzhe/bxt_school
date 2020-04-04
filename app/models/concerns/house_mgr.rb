@@ -12,7 +12,7 @@ class HouseMgr
 
   alias reload load
 
-  def find(id)
-    @houses.find { |house| house.id.to_s == id.to_s }
+  def find(ids)
+    @houses.find { |house| Array(ids.map(&:to_s)).include?(house.id.to_s) }
   end
 end

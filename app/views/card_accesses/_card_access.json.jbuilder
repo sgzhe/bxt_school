@@ -1,0 +1,1 @@
+json.extract! card_access, :id, :mark, :title, :full_title, :ip, :direction, :parent_id, :status, :closing_at,  :created_at, :updated_at

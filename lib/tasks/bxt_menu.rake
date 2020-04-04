@@ -32,6 +32,7 @@ namespace :bxt do
     end
     MenuItem.create title: '设备管理', icon: 'settings_remote' do |m|
       m.children.build title: '人脸门禁', path: 'accesses'
+      m.children.build title: 'ID卡门禁', path: 'card_accesses'
       m.children.build title: '闸机管理', path: 'gates'
       m.children.build title: '摄像机管理', path: 'webcams'
       m.children.build title: '录像机管理', path: 'video-recorders'

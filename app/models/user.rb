@@ -51,6 +51,7 @@ class User
   has_and_belongs_to_many :groups, class_name: 'Group', inverse_of: nil
   has_many :trackers, class_name: 'Tracker', dependent: :delete_all
   has_many :latecomer, class_name: 'Latecomer', dependent: :delete_all
+  has_and_belongs_to_many :chats, inverse_of: nil
 
   delegate :full_title, to: :dept, prefix: :dept, allow_nil: true
   delegate :full_title, to: :dorm, prefix: :dorm, allow_nil: true

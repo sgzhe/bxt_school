@@ -38,6 +38,6 @@ module BxtSchool
     end
 
     config.action_cable.disable_request_forgery_protection = true
-    config.action_cable.url = "/cable"
+    config.action_cable.mount_path = "/cable"
   end
 end

@@ -1,5 +1,6 @@
 class ChatChannel < ApplicationCable::Channel
   def subscribed
+    stop_all_streams
       stream_from "chat_1"
   end
 

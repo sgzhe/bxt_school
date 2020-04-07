@@ -2,7 +2,7 @@ class Card
   include ModelBase
   field :status, type: Symbol, default: :normal #:delete, add
   field :card_access_ips, type: Hash, default: {}
-  field :id_card, type: String, default: 0
+  field :ic_card, type: String, default: 0
   field :facility_ids, type: Array, default: []
   belongs_to :user, required: false
   belongs_to :house, required: false
@@ -11,7 +11,7 @@ class Card
     if doc.user
       doc.status = :add if doc.status == :normal
       doc.card_access_ips = doc.user.house.card_access_ips if doc.card_access_ips.blank?
-      doc.id_card = doc.user.id_card
+      doc.ic_card = doc.user.ic_card
       doc.facility_ids = doc.user.facility_ids
     end
   end

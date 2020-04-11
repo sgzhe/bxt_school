@@ -175,6 +175,7 @@ production:
         roles:
           - 'dbOwner'
         auth_mech: :scram
+        auth_source: admin
         read:
           mode: :primary
         max_pool_size: 10

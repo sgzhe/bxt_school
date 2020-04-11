@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   namespace :client do
     resources :dicts
     resources :incomings
@@ -11,6 +10,7 @@ Rails.application.routes.draw do
     resources :packages
     resources :cards
     resources :floors
+    resources :colleges
   end
   resources :packages
   resources :shifts

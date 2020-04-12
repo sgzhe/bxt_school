@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   # POST /sessions.json
   def create
-    user = User.or({login: params[:username]}, {sno: params[:username]}).first
+    user = User.where('$and' => [{'$or' => [{login: params[:username]}, {sno: params[:username]}]}]).first
     if user&.authenticate(params[:password])
       payload = { user_id: user.id }
       refresh_payload = { user_id: user.id }

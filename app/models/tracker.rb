@@ -46,7 +46,7 @@ class Tracker
   end
 
   set_callback(:save, :before) do |doc|
-    if doc.is_a?(Student)
+    if doc.user.is_a?(Student)
       doc.rev_status
       doc.user_name = doc.user.name
       doc.user_sno = doc.user.sno
@@ -115,10 +115,8 @@ class Tracker
     unless doc.user.is_a?(Student)
       now = DateTime.now
       attendance = Attendance.find_or_initialize_by(user: doc.user, day: now.to_date)
-      p 'sgz-------------'
       attendance.access = doc.access
-      p attendance.errors
-      p attendance.save
+      attendance.save
 
     end
   end

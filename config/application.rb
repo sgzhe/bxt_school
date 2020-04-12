@@ -39,6 +39,13 @@ module BxtSchool
       g.orm :mongoid
     end
 
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get, :post, :options]
+      end
+    end
+
     config.action_cable.disable_request_forgery_protection = true
     config.action_cable.mount_path = "/cable"
   end

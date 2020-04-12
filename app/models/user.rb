@@ -54,11 +54,11 @@ class User
   has_and_belongs_to_many :chats, inverse_of: nil
 
   def dept_full_title
-    dept.full_title
+    dept.try(:full_title)
   end
 
   def dorm_full_title
-    dorm.full_title
+    dorm.try(:full_title)
   end
 
   scope :app, -> { where(datatype: :app) }

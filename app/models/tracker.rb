@@ -20,6 +20,7 @@ class Tracker
   field :user_org_ids, type: Array, default: []
   field :user_facility_ids, type: Array, default: []
   field :access_ids, type: Array, default: []
+  field :ic_card
 
   belongs_to :access, required: false
   belongs_to :user, required: false
@@ -32,7 +33,7 @@ class Tracker
   index({ access_ids: 1 }, { background: true })
 
   set_callback(:initialize, :after) do |doc|
-    doc.user ||= User.find_by(face_id: doc.face_id.to_i)
+    doc.user ||= User.and('$or' => [{face_id: doc.face_id.to_i}, {ic_card: doc.ic_card}]).first
     if doc.user
       doc.user_org_ids = doc.user.org_ids
       doc.user_facility_ids = doc.user.facility_ids
@@ -46,10 +47,10 @@ class Tracker
   end
 
   set_callback(:save, :before) do |doc|
-    if doc.user.is_a?(Student)
+    if doc.user
       doc.rev_status
       doc.user_name = doc.user.name
-      doc.user_sno = doc.user.sno
+      doc.user_sno = doc.user.try(:sno)
       doc.user_dept_title = doc.user.dept_full_title
       doc.user_dorm_title = doc.user.dorm_full_title
       doc.user_avatar_url = doc.user.avatar.url

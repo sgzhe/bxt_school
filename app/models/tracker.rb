@@ -29,7 +29,7 @@ class Tracker
   default_scope -> { order_by(pass_time: -1) }
 
   index({ pass_time: -1 }, { background: true })
-  index({ user_org_ids: 1 }, { background: true })
+  index({ access_ids: 1 }, { background: true })
 
   set_callback(:initialize, :after) do |doc|
     doc.user ||= User.find_by(face_id: doc.face_id.to_i)

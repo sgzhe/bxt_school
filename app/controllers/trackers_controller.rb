@@ -20,7 +20,7 @@ class TrackersController < ApplicationController
       query << { user_sno: /.*#{params[:key]}.*/ }
       query << { user_nationality: /.*#{params[:key]}.*/ }
     end
-    @trackers = paginate(Tracker.where(opts).or(query))
+    @trackers = paginate(Tracker.where(opts).and('$or' => [query]))
   end
 
   # GET /trackers/1

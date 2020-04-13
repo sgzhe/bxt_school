@@ -18,7 +18,7 @@ class HomingsController < ApplicationController
       query << { id_card: /.*#{params[:key]}.*/ }
     end
     @direct_stats = Student.direct_stats(opts)
-    @homings = paginate(Student.includes(:dept, :dorm).where(opts).and('$or' => [query]))
+    @homings = paginate(Student.includes(:dept, :dorm).where(opts).and('$or' => query))
   end
 
   # GET /homings/1

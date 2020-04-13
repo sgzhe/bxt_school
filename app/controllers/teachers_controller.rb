@@ -10,7 +10,7 @@ class TeachersController < ApplicationController
       query << { sno: /.*#{params[:key]}.*/ }
       query << { id_card: /.*#{params[:key]}.*/ }
     end
-    @teachers = paginate(Teacher.or(query))
+    @teachers = paginate(Teacher.and('$or' => query))
   end
 
   # GET /teachers/1

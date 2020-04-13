@@ -26,9 +26,8 @@ class Client::IncomingsController < ApplicationController
              org_ids: org_id}.delete_if { |key, value| value.blank? }
     @status_stats = Student.status_stats(match)
     @users = paginate(Student.includes(:dept, :dorm).where(opts).and(
-      Student.or({ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }, { :pass_time_at_last.lte => 1.days.ago }).selector,
-      Student.or(query).selector
-    ).order_by(pass_time_at_last: -1))
+        '$or' => [{ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }, { :pass_time_at_last.lte => 1.days.ago }, query],
+        ).order_by(pass_time_at_last: -1))
 
   end
 

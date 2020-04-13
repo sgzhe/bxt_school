@@ -4,7 +4,12 @@ class ManagersController < ApplicationController
   # GET /managers
   # GET /managers.json
   def index
-    @managers = paginate(Manager.app)
+    query = []
+    unless params[:key].blank?
+      query << { name: /.*#{params[:key]}.*/ }
+    end
+    query << {} if query.blank?
+    @managers = paginate(Manager.app.and('$or' => query))
   end
 
   # GET /managers/1

@@ -13,7 +13,8 @@ class AttendancesController < ApplicationController
     unless params[:key].blank?
       query << { user_name: /.*#{params[:key]}.*/ }
     end
-    @attendances = paginate(Attendance.where(opts).and('$or' => query))
+    query << {} if query.blank?
+    @attendances = paginate(Attendance.where(opts).and('$or': query))
   end
 
   # GET /attendances/1

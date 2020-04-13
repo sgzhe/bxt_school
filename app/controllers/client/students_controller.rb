@@ -16,8 +16,8 @@ class Client::StudentsController < ApplicationController
       query << { sno: /.*#{params[:key]}.*/ }
       query << { id_card: /.*#{params[:key]}.*/ }
     end
-
-    @students = paginate(Student.includes(:dept, :dorm).where(opts).and("$or" => query).order(id: -1))
+    query << {} if query.blank?
+    @students = paginate(Student.includes(:dept, :dorm).where(opts).and("$or": query).order(id: -1))
   end
 
   # GET /students/1

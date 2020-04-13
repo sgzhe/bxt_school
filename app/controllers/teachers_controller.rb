@@ -10,6 +10,7 @@ class TeachersController < ApplicationController
       query << { sno: /.*#{params[:key]}.*/ }
       query << { id_card: /.*#{params[:key]}.*/ }
     end
+    query << {} if query.blank?
     @teachers = paginate(Teacher.and('$or' => query))
   end
 

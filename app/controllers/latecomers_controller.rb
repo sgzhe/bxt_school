@@ -19,7 +19,8 @@ class LatecomersController < ApplicationController
       query << { user_name: /.*#{params[:key]}.*/ }
       query << { user_sno: /.*#{params[:key]}.*/ }
     end
-    @latecomers = paginate(Latecomer.where(opts).and("$or" => query))
+    query << {} if query.blank?
+    @latecomers = paginate(Latecomer.where(opts).and("$or": query))
   end
 
   # GET /latecomers/1

@@ -14,7 +14,7 @@ class Room < Facility
 
   def house_access_ips
     as = {}
-    ips = Access.where(:parent_id.in => self.parent_ids).map(&:ip).delete_if { |k| k.blank? }
+    ips = FaceAccess.where(:parent_id.in => self.parent_ids).map(&:ip).delete_if { |k| k.blank? }
     ips.each do |ip|
       as[ip.tr('.', '-')] = 0
     end

@@ -1,4 +1,4 @@
-class AccessesController < ApplicationController
+class FaceAccessesController < ApplicationController
   before_action :set_access, only: [:show, :update, :destroy]
 
   # GET /accesses
@@ -9,7 +9,7 @@ class AccessesController < ApplicationController
         parent_ids: parent_id && BSON::ObjectId(parent_id)
     }.delete_if {|key, value| value.blank?}
     opts[:title] = /.*#{params[:key]}.*/ unless params[:key].blank?
-    @accesses = paginate(Access.where(opts))
+    @face_accesses = paginate(FaceAccess.where(opts))
   end
 
   # GET /accesses/1
@@ -20,29 +20,29 @@ class AccessesController < ApplicationController
   # POST /accesses
   # POST /accesses.json
   def create
-    @access = Access.new(access_params)
+    @face_access = FaceAccess.new(access_params)
 
-    if @access.save
-      render :show, status: :created, location: @access
+    if @face_access.save
+      render :show, status: :created, location: @face_access
     else
-      render json: @access.errors, status: :unprocessable_entity
+      render json: @face_access.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /accesses/1
   # PATCH/PUT /accesses/1.json
   def update
-    if @access.update(access_params)
-      render :show, status: :ok, location: @access
+    if @face_access.update(access_params)
+      render :show, status: :ok, location: @face_access
     else
-      render json: @access.errors, status: :unprocessable_entity
+      render json: @face_access.errors, status: :unprocessable_entity
     end
   end
 
   # DELETE /accesses/1
   # DELETE /accesses/1.json
   def destroy
-    @access.destroy
+    @face_access.destroy
   end
 
   private
@@ -50,15 +50,15 @@ class AccessesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_access
     unless params[:ip].blank?
-      @access = Access.find_by(ip: params[:ip])
+      @face_access = FaceAccess.find_by(ip: params[:ip])
     else   
-      @access = Access.find(params[:id])   
+      @face_access = FaceAccess.find(params[:id])
     end 
 
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def access_params
-    params.fetch(:access, {}).permit!
+    params.fetch(:face_access, {}).permit!
   end
 end

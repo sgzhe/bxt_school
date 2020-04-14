@@ -1,0 +1,3 @@
+class FaceAccess < Access
+
+end

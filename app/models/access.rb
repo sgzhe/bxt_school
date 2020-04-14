@@ -7,10 +7,9 @@ class Access < Facility
   field :status
   field :mark
 
-  belongs_to :house, class_name: 'House', foreign_key: :parent_id, inverse_of: :floors, required: false
+  belongs_to :house, class_name: 'House', foreign_key: :parent_id, inverse_of: :accesses, required: false
 
   def self.ips(facility_id)
-    Access.where(parent_ids: facility_id).map(&:ip).delete_if { |k, v| v.blank?}
+    self.where(parent_ids: facility_id).map(&:ip).delete_if { |k, v| v.blank?}
   end
-
 end

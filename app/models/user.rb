@@ -157,9 +157,9 @@ class User
       add ||= send_face(:add, HouseMgr.instance.find(dorm.parent_id).try(:access_ips))
     end
     if activated == false
-      doc.dorm && doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
-      Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
-      Card.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
+      dorm && dorm.check_out(user_id: id, bed_mark: bed_mark)
+      Face.where(:status.in => [:add, :added], user: self).update_all(status: :delete)
+      Card.where(:status.in => [:add, :added], user: self).update_all(status: :delete)
     end
   end
 

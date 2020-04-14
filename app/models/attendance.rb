@@ -11,7 +11,7 @@ class Attendance
 
   belongs_to :shift, required: false
   belongs_to :user
-  belongs_to :access
+  belongs_to :face_access
 
   set_callback(:save, :before) do |doc|
     now = DateTime.now
@@ -22,7 +22,7 @@ class Attendance
       doc.off_duty_time = now
     end
     doc.user_name = doc.user.name
-    doc.access_title = doc.access.full_title
-    doc.access_ids = doc.access.parent_ids + [access.id]
+    doc.access_title = doc.face_access.full_title
+    doc.access_ids = doc.face_access.parent_ids + [access.id]
   end
 end

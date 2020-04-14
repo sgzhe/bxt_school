@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources :incomings
   resources :trackers
   resources :accommodations
-  resources :accesses
+  resources :face_accesses
   resources :card_accesses
   resources :webcams
   resources :gates

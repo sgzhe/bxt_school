@@ -32,22 +32,7 @@ class Tracker
   index({ pass_time: -1 }, { background: true })
   index({ access_ids: 1 }, { background: true })
 
-  set_callback(:initialize, :after) do |doc|
-    doc.user ||= User.and('$or' => [{face_id: doc.face_id.to_i}, {ic_card: doc.ic_card}]).first
-    if doc.user
-      doc.user_org_ids = doc.user.org_ids
-      doc.user_facility_ids = doc.user.facility_ids
-    end
-    doc.access ||= Access.find_by(ip: doc.access_ip)
-    if doc.access
-      doc.direction = doc.access.direction
-      doc.access_ids = doc.access.parent_ids + [doc.access_id]
-      doc.access_full_title = doc.access.full_title
-    end
-  end
-
   set_callback(:save, :before) do |doc|
-    if doc.user
       doc.rev_status
       doc.user_name = doc.user.name
       doc.user_sno = doc.user.try(:sno)
@@ -57,7 +42,12 @@ class Tracker
       doc.user_org_ids = doc.user.org_ids
       doc.user_facility_ids = doc.user.facility_ids
       doc.user_nationality = doc.user.nationality
-    end
+      doc.user_org_ids = doc.user.org_ids
+
+      doc.direction = doc.access.direction
+      doc.access_ids = doc.access.parent_ids + [doc.access_id]
+      doc.access_full_title = doc.access.full_title
+
   end
 
   def rev_reside
@@ -112,14 +102,6 @@ class Tracker
     end
   end
 
-  set_callback(:save, :after) do |doc|
-    unless doc.user.is_a?(Student)
-      now = DateTime.now
-      attendance = Attendance.find_or_initialize_by(user: doc.user, day: now.to_date)
-      attendance.access = doc.access
-      attendance.save
 
-    end
-  end
 
 end

@@ -21,6 +21,7 @@ class Tracker
   field :user_facility_ids, type: Array, default: []
   field :access_ids, type: Array, default: []
   field :ic_card
+  field :access_mark
 
   belongs_to :access, required: false
   belongs_to :user, required: false

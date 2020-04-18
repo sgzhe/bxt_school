@@ -32,7 +32,7 @@ class TrackersController < ApplicationController
   # POST /trackers
   # POST /trackers.json
   def create
-    @tracker = Guard.create(tracker_params)
+    @tracker =  Guard.create(tracker_params)
 
     if @tracker.save
       render :show, status: :created, location: @tracker

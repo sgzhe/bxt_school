@@ -7,7 +7,7 @@ class House < Facility
 
   def access_ips
     ips = {}
-    self.face_accesses.map do |acc|
+    self.face_accesses.uniq.map do |acc|
       ips[acc.ip.tr('.', '-')] = 0 unless acc.ip.blank?
     end
     ips
@@ -16,7 +16,7 @@ class House < Facility
   def card_access_ips
     ips = {}
     self.card_accesses.map do |acc|
-      ips["#{acc.ip.tr('.', '-')}@#{acc.mark}"] = 0 unless acc.ip.blank?
+      ips["#{acc.ip.tr('.', '-')}"] = 0 unless acc.ip.blank?
     end
     ips
   end

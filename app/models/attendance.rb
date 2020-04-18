@@ -8,10 +8,11 @@ class Attendance
   field :user_name
   field :access_title
   field :access_ids, type: Array
+  field :pass_time, type: DateTime, default: -> {DateTime.now}
 
   belongs_to :shift, required: false
   belongs_to :user
-  belongs_to :face_access
+  belongs_to :access, required: false
 
   set_callback(:save, :before) do |doc|
     now = DateTime.now
@@ -22,7 +23,10 @@ class Attendance
       doc.off_duty_time = now
     end
     doc.user_name = doc.user.name
-    doc.access_title = doc.face_access.full_title
-    doc.access_ids = doc.face_access.parent_ids + [access.id]
+    if doc.access
+      doc.access_title = doc.access.try(:full_title)
+      doc.access_ids = doc.access.try(:parent_ids) + [access.try(:id)]
+    end
+
   end
 end

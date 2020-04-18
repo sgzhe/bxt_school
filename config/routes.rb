@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     resources :cards
     resources :floors
     resources :colleges
+    resources :face_accesses
+    resources :card_accesses
   end
   resources :packages
   resources :shifts

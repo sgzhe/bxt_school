@@ -1,1 +1,1 @@
-json.partial! "accesses/access", face_access: @face_access
+json.partial! "face_accesses/face_access", face_access: @face_access

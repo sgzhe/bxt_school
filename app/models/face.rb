@@ -4,6 +4,7 @@ class Face
   field :access_ips, type: Hash, default: {}
   field :face_id, type: Integer, default: 0
   field :facility_ids, type: Array, default: []
+  field :access_mark
   belongs_to :user, required: false
 
   set_callback(:initialize, :after) do |doc|

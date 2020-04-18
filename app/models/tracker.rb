@@ -34,7 +34,6 @@ class Tracker
   index({ access_ids: 1 }, { background: true })
 
   set_callback(:save, :before) do |doc|
-      doc.rev_status
       doc.user_name = doc.user.name
       doc.user_sno = doc.user.try(:sno)
       doc.user_dept_title = doc.user.dept_full_title
@@ -45,10 +44,12 @@ class Tracker
       doc.user_nationality = doc.user.nationality
       doc.user_org_ids = doc.user.org_ids
 
-      doc.direction = doc.access.direction
-      doc.access_ids = doc.access.parent_ids + [doc.access_id]
-      doc.access_full_title = doc.access.full_title
-
+      if doc.access
+        doc.rev_status
+        doc.direction = doc.access.direction
+        doc.access_ids = doc.access.parent_ids + [doc.access_id]
+        doc.access_full_title = doc.access.full_title
+      end
   end
 
   def rev_reside
@@ -100,6 +101,11 @@ class Tracker
       comer.user_org_ids = doc.user.org_ids
       comer.user_facility_ids = doc.user.facility_ids
       comer.save
+    end
+    if user.is_a? Manager
+      attendance = Attendance.find_or_initialize_by(user: doc.user, day:  DateTime.now.to_date)
+      attendance.access = doc.access
+      attendance.save
     end
   end
 

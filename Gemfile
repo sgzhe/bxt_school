@@ -46,5 +46,5 @@ gem 'bson', '~> 4.5.0'
 gem 'mongoid', '~> 7.0'
 gem 'mongoid-tree', require: 'mongoid/tree'
 
-gem 'pg'
+#gem 'pg'
 gem "roo", "~> 2.8.0"

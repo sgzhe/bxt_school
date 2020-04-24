@@ -26,10 +26,10 @@ class Card
         doc.status = :deleted if doc.card_access_ips.any? { |k, v| v == -1 }
       end
 
-      if doc.status == :add || doc.status = :deleted
-        doc.user.card_access_status = false
-        doc.user.save
-      end
+      # if doc.status == :add || doc.status = :deleted
+      #   doc.user.card_access_status = false
+      #   doc.user.save
+      # end
     end
   end
 

@@ -156,10 +156,11 @@ class User
     if avatar_changed?
       add ||= send_face(:add, HouseMgr.instance.find(dorm.parent_id).try(:access_ips))
     end
-    if activated == false
-      dorm && dorm.check_out(user_id: id, bed_mark: bed_mark)
-      Face.where(:status.in => [:add, :added], user: self).update_all(status: :delete)
-      Card.where(:status.in => [:add, :added], user: self).update_all(status: :delete)
+    if ic_card_changed?
+      if changes['ic_card'][0]
+        self.send_card(:delete, HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips))
+      end
+      send_card(:add, HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips))
     end
   end
 
@@ -168,7 +169,7 @@ class User
   end
 
   def send_card(status = :add, card_access_ips = {})
-    Card.create(status: status, card_access_ips: card_access_ips, user: self, id_card: self.id_card, facility_ids: self.facility_ids, house: self.house)
+    Card.create(status: status, card_access_ips: card_access_ips, user: self, ic_card: self.ic_card, facility_ids: self.facility_ids, house: self.house)
   end
 
   set_callback(:destroy, :before) do |doc|

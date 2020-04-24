@@ -48,5 +48,7 @@ module BxtSchool
 
     config.action_cable.disable_request_forgery_protection = true
     config.action_cable.mount_path = "/cable"
+
+    #config.hosts << "cb62e998.ngrok.io"
   end
 end

@@ -2,7 +2,6 @@ class Guard
 
   def self.create(attrs)
     user = User.and('$or' => [{face_id: attrs[:face_id].to_i}, {ic_card: attrs[:face_id].to_s}]).first
-    p user
     if attrs[:access_mark].blank?
       access = FaceAccess.where(ip: attrs[:access_ip]).first
     else

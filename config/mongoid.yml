@@ -168,7 +168,7 @@ production:
     default:
       database: bxt_school_development
       hosts:
-        - localhost:27017
+        - 10.200.2.249:27017
       options:
         user: 'school'
         password: 'hgc@bxt2020'

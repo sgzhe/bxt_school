@@ -158,9 +158,9 @@ class User
     end
     if ic_card_changed?
       if changes['ic_card'][0]
-        self.send_card(:delete, HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips))
+        Card.create(status: :delete, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: changes['ic_card'][0], facility_ids: self.facility_ids, house: self.house)
       end
-      send_card(:add, HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips))
+      Card.create(status: :add, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: changes['ic_card'][1], facility_ids: self.facility_ids, house: self.house)
     end
   end
 

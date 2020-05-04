@@ -3,6 +3,6 @@ class Package
   field :ver, type: String
   mount_uploader :patch, AvatarUploader
 
-  default_scope -> { order_by(id: -1) }
+  default_scope -> { order_by(ver: -1) }
 
 end

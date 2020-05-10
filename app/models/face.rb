@@ -11,7 +11,7 @@ class Face
     if self.user
       self.status = :add if self.status == :normal
       self.access_ips = self.user.dorm.house_access_ips
-      self.face_id = self.user.face_id
+      self.face_id = self.user.try(:face_id)
       self.facility_ids = self.user.facility_ids
     end
   end

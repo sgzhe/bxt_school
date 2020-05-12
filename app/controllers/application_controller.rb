@@ -15,7 +15,11 @@ class ApplicationController < ActionController::API
       total_count: resource.total_count }
   end
 
-  helper_method :paginate_meta
+  def base_url
+    "#{request.protocol}#{request.host_with_port}"
+  end
+
+  helper_method :paginate_meta, :base_url
 
   private
   def current_user

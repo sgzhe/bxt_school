@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
   end
 
   def base_url
-    "#{request.protocol}#{request.host_with_port}"
+    "#{request.protocol}#{request.host}:3000"
   end
 
   helper_method :paginate_meta, :base_url

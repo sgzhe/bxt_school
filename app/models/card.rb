@@ -5,7 +5,7 @@ class Card
   field :ic_card, type: String, default: 0
   field :facility_ids, type: Array, default: []
   belongs_to :user
-  belongs_to :house
+  belongs_to :house, required: false
 
   set_callback(:initialize, :after) do |doc|
     if doc.user
@@ -27,6 +27,10 @@ class Card
         doc.status = :deleted if doc.card_access_ips.any? { |k, v| v == -1 }
       end
 
+      # if doc.status == :add || doc.status = :deleted
+      #   doc.user.card_access_status = false
+      #   doc.user.save
+      # end
     end
   end
 

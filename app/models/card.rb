@@ -10,8 +10,8 @@ class Card
   set_callback(:initialize, :after) do |doc|
     if doc.user
       doc.status = :add if doc.status == :normal
-      doc.house = doc.user.house if doc.house_id.blank?
-      doc.card_access_ips = doc.user.house.try(:card_access_ips) if doc.card_access_ips.blank?
+      doc.house ||= doc.user.house
+      doc.card_access_ips = doc.house.try(:card_access_ips)
       doc.ic_card = doc.user.try(:ic_card)
       doc.facility_ids = doc.user.facility_ids
     end

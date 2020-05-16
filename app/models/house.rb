@@ -3,7 +3,7 @@ class House < Facility
 
   has_many :floors, class_name: 'Floor', foreign_key: :parent_id, inverse_of: :house, validate: false, dependent: :restrict_with_exception
   has_many :card_accesses, class_name: 'CardAccess', foreign_key: :parent_id, inverse_of: :house, validate: false, dependent: :restrict_with_exception
-  has_many :face_accesses, class_name: 'Access', foreign_key: :parent_id, inverse_of: :house, validate: false, dependent: :restrict_with_exception
+  has_many :face_accesses, class_name: 'FaceAccess', foreign_key: :parent_id, inverse_of: :house, validate: false, dependent: :restrict_with_exception
 
   def access_ips
     ips = {}

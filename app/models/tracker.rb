@@ -24,32 +24,32 @@ class Tracker
   field :access_mark
 
   belongs_to :access, required: false
-  belongs_to :user
+  belongs_to :user, required: false
 
   mount_base64_uploader :snapshot, ImgUploader
 
-  default_scope -> { order_by(pass_time: -1) }
+  default_scope -> {order_by(pass_time: -1)}
 
-  index({ pass_time: -1 }, { background: true })
-  index({ access_ids: 1 }, { background: true })
+  index({pass_time: -1}, {background: true})
+  index({access_ids: 1}, {background: true})
 
   set_callback(:save, :before) do |doc|
-      doc.user_name = doc.user.name
-      doc.user_sno = doc.user.try(:sno)
-      doc.user_dept_title = doc.user.dept_full_title
-      doc.user_dorm_title = doc.user.dorm_full_title
-      doc.user_avatar_url = doc.user.avatar.url
-      doc.user_org_ids = doc.user.org_ids
-      doc.user_facility_ids = doc.user.facility_ids
-      doc.user_nationality = doc.user.nationality
-      doc.user_org_ids = doc.user.org_ids
+    doc.user_name = doc.user.try(:name)
+    doc.user_sno = doc.user.try(:sno)
+    doc.user_dept_title = doc.user.try(:dept_full_title)
+    doc.user_dorm_title = doc.user.try(:dorm_full_title)
+    doc.user_avatar_url = doc.user.try(:avatar).try(:url)
+    doc.user_org_ids = doc.user.try(:org_ids)
+    doc.user_facility_ids = doc.user.try(:facility_ids)
+    doc.user_nationality = doc.user.try(:nationality)
+    doc.user_org_ids = doc.user.try(:org_ids)
 
-      if doc.access
-        doc.rev_status
-        doc.direction = doc.access.direction
-        doc.access_ids = doc.access.parent_ids + [doc.access_id]
-        doc.access_full_title = doc.access.full_title
-      end
+    if doc.access
+      doc.rev_status if user
+      doc.direction = doc.access.direction
+      doc.access_ids = doc.access.parent_ids + [doc.access_id]
+      doc.access_full_title = doc.access.full_title
+    end
   end
 
   def rev_reside
@@ -82,33 +82,34 @@ class Tracker
   end
 
   set_callback(:save, :after) do |doc|
-    user.update(status_at_last: doc.status,
-                pre_back_at_last: doc.pass_time.at_beginning_of_day + 1770.minutes,
-                pass_time_at_last: doc.pass_time,
-                direction_at_last: doc.direction,
-                overtime_at_last: doc.overtime,
-                access_at_last: doc.access,
-                access_ids_at_last: doc.access_ids)
+    if user
+      user.update(status_at_last: doc.status,
+                  pre_back_at_last: doc.pass_time.at_beginning_of_day + 1770.minutes,
+                  pass_time_at_last: doc.pass_time,
+                  direction_at_last: doc.direction,
+                  overtime_at_last: doc.overtime,
+                  access_at_last: doc.access,
+                  access_ids_at_last: doc.access_ids)
 
-    if [:back_late, :days_in, :days_out].include?(doc.status.try(:to_sym))
-      comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
-      comer.direction = doc.direction
-      comer.status = doc.status
-      comer.overtime = doc.overtime
-      comer.reside = doc.reside
-      comer.pass_time = doc.pass_time
-      comer.access_ids = doc.access_ids
-      comer.user_org_ids = doc.user.org_ids
-      comer.user_facility_ids = doc.user.facility_ids
-      comer.save
-    end
-    if user.is_a? Manager
-      attendance = Attendance.find_or_initialize_by(user: doc.user, day:  DateTime.now.to_date)
-      attendance.access = doc.access
-      attendance.save
+      if [:back_late, :days_in, :days_out].include?(doc.status.try(:to_sym))
+        comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
+        comer.direction = doc.direction
+        comer.status = doc.status
+        comer.overtime = doc.overtime
+        comer.reside = doc.reside
+        comer.pass_time = doc.pass_time
+        comer.access_ids = doc.access_ids
+        comer.user_org_ids = doc.user.org_ids
+        comer.user_facility_ids = doc.user.facility_ids
+        comer.save
+      end
+      if user.is_a? Manager
+        attendance = Attendance.find_or_initialize_by(user: doc.user, day: DateTime.now.to_date)
+        attendance.access = doc.access
+        attendance.save
+      end
     end
   end
-
 
 
 end

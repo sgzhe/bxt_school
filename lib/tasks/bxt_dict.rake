@@ -29,6 +29,7 @@ namespace :bxt do
       d.dict_items.build(mark: 'days_in', title: '多日未出', color: 'red')
       d.dict_items.build(mark: 'days_out', title: '多日未归', color: 'purple')
       d.dict_items.build(mark: 'normal', title: '正常', color: '')
+      d.dict_items.build(mark: 'illegal', title: '非法', color: '')
     end
 
     Dict.create mark: 'dorm_type', title: '寝室类型' do |d|

@@ -10,8 +10,9 @@ class Guard
 
     tracker = Tracker.new(attrs)
     tracker.user = user
+    tracker.status = :illegal unless user
     tracker.access = access
-    return tracker
+    return tracker.save
   end
 
 end

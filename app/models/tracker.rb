@@ -34,6 +34,7 @@ class Tracker
   index({access_ids: 1}, {background: true})
 
   set_callback(:save, :before) do |doc|
+    doc.status = :illegal unless user
     doc.user_name = doc.user.try(:name)
     doc.user_sno = doc.user.try(:sno)
     doc.user_dept_title = doc.user.try(:dept_full_title)
@@ -53,7 +54,7 @@ class Tracker
   end
 
   def rev_reside
-    ((pass_time - user.pass_time_at_last).to_f * 24).to_i
+    user ? ((pass_time - user.pass_time_at_last).to_f * 24).to_i : 0
   end
 
   def rev_status
@@ -79,7 +80,6 @@ class Tracker
       end
     end
     self.status = :normal unless HolidayMgr.instance.check(pass_time).blank?
-    self.status = :illegal unless user
   end
 
   set_callback(:save, :after) do |doc|

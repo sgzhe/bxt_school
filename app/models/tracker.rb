@@ -34,6 +34,7 @@ class Tracker
   index({access_ids: 1}, {background: true})
 
   set_callback(:save, :before) do |doc|
+    doc.status = :illegal unless user
     doc.user_name = doc.user.try(:name)
     doc.user_sno = doc.user.try(:sno)
     doc.user_dept_title = doc.user.try(:dept_full_title)
@@ -53,7 +54,7 @@ class Tracker
   end
 
   def rev_reside
-    ((pass_time - user.pass_time_at_last).to_f * 24).to_i
+    user ? ((pass_time - user.pass_time_at_last).to_f * 24).to_i : 0
   end
 
   def rev_status
@@ -90,8 +91,9 @@ class Tracker
                   overtime_at_last: doc.overtime,
                   access_at_last: doc.access,
                   access_ids_at_last: doc.access_ids)
+      end
 
-      if [:back_late, :days_in, :days_out].include?(doc.status.try(:to_sym))
+      if [:back_late, :days_in, :days_out, :illegal].include?(doc.status.try(:to_sym))
         comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
         comer.direction = doc.direction
         comer.status = doc.status
@@ -99,8 +101,8 @@ class Tracker
         comer.reside = doc.reside
         comer.pass_time = doc.pass_time
         comer.access_ids = doc.access_ids
-        comer.user_org_ids = doc.user.org_ids
-        comer.user_facility_ids = doc.user.facility_ids
+        comer.user_org_ids = doc.user.try(:org_ids)
+        comer.user_facility_ids = doc.user.try(:facility_ids)
         comer.save
       end
       if user.is_a? Manager
@@ -108,7 +110,7 @@ class Tracker
         attendance.access = doc.access
         attendance.save
       end
-    end
+
   end
 
 

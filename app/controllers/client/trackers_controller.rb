@@ -34,7 +34,7 @@ class Client::TrackersController < ApplicationController
   def create
     @tracker =  Guard.create(tracker_params)
 
-    if @tracker.save
+    if @tracker
       render :show, status: :created, location: @tracker
     else
       render json: @tracker.errors, status: :unprocessable_entity

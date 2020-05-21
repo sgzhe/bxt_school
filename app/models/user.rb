@@ -141,15 +141,21 @@ class User
 
   def notify_face
     add = nil
-    if dorm_id_changed? && avatar.url
+    bbb = nil
+    if dorm_id_changed?
       if changes['dorm_id'][0]
         old_room = Room.find(changes['dorm_id'][0])
         if old_room.parent_id != dorm.parent_id
-          send_face(:delete, HouseMgr.instance.find(old_room.parent_id).try(:access_ips))
-          send_face(:add, HouseMgr.instance.find(dorm.parent_id).try(:access_ips))
-          send_card(:delete, HouseMgr.instance.find(old_room.parent_id).try(:card_access_ips))
-          send_card(:add, HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips))
-          add = true
+          unless avatar.url.blank?
+            send_face(:delete, HouseMgr.instance.find(old_room.parent_id).try(:access_ips))
+            send_face(:add, HouseMgr.instance.find(dorm.parent_id).try(:access_ips))
+            add = true
+          end
+          unless ic_card.blank?
+            send_card(:delete, HouseMgr.instance.find(old_room.parent_id).try(:card_access_ips))
+            send_card(:add, HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips))
+            bbb = true
+          end
         end
       end
     end
@@ -157,10 +163,12 @@ class User
       add ||= send_face(:add, HouseMgr.instance.find(dorm.parent_id).try(:access_ips))
     end
     if ic_card_changed?
-      if changes['ic_card'][0]
+      unless changes['ic_card'][0].blank?
         Card.create(status: :delete, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: changes['ic_card'][0], facility_ids: self.facility_ids, house: self.house)
       end
-      Card.create(status: :add, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: changes['ic_card'][1], facility_ids: self.facility_ids, house: self.house)
+      unless changes['ic_card'][1].blank?
+        bbb ||= Card.create(status: :add, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: changes['ic_card'][1], facility_ids: self.facility_ids, house: self.house)
+      end
     end
   end
 

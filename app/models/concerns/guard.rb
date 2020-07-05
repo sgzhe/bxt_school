@@ -1,5 +1,6 @@
 class Guard
   @logger = Logger.new("#{Rails.root}/log/tracker.log")
+  @logger.level = Logger::DEBUG
 
   def self.create(attrs)
     #users = User.and('$or' => [{}, {ic_card: attrs[:face_id].to_s}])

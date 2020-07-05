@@ -3,6 +3,7 @@ class Guard
   def self.create(attrs)
     #users = User.and('$or' => [{}, {ic_card: attrs[:face_id].to_s}])
     #user = users.first if users.size == 1
+    Rails.logger.info("tracker: "+ attrs.to_s)
     if attrs[:access_mark].blank?
       user = User.where(face_id: attrs[:face_id].to_i).first
       access = FaceAccess.where(ip: attrs[:access_ip]).first

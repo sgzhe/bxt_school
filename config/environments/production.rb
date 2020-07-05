@@ -70,6 +70,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
   #logger = ActiveSupport::Logger.new("log/production.log")
+  #logger = ActiveSupport::Logger.new("#{Rails.root}/log/production.log", 'daily')
   #config.logger = ActiveSupport::TaggedLogging.new(logger)
   #config.logger = ActiveSupport::Logger.new(config.paths['log'].first, shift_age = 'daily')
 

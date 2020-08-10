@@ -23,7 +23,7 @@ class Tracker
   field :ic_card
   field :access_mark
 
-  belongs_to :access, required: false
+  belongs_to :access
   belongs_to :user, required: false, validate: false
 
   mount_base64_uploader :snapshot, ImgUploader

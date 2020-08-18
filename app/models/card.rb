@@ -4,8 +4,8 @@ class Card
   field :card_access_ips, type: Hash, default: {}
   field :ic_card, type: String, default: 0
   field :facility_ids, type: Array, default: []
-  belongs_to :user, required: false
-  belongs_to :house, required: false
+  belongs_to :user
+  belongs_to :house
 
   set_callback(:initialize, :after) do |doc|
     if doc.user

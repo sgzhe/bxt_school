@@ -5,8 +5,8 @@ class Face
   field :face_id, type: Integer, default: 0
   field :facility_ids, type: Array, default: []
   field :access_mark
-  belongs_to :user, required: false
-  belongs_to :house, required: false
+  belongs_to :user
+  belongs_to :house
 
   set_callback(:initialize, :after) do |doc|
     if self.user

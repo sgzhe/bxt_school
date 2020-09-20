@@ -1,7 +1,7 @@
 class Room < Facility
 
-  field :dorm_type, type: Symbol, default: :men #men woman
-  field :dorm_toward, type: Symbol, default: :east #south west north
+  field :dorm_type, type: String, default: :men #men woman
+  field :dorm_toward, type: String, default: :east #south west northS
   field :rating_num, type: Integer, default: 0
   field :true_num, type: Integer, default: 0
 

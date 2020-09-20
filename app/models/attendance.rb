@@ -4,9 +4,9 @@ class Attendance
   field :day, type: Date
   field :on_duty_time, type: DateTime
   field :off_duty_time, type: DateTime
-  field :status, type: Symbol, default: :normal #normal :absence :late :early :late_and_early
-  field :user_name
-  field :access_title
+  field :status, type: String, default: :normal #normal :absence :late :early :late_and_early
+  field :user_name, type: String, default: ''
+  field :access_title, type: String, default: ''
   field :access_ids, type: Array
   field :pass_time, type: DateTime, default: -> {DateTime.now}
 

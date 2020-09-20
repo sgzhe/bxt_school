@@ -4,8 +4,8 @@ class Org
   include Mongoid::Tree::Ordering
   include Mongoid::Tree::Traversal
 
-  field :title
-  field :full_title
+  field :title, type: String, default: ''
+  field :full_title, type: String, default: ''
 
   has_many :users, class_name: 'User', foreign_key: :dept_id, inverse_of: :dept, validate: false, dependent: :restrict_with_exception
 

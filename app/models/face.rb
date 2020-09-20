@@ -1,10 +1,10 @@
 class Face
   include ModelBase
-  field :status, type: Symbol, default: :normal #:delete, add
+  field :status, type: String, default: :normal #:delete, add
   field :access_ips, type: Hash, default: {}
   field :face_id, type: Integer, default: 0
   field :facility_ids, type: Array, default: []
-  field :access_mark
+  field :access_mark, type: String, default: ''
   belongs_to :user
   belongs_to :house
 

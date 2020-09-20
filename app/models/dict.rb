@@ -1,8 +1,8 @@
 class Dict
   include ModelBase
 
-  field :mark
-  field :title
+  field :mark, type: String, default: ''
+  field :title, type: String, default: ''
 
   embeds_many :dict_items
 

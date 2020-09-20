@@ -2,7 +2,7 @@ namespace :bxt do
   desc 'init demo data'
   task demo: :environment do
     h = House.first
-    p a = FaceAccess.find_by(ip: '10.200.13.39') || FaceAccess.create(title: "门禁", parent: h, direction: :in)
+    p a = FaceAccess.find_by(ip: '10.200.13.39') || FaceAccess.create(title: "门禁", parent: h, direction: 'in')
     h = a.parent
     c = Student.where(facility_ids: h.id).count
     25.times do |st|

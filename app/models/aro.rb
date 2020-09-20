@@ -1,8 +1,8 @@
 class Aro
   include ModelBase
 
-  field :title
-  field :mark
+  field :title, type: String, default: ''
+  field :mark, type: String, default: ''
 
   scope :app, -> { where(datatype: :app) }
 

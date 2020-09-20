@@ -5,20 +5,20 @@ class User
 
   attr_readonly :status, :reside
 
-  field :name
-  field :gender_mark, default: :male
-  field :id_card
-  field :ic_card
+  field :name, type: String, default: ''
+  field :gender_mark, type: String, default: :male
+  field :id_card, type: String, default: ''
+  field :ic_card, type: String, default: ''
   field :ic_card2
-  field :tel
-  field :login
-  field :password_digest
-  field :bed_mark
-  field :nationality
-  field :nation
+  field :tel, type: String, default: ''
+  field :login, type: String, default: ''
+  field :password_digest, type: String, default: ''
+  field :bed_mark, type: String, default: ''
+  field :nationality, type: String, default: ''
+  field :nation, type: String, default: ''
   field :birthday, type: Date
-  field :hometown
-  field :cls_group
+  field :hometown, type: String, default: ''
+  field :cls_group, type: String, default: ''
 
   field :img
   field :img2
@@ -31,12 +31,12 @@ class User
 
   field :pre_back_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
   field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
-  field :status_at_last, default: :normal
-  field :direction_at_last, default: :in
+  field :status_at_last, type: String, default: :normal
+  field :direction_at_last,type: String, default: ''
   field :overtime_at_last, type: Integer, default: 0
   field :access_ids_at_last, type: Array, default: []
-  field :confirmed_at_last, type: Symbol, default: 'false'
-  field :cause_at_last
+  field :confirmed_at_last, type: String, default: 'false'
+  field :cause_at_last, type: String, default: ''
   field :face_id, type: Integer, default: 0
 
   field :org_ids, type: Array, default: []
@@ -80,9 +80,9 @@ class User
   def status
     @reside = reside
     case direction_at_last
-      when :in
+      when 'in'
         @status = :days_in if @reside >= 24
-      when :out
+      when 'out'
         @status = :go_out if pre_back_at_last < DateTime.now
         @status = :days_out if @reside >= 24
     end

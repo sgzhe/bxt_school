@@ -1,7 +1,7 @@
 class Shift
   include ModelBase
 
-  field :title
-  field :on_duty
-  field :off_duty
+  field :title, type: String, default: ''
+  field :on_duty, type: String, default: ''
+  field :off_duty, type: String, default: ''
 end

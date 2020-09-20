@@ -5,12 +5,12 @@ class Client::FacesController < ApplicationController
   # GET /faces.json
   def index
     parent_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
+    house_id = BSON::ObjectId(params[:house_id]) unless params[:house_id].blank?
     opts = {
-        facility_ids: parent_id,
-        :status.in => [:add, :delete]
+        facility_ids: parent_id || house_id,
     }.delete_if {|key, value| value.blank?}
-
-    @faces = paginate(Face.where(opts))
+    p opts
+    @faces = paginate(Face.in(status: [:add, :delete]).where(opts))
   end
 
   # GET /faces/1

@@ -1,6 +1,6 @@
 class Card
   include ModelBase
-  field :status, type: Symbol, default: :normal #:delete, add
+  field :status, type: String, default: :normal #:delete, add
   field :card_access_ips, type: Hash, default: {}
   field :ic_card, type: String, default: 0
   field :facility_ids, type: Array, default: []

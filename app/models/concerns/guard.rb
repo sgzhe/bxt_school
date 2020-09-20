@@ -1,6 +1,6 @@
 class Guard
-  @logger = Logger.new("#{Rails.root}/log/tracker.log")
-  @logger.level = Logger::DEBUG
+  #@logger = Logger.new("#{Rails.root}/log/tracker.log")
+  #@logger.level = Logger::DEBUG
 
   def self.create(attrs)
     @logger.info("tracker: "+ attrs.to_s)

@@ -130,7 +130,6 @@ class User
 
   def notify_dorm
     if dorm_id_changed?
-      p changes['dorm_id']
       old_room = Room.where(id: changes['dorm_id'][0]).first
       old_room.check_out({user_id: self.id}) if old_room
     elsif bed_mark_changed?

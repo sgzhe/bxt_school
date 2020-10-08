@@ -129,13 +129,12 @@ class User
   end
 
   def notify_dorm
-    return unless dorm_id_changed? || bed_mark_changed?
-    old_bed_mark = changes['bed_mark'][0] if bed_mark_changed?
-    old_dorm_id = changes['dorm_id'][0] if dorm_id_changed?
-    old_room = Room.find(old_dorm_id) if old_dorm_id
-    old_bed_mark ||= bed_mark
-    old_room ||= dorm
-    old_room.check_out({bed_mark: old_bed_mark})
+    if dorm_id_changed?
+      old_room = Room.where(id: changes['dorm_id'][0]).first
+      old_room.check_out({user_id: self.id})
+    elsif bed_mark_changed?
+        dorm.check_out({bed_mark: changes['bed_mark'][0]})
+    end
     dorm.check_in(self, bed_mark)
   end
 

@@ -23,7 +23,7 @@ class Room < Facility
 
   def check_in(user, bed_mark = nil)
     bed = beds.detect { |bed| bed.mark == bed_mark }
-    bed ||= beds.empties.first
+    #bed ||= beds.empties.first
     if bed
       bed.owner = user
       save
@@ -33,7 +33,7 @@ class Room < Facility
   def check_out(opts = { user_id: nil, bed_mark: nil })
     bed = beds.detect { |bed| bed.owner_id.to_s == opts[:user_id].to_s || bed.mark == opts[:bed_mark] }
     if bed && bed.owner_id
-      bed.owner_id = nil
+      bed.owner = nil
       bed.owner_name = nil
       save
     end

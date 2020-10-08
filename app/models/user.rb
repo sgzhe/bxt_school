@@ -180,7 +180,9 @@ class User
   end
 
   set_callback(:destroy, :before) do |doc|
-    doc.dorm && doc.dorm.check_out(user_id: doc.id, bed_mark: doc.bed_mark)
+    if doc.dorm
+      doc.dorm.check_out(user_id: doc.id)
+    end
     Face.where(status: :deleted).delete_all
     Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
     Card.where(status: :deleted).delete_all

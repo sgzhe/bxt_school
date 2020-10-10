@@ -9,24 +9,27 @@ class IncomingsController < ApplicationController
     opts = {
         facility_ids: facility_id,
         org_ids: org_id,
-        #status_at_last: params[:status],
+        status_at_last: params[:status],
         # :confirmed_at_last.in => [:false, nil]
         # :overtime_at_last.gte => params[:overtime],
         # :pass_time_at_last.lte => params[:reside] && params[:reside].to_i.days.ago,
         # :pass_time_at_last.gte => params[:start_at],
         # :pass_time_at_last.lte => params[:end_at]
     }.delete_if { |key, value| value.blank? }
-    query = [{ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }, { :pass_time_at_last.lte => 1.days.ago }]
+    query = []
     unless params[:key].blank?
       query << { name: /.*#{params[:key]}.*/ }
       query << { sno: /.*#{params[:key]}.*/ }
       query << { id_card: /.*#{params[:key]}.*/ }
     end
+    query << {} if query.blank?
     match = {facility_ids: facility_id,
              org_ids: org_id}.delete_if { |key, value| value.blank? }
     @status_stats = Student.status_stats(match)
-    p Student.includes(:dept, :dorm).where(opts).any_of(query).order_by(pass_time_at_last: -1)
-    @users = paginate(Student.includes(:dept, :dorm).where(opts).any_of(query).order_by(pass_time_at_last: -1))
+    @users = paginate(Student.includes(:dept, :dorm).where(opts).and(
+      '$or': [{ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }, { :pass_time_at_last.lte => 1.days.ago }],
+      '$or': query
+    ).order_by(pass_time_at_last: -1))
 
   end
 

@@ -25,7 +25,7 @@ class Client::IncomingsController < ApplicationController
     match = {facility_ids: facility_id,
              org_ids: org_id}.delete_if { |key, value| value.blank? }
     @status_stats = Student.status_stats(match)
-    criteria = Student.includes(:dept, :dorm).where(opts).or([{ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }, { :pass_time_at_last.lte => 1.days.ago }])
+    criteria = Student.includes(:dept, :dorm).where(opts).where({ :pass_time_at_last.lte => 1.days.ago })
     criteria =  criteria.or(query) unless query.blank?
     criteria = criteria.order_by(pass_time_at_last: -1)
     @users = paginate(criteria)

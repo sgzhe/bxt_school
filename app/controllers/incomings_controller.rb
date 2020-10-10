@@ -22,17 +22,16 @@ class IncomingsController < ApplicationController
       query << { sno: /.*#{params[:key]}.*/ }
       query << { id_card: /.*#{params[:key]}.*/ }
     end
-    query << {} if query.blank?
     match = {facility_ids: facility_id,
              org_ids: org_id}.delete_if { |key, value| value.blank? }
     @status_stats = Student.status_stats(match)
-    @users = paginate(Student.includes(:dept, :dorm).where(opts).and(
-      '$or': [{ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }, { :pass_time_at_last.lte => 1.days.ago }],
-      '$or': query
-    ).order_by(pass_time_at_last: -1))
+    criteria = Student.includes(:dept, :dorm).where(opts).or([{ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }, { :pass_time_at_last.lte => 1.days.ago }])
+    criteria =  criteria.or(query) unless query.blank?
+    criteria = criteria.order_by(pass_time_at_last: -1)
+    @users = paginate(criteria)
 
   end
-
+c
   def update
     if @user.update(user_params)
       render :show, status: :ok, location: @user

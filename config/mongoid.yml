@@ -170,7 +170,12 @@ production:
       hosts:
         - localhost:27017
       options:
-
+        user: 'school'
+        password: 'hgc@bxt2020'
+        roles:
+          - 'dbOwner'
+        auth_mech: :scram
+        auth_source: admin
         read:
           mode: :primary
         max_pool_size: 10

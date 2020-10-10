@@ -3,7 +3,7 @@ class Guard
   #@logger.level = Logger::DEBUG
 
   def self.create(attrs)
-    @logger.info("tracker: "+ attrs.to_s)
+    #@logger.info("tracker: "+ attrs.to_s)
     if attrs[:access_mark].blank?
       user = User.where(face_id: attrs[:face_id].to_i).first
       access = FaceAccess.where(ip: attrs[:access_ip]).first

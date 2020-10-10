@@ -26,7 +26,7 @@ class IncomingsController < ApplicationController
              org_ids: org_id}.delete_if { |key, value| value.blank? }
     @status_stats = Student.status_stats(match)
     cond = [Student.or({ status_at_last: :go_out, :pre_back_at_last.lte => DateTime.now }), Student.or({ :pass_time_at_last.lte => 1.days.ago })]
-    criteria = Student.includes(:dept, :dorm).where(opts).and(cond)
+    criteria = Student.includes(:dept, :dorm).where(opts).where({ :pass_time_at_last.lte => 1.days.ago })
     criteria =  criteria.and(Student.or(query)) unless query.blank?
     criteria = criteria.order_by(pass_time_at_last: -1)
     p criteria

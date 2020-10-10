@@ -3,7 +3,7 @@ class Access < Facility
   field :closing_at, type: Integer, default: 1410
   field :opening_at, type: Integer, default: 240
   field :ip, type: String
-  field :direction, type: Symbol, default: :in #:in :out
+  field :direction, type: String, default: :in #:in :out
   field :status, type: String
   field :mark, type: String
 

@@ -1,7 +1,7 @@
 class Student < User
-  field :grade
+  field :grade, type: String, default: ''
   field :entranced_at, type: Date
-  field :sno
+  field :sno, type: String, default: ''
 
 
   validates :sno, uniqueness: { message: "is already taken." }

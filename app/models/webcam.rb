@@ -1,6 +1,6 @@
 class Webcam < Facility
 
-  field :ip
-  field :status
+  field :ip, type: String, default: ''
+  field :status, type: String, default: ''
 
 end

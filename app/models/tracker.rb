@@ -4,26 +4,26 @@ class Tracker
   #store_in collection: -> {"trackers#{Time.now.strftime('%Y%m')}"}
 
   field :pass_time, type: DateTime, default: -> {DateTime.now}
-  field :direction, type: Symbol #:in :out
-  field :status, type: Symbol, default: :normal
+  field :direction, type: String #:in :out
+  field :status, type: String, default: :normal
   field :reside, type: Integer, default: 0
   field :overtime, type: Integer, default: 0
-  field :user_name
-  field :access_full_title
-  field :user_dept_title
-  field :user_dorm_title
-  field :user_avatar_url
-  field :user_sno
-  field :user_nationality
-  field :access_ip
+  field :user_name, type: String, default: ''
+  field :access_full_title, type: String, default: ''
+  field :user_dept_title, type: String, default: ''
+  field :user_dorm_title, type: String, default: ''
+  field :user_avatar_url, type: String, default: ''
+  field :user_sno, type: String, default: ''
+  field :user_nationality, type: String, default: ''
+  field :access_ip, type: String, default: ''
   field :face_id, type: Integer, default: 0
   field :user_org_ids, type: Array, default: []
   field :user_facility_ids, type: Array, default: []
   field :access_ids, type: Array, default: []
-  field :ic_card
-  field :access_mark
+  field :ic_card, type: String, default: ''
+  field :access_mark, type: String, default: ''
 
-  belongs_to :access
+  belongs_to :access, class_name: 'Facility'
   belongs_to :user, required: false, validate: false
 
   mount_base64_uploader :snapshot, ImgUploader
@@ -64,7 +64,7 @@ class Tracker
     today055 = pass_time.at_beginning_of_day + 330.minutes
     self.reside = rev_reside
     case direction
-    when :in
+    when 'in'
       if last105 < pass_time && pass_time < last055
         self.status = :back_late
         self.overtime = ((pass_time - last105).to_f * 24).to_i
@@ -72,11 +72,11 @@ class Tracker
         self.status = :back_late
         self.overtime = ((pass_time - last105).to_f * 24).to_i
       elsif reside >= 24
-        self.status = :days_out
-      end
-    when :out
-      if reside >= 24
         self.status = :days_in
+      end
+    when 'out'
+      if reside >= 24
+        self.status = :days_out
       end
     end
     self.status = :normal unless HolidayMgr.instance.check(pass_time).blank?

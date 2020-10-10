@@ -4,7 +4,7 @@ class Facility
 
   field :title, type: String, default: ''
   field :full_title, type: String, default: ''
-  field :mark, type: String
+  field :mark, type: String, default: ''
 
   default_scope -> { order_by(seq: 1, id: -1) }
 

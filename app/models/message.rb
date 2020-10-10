@@ -1,6 +1,6 @@
 class Message
   include ModelBase
-  field :cont
+  field :cont, type: String, default: ''
 
   belongs_to :user, required: false
   belongs_to :chat, required: false

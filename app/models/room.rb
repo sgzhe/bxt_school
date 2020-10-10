@@ -1,7 +1,7 @@
 class Room < Facility
 
-  field :dorm_type, type: Symbol, default: :men #men woman
-  field :dorm_toward, type: Symbol, default: :east #south west north
+  field :dorm_type, type: String, default: :men #men woman
+  field :dorm_toward, type: String, default: :east #south west northS
   field :rating_num, type: Integer, default: 0
   field :true_num, type: Integer, default: 0
 
@@ -23,7 +23,7 @@ class Room < Facility
 
   def check_in(user, bed_mark = nil)
     bed = beds.detect { |bed| bed.mark == bed_mark }
-    bed ||= beds.empties.first
+    #bed ||= beds.empties.first
     if bed
       bed.owner = user
       save
@@ -31,10 +31,12 @@ class Room < Facility
   end
 
   def check_out(opts = { user_id: nil, bed_mark: nil })
-    bed = beds.detect { |bed| bed.owner_id == opts[:user_id] || bed.mark == opts[:bed_mark] }
-    if bed && bed.owner_id
-      bed.owner_id = nil
+    value = opts[:user_id] || opts[:bed_mark]
+    bed = beds.detect { |bed| bed.owner_id.to_s == value.to_s || bed.mark.to_s == value}
+    if bed
+      bed.owner = nil
       bed.owner_name = nil
+      bed.owner_sno = nil
       save
     end
   end

@@ -1,6 +1,6 @@
 class Chat
   include ModelBase
-  field :title
+  field :title, type: String, default: ''
 
   has_many :massages
 end

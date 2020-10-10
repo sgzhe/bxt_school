@@ -31,7 +31,7 @@ class IncomingsController < ApplicationController
     @users = paginate(criteria)
 
   end
-c
+
   def update
     if @user.update(user_params)
       render :show, status: :ok, location: @user

@@ -58,7 +58,7 @@ class Tracker
   end
 
   def rev_status
-    last105 = user.pass_time_at_last.at_beginning_of_day + access.closing_at.minutes
+    last105 = user.pass_time_at_last.at_beginning_of_day + access.closing_at.to_i.minutes
     last055 = user.pass_time_at_last.at_beginning_of_day + 1770.minutes
     today105 = pass_time.at_beginning_of_day
     today055 = pass_time.at_beginning_of_day + 330.minutes

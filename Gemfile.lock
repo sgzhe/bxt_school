@@ -129,7 +129,6 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.9-x64-mingw32)
       mini_portile2 (~> 2.4.0)
-    pg (1.2.3-x64-mingw32)
     public_suffix (4.0.4)
     puma (3.12.4)
     rack (2.2.2)
@@ -202,9 +201,8 @@ DEPENDENCIES
   jwt
   jwt_sessions
   kaminari-mongoid
-  mongoid (~> 7.0)
+  mongoid (~> 7.1)
   mongoid-tree
-  pg
   puma (~> 3.11)
   rack-cors
   rails (~> 6.0.0)

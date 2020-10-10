@@ -178,4 +178,4 @@ production:
         auth_source: admin
         read:
           mode: :primary
-        max_pool_size: 50
+        max_pool_size: 10

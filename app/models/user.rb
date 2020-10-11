@@ -29,10 +29,10 @@ class User
   field :card_access_ips, type: Hash, default: {}
   field :card_access_status, type: Boolean, default: true
 
-  field :pre_back_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
-  field :pass_time_at_last, type: DateTime, default: -> { DateTime.now.at_beginning_of_day}
+  field :pre_back_at_last, type: DateTime, default: -> {DateTime.now.at_beginning_of_day}
+  field :pass_time_at_last, type: DateTime, default: -> {DateTime.now.at_beginning_of_day}
   field :status_at_last, type: String, default: :normal
-  field :direction_at_last,type: String, default: ''
+  field :direction_at_last, type: String, default: ''
   field :overtime_at_last, type: Integer, default: 0
   field :access_ids_at_last, type: Array, default: []
   field :confirmed_at_last, type: String, default: 'false'
@@ -61,7 +61,7 @@ class User
     dorm.try(:full_title)
   end
 
-  scope :app, -> { where(datatype: :app) }
+  scope :app, -> {where(datatype: :app)}
   #default_scope -> { order_by(id: -1) }
   #scope :reside, ->(reside) { where(:pass_time_at_last.lte => reside.days.ago) }
 
@@ -80,17 +80,17 @@ class User
   def status
     @reside = reside
     case direction_at_last
-      when 'in'
-        @status = :days_in if @reside >= 24
-      when 'out'
-        @status = :go_out if pre_back_at_last < DateTime.now
-        @status = :days_out if @reside >= 24
+    when 'in'
+      @status = :days_in if @reside >= 24
+    when 'out'
+      @status = :days_out if @reside >= 24
+      @status = :go_out if pre_back_at_last < DateTime.now
     end
     @status
   end
 
   def role?(role_mark)
-    roles.any? { |role| role.mark.to_s == role_mark.to_s }
+    roles.any? {|role| role.mark.to_s == role_mark.to_s}
   end
 
   def allow?(aco_id, operation)
@@ -133,7 +133,7 @@ class User
       old_room = Room.where(id: changes['dorm_id'][0]).first
       old_room.check_out({user_id: self.id}) if old_room
     elsif bed_mark_changed?
-        dorm.check_out({bed_mark: changes['bed_mark'][0]})
+      dorm.check_out({bed_mark: changes['bed_mark'][0]})
     end
     dorm.check_in(self, bed_mark)
   end

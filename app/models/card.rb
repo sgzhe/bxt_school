@@ -11,7 +11,7 @@ class Card
     if doc.user
       doc.status = :add if doc.status == :normal
       doc.house ||= doc.user.house
-      doc.card_access_ips = doc.house.try(:card_access_ips)
+      doc.card_access_ips = doc.house.try(:card_access_ips) if doc.card_access_ips.blank?
       doc.ic_card = doc.user.try(:ic_card)
       doc.facility_ids = doc.user.facility_ids
     end

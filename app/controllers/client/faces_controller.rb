@@ -1,7 +1,7 @@
 class Client::FacesController < ApplicationController
   before_action :set_face, only: [:show, :update, :destroy]
-@@logger = Logger.new("#{Rails.root}/log/face.log")
-@@logger.level = Logger::DEBUG
+#@@logger = Logger.new("#{Rails.root}/log/face.log")
+#@@logger.level = Logger::DEBUG
 
   # GET /faces
   # GET /faces.json
@@ -35,7 +35,7 @@ class Client::FacesController < ApplicationController
   # PATCH/PUT /faces/1
   # PATCH/PUT /faces/1.json
   def update
-    @@logger.info("face: "+ face_params.to_json)
+    #@@logger.info("face: "+ face_params.to_json)
     ips = @face.access_ips.merge(face_params[:access_ips])
 
     if @face.update_attribute(:access_ips, ips)

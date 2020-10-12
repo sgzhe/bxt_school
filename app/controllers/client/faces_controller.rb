@@ -37,11 +37,11 @@ class Client::FacesController < ApplicationController
   def update
     @@logger.info("#{@face.id}: "+ face_params.to_json)
     @face.access_ips.merge!(face_params[:access_ips])
-    @@logger.info("success: "+ @face.errors.to_json)
     if @face.save
       @@logger.info("success: "+ @face.access_ips)
       render :show, status: :ok, location: @face
     else
+      @@logger.info("fail: "+ @face.errors.full_messages)
       render json: @face.errors, status: :unprocessable_entity
     end
   end

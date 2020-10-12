@@ -23,7 +23,7 @@ class Tracker
   field :ic_card, type: String, default: ''
   field :access_mark, type: String, default: ''
 
-  belongs_to :access, class_name: 'Facility'
+  belongs_to :access, class_name: 'Facility', required: false, validate: false
   belongs_to :user, required: false, validate: false
 
   mount_base64_uploader :snapshot, ImgUploader
@@ -34,22 +34,27 @@ class Tracker
   index({access_ids: 1}, {background: true})
 
   set_callback(:save, :before) do |doc|
-    doc.status = :illegal unless user
-    doc.user_name = doc.user.try(:name)
-    doc.user_sno = doc.user.try(:sno)
-    doc.user_dept_title = doc.user.try(:dept_full_title)
-    doc.user_dorm_title = doc.user.try(:dorm_full_title)
-    doc.user_avatar_url = doc.user.try(:avatar).try(:url)
-    doc.user_org_ids = doc.user.try(:org_ids)
-    doc.user_facility_ids = doc.user.try(:facility_ids)
-    doc.user_nationality = doc.user.try(:nationality)
-    doc.user_org_ids = doc.user.try(:org_ids)
+   if user
+      doc.user_name = doc.user.try(:name)
+      doc.user_sno = doc.user.try(:sno)
+      doc.user_dept_title = doc.user.try(:dept_full_title)
+      doc.user_dorm_title = doc.user.try(:dorm_full_title)
+      doc.user_avatar_url = doc.user.try(:avatar).try(:url)
+      doc.user_org_ids = doc.user.try(:org_ids)
+      doc.user_facility_ids = doc.user.try(:facility_ids)
+      doc.user_nationality = doc.user.try(:nationality)
+      doc.user_org_ids = doc.user.try(:org_ids)
+      doc.rev_status
+    end
 
     if doc.access
-      doc.rev_status if user
       doc.direction = doc.access.direction
       doc.access_ids = doc.access.parent_ids + [doc.access_id]
       doc.access_full_title = doc.access.full_title
+    end
+
+    if user.blank? || access.blank?
+      doc.status = :illegal
     end
   end
 

@@ -1,9 +1,8 @@
 class Guard
   #@logger = Logger.new("#{Rails.root}/log/tracker.log")
   #@logger.level = Logger::DEBUG
-
+  #@logger.info("tracker: "+ attrs.to_s)
   def self.create(attrs)
-    #@logger.info("tracker: "+ attrs.to_s)
     if attrs[:access_mark].blank?
       user = User.where(face_id: attrs[:face_id].to_i).first
       access = FaceAccess.where(ip: attrs[:access_ip]).first
@@ -14,9 +13,12 @@ class Guard
     end
 
     tracker = Tracker.new(attrs)
-    tracker.user = user
-    tracker.status = :illegal unless user
-    tracker.access = access
+    if user.blank? || access.blank?
+      tracker.status = :illegal
+    else
+      tracker.user = user
+      tracker.access = access
+    end
     return tracker
   end
 

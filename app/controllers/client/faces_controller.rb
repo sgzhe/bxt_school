@@ -37,6 +37,7 @@ class Client::FacesController < ApplicationController
   def update
     @@logger.info("#{@face.id}: "+ face_params.to_json)
     @face.access_ips.merge!(face_params[:access_ips])
+    @@logger.info("success: "+ @face.save)
     if @face.save
       @@logger.info("success: "+ @face.access_ips)
       render :show, status: :ok, location: @face

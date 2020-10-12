@@ -1,7 +1,6 @@
 class Client::CardsController < ApplicationController
   before_action :set_card, only: [:show, :update, :destroy]
-  #@@logger = Logger.new("#{Rails.root}/log/card.log")
-  #@@logger.level = Logger::DEBUG
+
   # GET /cards
   # GET /cards.json
   def index
@@ -35,10 +34,9 @@ class Client::CardsController < ApplicationController
   # PATCH/PUT /cards/1
   # PATCH/PUT /cards/1.json
   def update
-    #@@logger.info("#{@card.id}: "+ card_params.to_json)
-    @card.card_access_ips.merge!(card_params[:card_access_ips])
+    ips = @card.card_access_ips.merge(card_params[:card_access_ips])
 
-    if @card.save
+    if @card.update(card_params.merge({card_access_ips: ips}))
       render :show, status: :ok, location: @card
     else
       render json: @card.errors, status: :unprocessable_entity

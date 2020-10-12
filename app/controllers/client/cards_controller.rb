@@ -36,7 +36,7 @@ class Client::CardsController < ApplicationController
   # PATCH/PUT /cards/1.json
   def update
     #@@logger.info("#{@card.id}: "+ card_params.to_json)
-    ips = @card.card_access_ips.merge(card_params[:card_access_ips])
+    ips = @card.card_access_ips.merge!(card_params[:card_access_ips])
 
     if @card.update_attribute(:card_access_ips, ips)
       render :show, status: :ok, location: @card

@@ -35,8 +35,8 @@ class Client::FacesController < ApplicationController
   # PATCH/PUT /faces/1
   # PATCH/PUT /faces/1.json
   def update
-    @@logger.info("#{@face.id}: "+ face_params.to_json)
-    ips = @face.access_ips.merge(face_params[:access_ips])
+    #@@logger.info("#{@face.id}: "+ face_params.to_json)
+    ips = @face.access_ips.merge!(face_params[:access_ips])
 
     if @face.update_attribute(:access_ips, ips)
       render :show, status: :ok, location: @face

@@ -1,7 +1,7 @@
 class Client::CardsController < ApplicationController
   before_action :set_card, only: [:show, :update, :destroy]
-  #@@logger = Logger.new("#{Rails.root}/log/card.log")
-  #@@logger.level = Logger::DEBUG
+  @@logger = Logger.new("#{Rails.root}/log/card.log")
+  @@logger.level = Logger::DEBUG
   # GET /cards
   # GET /cards.json
   def index
@@ -35,7 +35,7 @@ class Client::CardsController < ApplicationController
   # PATCH/PUT /cards/1
   # PATCH/PUT /cards/1.json
   def update
-    #@@logger.info("card: "+ card_params.to_json)
+    @@logger.info("#{@card.id}: "+ card_params.to_json)
     ips = @card.card_access_ips.merge(card_params[:card_access_ips])
 
     if @card.update_attribute(:card_access_ips, ips)

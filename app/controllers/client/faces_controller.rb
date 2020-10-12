@@ -1,7 +1,7 @@
 class Client::FacesController < ApplicationController
   before_action :set_face, only: [:show, :update, :destroy]
-@@logger = Logger.new("#{Rails.root}/log/face.log")
-@@logger.level = Logger::DEBUG
+#@@logger = Logger.new("#{Rails.root}/log/face.log")
+#@@logger.level = Logger::DEBUG
 
   # GET /faces
   # GET /faces.json

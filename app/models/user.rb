@@ -163,10 +163,10 @@ class User
     end
     if ic_card_changed?
       unless changes['ic_card'][0].blank?
-        Card.create(status: :delete, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: changes['ic_card'][0], facility_ids: self.facility_ids, house: self.house)
+        Card.create(status: :delete, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: self.changes['ic_card'][0], facility_ids: self.facility_ids, house: self.house)
       end
       unless changes['ic_card'][1].blank?
-        bbb ||= Card.create(status: :add, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: changes['ic_card'][1], facility_ids: self.facility_ids, house: self.house)
+        bbb ||= Card.create(status: :add, card_access_ips: HouseMgr.instance.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: self.changes['ic_card'][1], facility_ids: self.facility_ids, house: self.house)
       end
     end
   end

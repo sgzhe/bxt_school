@@ -34,8 +34,9 @@ class Client::FacesController < ApplicationController
   # PATCH/PUT /faces/1.json
   def update
     ips = @face.access_ips.merge(face_params[:access_ips])
+    @face.attributes = (face_params.merge({access_ips: ips}))
 
-    if @face.update(face_params.merge({access_ips: ips}))
+    if @face.save(validate: false)
       render :show, status: :ok, location: @face
     else
       render json: @face.errors, status: :unprocessable_entity

@@ -1,6 +1,6 @@
 class Client::FacesController < ApplicationController
   before_action :set_face, only: [:show, :update, :destroy]
-
+  rescue_from Mongoid::Errors::DocumentNotFound, with: :rescue_document_not_found
   # GET /faces
   # GET /faces.json
   def index
@@ -50,13 +50,18 @@ class Client::FacesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_face
-      @face = Face.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def face_params
-      params.fetch(:face, {}).permit!
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_face
+    @face = Face.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def face_params
+    params.fetch(:face, {}).permit!
+  end
+
+  def rescue_document_not_found
+    render json: 'document not found', status: :ok
+  end
 end

@@ -1,5 +1,6 @@
 class Client::CardsController < ApplicationController
   before_action :set_card, only: [:show, :update, :destroy]
+  rescue_from Mongoid::Errors::DocumentNotFound, with: :rescue_document_not_found
 
   # GET /cards
   # GET /cards.json
@@ -50,13 +51,18 @@ class Client::CardsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_card
-      @card = Card.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def card_params
-      params.fetch(:card, {}).permit!
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_card
+    @card = Card.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def card_params
+    params.fetch(:card, {}).permit!
+  end
+
+  def rescue_document_not_found
+    render json: 'document not found', status: :ok
+  end
 end

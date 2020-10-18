@@ -77,11 +77,11 @@ class Tracker
         self.status = 'back_late'
         self.overtime = ((pass_time - last105).to_f * 24).to_i
       elsif reside >= 24
-        self.status = 'days_in'
+        self.status = 'days_out'
       end
     when 'out'
       if reside >= 24
-        self.status = 'days_out'
+        self.status = 'days_in'
       end
     end
     self.status = 'normal' unless HolidayMgr.instance.check(pass_time).blank?

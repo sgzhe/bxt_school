@@ -5,7 +5,7 @@ class Tracker
 
   field :pass_time, type: DateTime, default: -> {DateTime.now}
   field :direction, type: String #:in :out
-  field :status, type: String, default: :normal
+  field :status, type: String, default: 'normal'
   field :reside, type: Integer, default: 0
   field :overtime, type: Integer, default: 0
   field :user_name, type: String, default: ''
@@ -34,6 +34,12 @@ class Tracker
   index({access_ids: 1}, {background: true})
 
   set_callback(:save, :before) do |doc|
+    if doc.access
+      doc.direction = doc.access.direction
+      doc.access_ids = doc.access.parent_ids + [doc.access_id]
+      doc.access_full_title = doc.access.full_title
+    end
+
    if user
       doc.user_name = doc.user.try(:name)
       doc.user_sno = doc.user.try(:sno)
@@ -47,14 +53,8 @@ class Tracker
       doc.rev_status
     end
 
-    if doc.access
-      doc.direction = doc.access.direction
-      doc.access_ids = doc.access.parent_ids + [doc.access_id]
-      doc.access_full_title = doc.access.full_title
-    end
-
     if user.blank? || access.blank?
-      doc.status = :illegal
+      doc.status = 'illegal'
     end
   end
 
@@ -71,20 +71,20 @@ class Tracker
     case direction
     when 'in'
       if last105 < pass_time && pass_time < last055
-        self.status = :back_late
+        self.status = 'back_late'
         self.overtime = ((pass_time - last105).to_f * 24).to_i
       elsif today105 < pass_time && pass_time < today055
-        self.status = :back_late
+        self.status = 'back_late'
         self.overtime = ((pass_time - last105).to_f * 24).to_i
       elsif reside >= 24
-        self.status = :days_in
+        self.status = 'days_in'
       end
     when 'out'
       if reside >= 24
-        self.status = :days_out
+        self.status = 'days_out'
       end
     end
-    self.status = :normal unless HolidayMgr.instance.check(pass_time).blank?
+    self.status = 'normal' unless HolidayMgr.instance.check(pass_time).blank?
   end
 
   set_callback(:save, :after) do |doc|
@@ -98,7 +98,7 @@ class Tracker
                   access_ids_at_last: doc.access_ids)
       end
 
-      if [:back_late, :days_in, :days_out, :illegal].include?(doc.status.try(:to_sym))
+      if ['back_late', 'days_in', 'days_out', 'illegal'].include?(doc.status.to_s)
         comer = Latecomer.find_or_initialize_by(user: user, day: pass_time.to_date)
         comer.direction = doc.direction
         comer.status = doc.status

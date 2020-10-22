@@ -5,8 +5,9 @@ class FacesController < ApplicationController
   # GET /faces.json
   def index
     parent_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
+    house_id = BSON::ObjectId(params[:house_id]) unless params[:house_id].blank?
     opts = {
-        facility_ids: parent_id,
+        facility_ids: parent_id || house_id,
         :status.in => [:add, :delete]
     }.delete_if {|key, value| value.blank?}
 

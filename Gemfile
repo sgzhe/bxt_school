@@ -45,6 +45,7 @@ gem 'kaminari-mongoid'
 gem 'bson', '~> 4.5.0'
 gem 'mongoid', '~> 7.1'
 gem 'mongoid-tree', require: 'mongoid/tree'
+gem 'redis'
 
 #gem 'pg'
 gem "roo", "~> 2.8.0"

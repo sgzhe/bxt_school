@@ -179,3 +179,4 @@ production:
         read:
           mode: :primary
         max_pool_size: 100
+        min_pool_size: 10

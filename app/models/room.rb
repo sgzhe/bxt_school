@@ -54,7 +54,7 @@ class Room < Facility
                                   {"$match": opts.merge({"_type": "Room", beds: { "$exists": true }})},
                                   {"$project": {beds: 1, owners: {"$filter": {input: "$beds", as: "item", cond: {"$and":[{"$ifNull": ["$$item", false]},{"$ifNull": ["$$item.owner_id", false]}]}}}}},
                                   {"$group" => {"_id" => "null", "total" => {"$sum" => {"$size" => "$beds"}}, "owners" => {"$sum" => {"$size" => "$owners"}}}}
-                              ]).first
+                              ]).first || {'_id': 0, 'empties': 0, 'total': 0, 'owners': 0}
     status.delete('_id')
     status['empties'] = status['total'] - status['owners']
     status

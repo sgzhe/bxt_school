@@ -139,7 +139,6 @@ class User
   end
 
   def notify_face
-    p 'jjjfjjjjjjjjjjjjjjjjjjjjjjjj'
     add = nil
     bbb = nil
     if dorm_id_changed?
@@ -147,27 +146,27 @@ class User
         old_room = Room.find(changes['dorm_id'][0])
         if old_room.parent_id != dorm.parent_id
           unless avatar.url.blank?
-            FaceIp.factory({house: HouseMgr.find(old_room.parent_ids), user: self, status: 'delete'})
-            FaceIp.factory({house: HouseMgr.find(dorm.parent_ids), user: self, status: 'add'})
+            FaceIp.factory({house: HouseMgr.find(old_room.parent_ids), user: self, operation: 'delete'})
+            FaceIp.factory({house: HouseMgr.find(dorm.parent_ids), user: self, operation: 'add'})
             add = true
           end
           unless ic_card.blank?
-            CardIp.factory({house: HouseMgr.find(old_room.parent_ids), user: self, status: 'delete'})
-            CardIp.factory({house: HouseMgr.find(dorm.parent_ids), user: self, status: 'add'})
+            CardIp.factory({house: HouseMgr.find(old_room.parent_ids), user: self, operation: 'delete'})
+            CardIp.factory({house: HouseMgr.find(dorm.parent_ids), user: self, operation: 'add'})
             bbb = true
           end
         end
       end
     end
     if avatar_changed?
-      add ||= FaceIp.factory({house:  HouseMgr.find(dorm.parent_ids), user: self, status: 'add'})
+      add ||= FaceIp.factory({house:  HouseMgr.find(dorm.parent_ids), user: self, operation: 'add'})
     end
     if ic_card_changed?
       unless changes['ic_card'][0].blank?
-        CardIp.factory({house: HouseMgr.find(dorm.parent_ids), user: self, status: 'delete', access_no: self.changes['ic_card'][0]})
+        CardIp.factory({house: HouseMgr.find(dorm.parent_ids), user: self, operation: 'delete', access_no: self.changes['ic_card'][0]})
       end
       unless changes['ic_card'][1].blank?
-        bbb ||= CardIp.factory({house: HouseMgr.find(dorm.parent_ids), user: self, status: 'add', access_no: self.changes['ic_card'][1]})
+        bbb ||= CardIp.factory({house: HouseMgr.find(dorm.parent_ids), user: self, operation: 'add', access_no: self.changes['ic_card'][1]})
       end
     end
   end
@@ -181,27 +180,27 @@ class User
         old_room = Room.find(changes['dorm_id'][0])
         if old_room.parent_id != dorm.parent_id
           unless avatar.url.blank?
-            send_face(:delete, HouseMgr.find(old_room.parent_id).try(:access_ips))
-            send_face(:add, HouseMgr.find(dorm.parent_id).try(:access_ips))
+            send_face(:delete, HouseMgr.find(old_room.parent_ids).try(:access_ips))
+            send_face(:add, HouseMgr.find(dorm.parent_ids).try(:access_ips))
             add = true
           end
           unless ic_card.blank?
-            send_card(:delete, HouseMgr.find(old_room.parent_id).try(:card_access_ips))
-            send_card(:add, HouseMgr.find(dorm.parent_id).try(:card_access_ips))
+            send_card(:delete, HouseMgr.find(old_room.parent_ids).try(:card_access_ips))
+            send_card(:add, HouseMgr.find(dorm.parent_ids).try(:card_access_ips))
             bbb = true
           end
         end
       end
     end
     if avatar_changed?
-      add ||= send_face(:add, HouseMgr.find(dorm.parent_id).try(:access_ips))
+      add ||= send_face(:add, HouseMgr.find(dorm.parent_ids).try(:access_ips))
     end
     if ic_card_changed?
       unless changes['ic_card'][0].blank?
-        Card.create(status: :delete, card_access_ips: HouseMgr.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: self.changes['ic_card'][0], facility_ids: self.facility_ids, house: self.house)
+        Card.create(status: :delete, card_access_ips: HouseMgr.find(dorm.parent_ids).try(:card_access_ips), user: self, ic_card: self.changes['ic_card'][0], facility_ids: self.facility_ids, house: self.house)
       end
       unless changes['ic_card'][1].blank?
-        bbb ||= Card.create(status: :add, card_access_ips: HouseMgr.find(dorm.parent_id).try(:card_access_ips), user: self, ic_card: self.changes['ic_card'][1], facility_ids: self.facility_ids, house: self.house)
+        bbb ||= Card.create(status: :add, card_access_ips: HouseMgr.find(dorm.parent_ids).try(:card_access_ips), user: self, ic_card: self.changes['ic_card'][1], facility_ids: self.facility_ids, house: self.house)
       end
     end
   end
@@ -218,10 +217,10 @@ class User
     if doc.dorm
       doc.dorm.check_out(user_id: doc.id)
     end
-    FaceIp.where(status: 'added', user: doc).update_all(status: :delete)
-    FaceIp.where(:status.in => ['deleted', 'add'], user: doc).delete_all
-    CardIp.where(status: 'added', user: doc).update_all(status: :delete)
-    CardIp.where(:status.in => ['deleted', 'add'], user: doc).delete_all
+    #FaceIp.where(status: 'added', user: doc).update_all(status: :delete)
+    #FaceIp.where(:status.in => ['deleted', 'add'], user: doc).delete_all
+    #CardIp.where(status: 'added', user: doc).update_all(status: :delete)
+    #CardIp.where(:status.in => ['deleted', 'add'], user: doc).delete_all
 
     #Face.where(status: :deleted).delete_all
     #Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)

@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     resources :colleges
     resources :face_accesses
     resources :card_accesses
+    resources :face_ips
+    resources :card_ips
   end
   resources :packages
   resources :shifts
@@ -53,6 +55,8 @@ Rails.application.routes.draw do
   resources :import_students
   resources :import_avatars
   resources :exchanges
+  resources :face_ips
+  resources :card_ips
   mount ActionCable.server => "/cable"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

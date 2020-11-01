@@ -7,8 +7,9 @@ class Client::CardIpsController < ApplicationController
     parent_id = BSON::ObjectId(params[:facility_id]) unless params[:facility_id].blank?
     house_id = BSON::ObjectId(params[:house_id]) unless params[:house_id].blank?
     opts = {
-        user_facility_ids: parent_id || house_id,
-        :status.in => [:add, :delete]
+        status: params[:status],
+        access_ip: params[:access_ip],
+        user_facility_ids: parent_id || house_id
     }.delete_if {|key, value| value.blank?}
 
     @client_card_ips = paginate(CardIp.includes(:user).where(opts))

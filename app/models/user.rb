@@ -124,7 +124,7 @@ class User
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
 
-    doc.notify_dorm
+    doc.notify_dorm if doc.dorm
     doc.notify_face
   end
 

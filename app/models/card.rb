@@ -18,19 +18,12 @@ class Card
   end
 
   set_callback(:save, :before) do |doc|
-    if doc.card_access_ips_changed?
-      if doc.status == 'add'
-        doc.status = 'added' if doc.card_access_ips.any? { |k, v| v == 1 }
-      end
+    if doc.status == 'add'
+      doc.status = 'added' if doc.card_access_ips.any? {|k, v| v == 1}
+    end
 
-      if doc.status == 'delete'
-        doc.status = 'deleted' if doc.card_access_ips.any? { |k, v| v == -1 }
-      end
-
-      # if doc.status == :add || doc.status = :deleted
-      #   doc.user.card_access_status = false
-      #   doc.user.save
-      # end
+    if doc.status == 'delete'
+      doc.status = 'deleted' if doc.card_access_ips.any? {|k, v| v == -1}
     end
   end
 

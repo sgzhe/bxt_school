@@ -117,15 +117,16 @@ class User
   end
 
   set_callback(:save, :before) do |doc|
-    if doc.dorm_id_changed?
-      doc.facility_ids = doc.dorm.parent_ids + [doc.dorm_id]
-    end
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
-
-    doc.notify_dorm if doc.dorm
-    doc.notify_face
+    #if doc.dorm
+      if doc.dorm_id_changed?
+        doc.facility_ids = doc.dorm.parent_ids + [doc.dorm_id]
+      end
+      doc.notify_dorm
+      doc.notify_face
+    #end
   end
 
   def notify_dorm

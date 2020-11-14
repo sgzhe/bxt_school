@@ -19,19 +19,12 @@ class Face
   end
 
   set_callback(:save, :before) do |doc|
-    if doc.access_ips_changed?
-      if doc.status == 'add'
-        doc.status = 'added' if doc.access_ips.all? { |k, v| v == 1 }
-      end
+    if doc.status == 'add'
+      doc.status = 'added' if doc.access_ips.all? {|k, v| v == 1}
+    end
 
-      if doc.status == 'delete'
-        doc.status = 'deleted' if doc.access_ips.all? { |k, v| v == -1 }
-      end
-
-      # if doc.status == :add || doc.status = :deleted
-      #   doc.user.access_status = false
-      #   doc.user.save
-      # end
+    if doc.status == 'delete'
+      doc.status = 'deleted' if doc.access_ips.all? {|k, v| v == -1}
     end
   end
 end

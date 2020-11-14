@@ -117,7 +117,7 @@ GEM
     minitest (5.14.2)
     mongo (2.11.6)
       bson (>= 4.4.2, < 5.0.0)
-    mongoid (7.1.2)
+    mongoid (7.1.4)
       activemodel (>= 5.1, < 6.1)
       mongo (>= 2.7.0, < 3.0.0)
     mongoid-grid_fs (2.4.0)

@@ -125,7 +125,7 @@ class User
     end
 
     doc.notify_dorm
-    doc.notify_face
+    doc.notify_face3
   end
 
   def notify_dorm

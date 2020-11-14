@@ -120,13 +120,13 @@ class User
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
-    #if doc.dorm
+    if doc.dorm
       if doc.dorm_id_changed?
         doc.facility_ids = doc.dorm.parent_ids + [doc.dorm_id]
       end
       doc.notify_dorm
       doc.notify_face
-    #end
+    end
   end
 
   def notify_dorm

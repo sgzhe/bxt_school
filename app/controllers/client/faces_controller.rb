@@ -9,7 +9,7 @@ class Client::FacesController < ApplicationController
     opts = {
         facility_ids: parent_id || house_id,
     }.delete_if {|key, value| value.blank?}
-    opts[:status] = params[:status] if params[:status].present?
+    opts[:status.in] = [params[:status]] if params[:status].present?
     @faces = paginate(Face.in(status: [:add, :delete]).where(opts))
   end
 

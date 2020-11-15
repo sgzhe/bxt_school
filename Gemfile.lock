@@ -83,6 +83,7 @@ GEM
     crass (1.0.6)
     erubi (1.10.0)
     ffi (1.13.1)
+    ffi (1.13.1-x64-mingw32)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.5)
@@ -126,8 +127,11 @@ GEM
     mongoid-tree (2.1.1)
       mongoid (>= 4.0, < 8)
     msgpack (1.3.3)
+    msgpack (1.3.3-x64-mingw32)
     nio4r (2.5.4)
     nokogiri (1.10.10)
+      mini_portile2 (~> 2.4.0)
+    nokogiri (1.10.10-x64-mingw32)
       mini_portile2 (~> 2.4.0)
     public_suffix (4.0.6)
     puma (3.12.6)
@@ -181,6 +185,8 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.8)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2020.4)
+      tzinfo (>= 1.0.0)
     websocket-driver (0.7.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -188,6 +194,7 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   bcrypt (~> 3.1.13)

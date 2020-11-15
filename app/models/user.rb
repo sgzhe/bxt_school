@@ -120,10 +120,7 @@ class User
     if doc.dept_id_changed?
       doc.org_ids += doc.dept.parent_ids + [doc.dept_id]
     end
-<<<<<<< HEAD
 
-=======
->>>>>>> a51ded2da88ff1d705968d299c62bb26eee4670c
     if doc.dorm
       if doc.dorm_id_changed?
         doc.facility_ids = doc.dorm.parent_ids + [doc.dorm_id]

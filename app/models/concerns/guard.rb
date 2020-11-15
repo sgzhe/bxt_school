@@ -19,8 +19,8 @@ class Guard
     end
     unless tracker.valid?
       @logger.info("tracker: "+ attrs.to_s)
-      @logger.info("user:" + user.to_json)
-      @logger.info("access:" + access.to_json)
+      @logger.info("user:" + user.to_json(:only => [:_id, :name]))
+      @logger.info("access:" + access.to_json(:only => [:_id, :title]))
     end
     return tracker
   end

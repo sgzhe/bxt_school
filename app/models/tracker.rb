@@ -23,8 +23,8 @@ class Tracker
   field :ic_card, type: String, default: ''
   field :access_mark, type: String, default: ''
 
-  belongs_to :access, class_name: 'Facility', required: false, validate: false
-  belongs_to :user, required: false, validate: false
+  belongs_to :access, class_name: 'Facility'
+  belongs_to :user
 
   mount_base64_uploader :snapshot, ImgUploader
 
@@ -106,8 +106,8 @@ class Tracker
         comer.reside = doc.reside
         comer.pass_time = doc.pass_time
         comer.access_ids = doc.access_ids
-        comer.user_org_ids = doc.user.try(:org_ids)
-        comer.user_facility_ids = doc.user.try(:facility_ids)
+        comer.user_org_ids = doc.user_org_ids
+        comer.user_facility_ids = doc.user_facility_ids
         comer.save
       end
       if user.is_a? Manager

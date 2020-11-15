@@ -11,6 +11,7 @@ class Client::CardsController < ApplicationController
         facility_ids: parent_id || house_id,
         :status.in => [:add, :delete]
     }.delete_if {|key, value| value.blank?}
+    opts[:status] = params[:status] if params[:status].present?
 
     @cards = paginate(Card.where(opts))
   end

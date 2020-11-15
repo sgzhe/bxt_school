@@ -23,8 +23,8 @@ class Tracker
   field :ic_card, type: String, default: ''
   field :access_mark, type: String, default: ''
 
-  belongs_to :access, class_name: 'Facility', required: false, validate: false
-  belongs_to :user, required: false, validate: false
+  belongs_to :access, class_name: 'Facility'
+  belongs_to :user
 
   mount_base64_uploader :snapshot, ImgUploader
 

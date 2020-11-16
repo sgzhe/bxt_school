@@ -224,10 +224,10 @@ class User
     #CardIp.where(status: 'added', user: doc).update_all(status: :delete)
     #CardIp.where(:status.in => ['deleted', 'add'], user: doc).delete_all
 
-    #Face.where(status: :deleted).delete_all
-    #Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
-    #Card.where(status: :deleted).delete_all
-    #Card.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
+    Face.where(status: :deleted).delete_all
+    Face.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
+    Card.where(status: :deleted).delete_all
+    Card.where(:status.in => [:add, :added], user: doc).update_all(status: :delete)
   end
 
 end

@@ -10,6 +10,7 @@ class Card
   belongs_to :house
 
   validates :card_access_ips, presence: true
+  validates :user_name, presence: true
 
   set_callback(:initialize, :after) do |doc|
     if doc.user

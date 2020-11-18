@@ -13,6 +13,7 @@ class Face
 
   validates :access_ips, presence: true
   validates :user_avatar_url, presence: true
+  validates :user_name, presence: true
 
   set_callback(:initialize, :after) do |doc|
     if self.user

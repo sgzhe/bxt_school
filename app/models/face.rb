@@ -26,7 +26,7 @@ class Face
   end
 
   def user_avatar_url
-    return self.user.avatar.url if read_attribute(:user_avatar_url).blank?
+    return self.user.try(:avatar).try(:url) if read_attribute(:user_avatar_url).blank?
     read_attribute(:user_avatar_url)
   end
 

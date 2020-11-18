@@ -12,6 +12,7 @@ class Face
   belongs_to :house
 
   validates :access_ips, presence: true
+  validates :user_avatar_url, presence: true
 
   set_callback(:initialize, :after) do |doc|
     if self.user

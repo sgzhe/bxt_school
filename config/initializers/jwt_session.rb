@@ -9,4 +9,6 @@ if Rails.env == 'production'
      redis_db_name: "0",
      token_prefix: "jwt_"
  }
+else
+ JWTSessions.token_store = :memory
 end

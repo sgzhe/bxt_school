@@ -140,7 +140,7 @@ class User
     dorm.check_in(self, bed_mark)
   end
 
-  def notify_face
+  def notify_face_ip
     add = nil
     bbb = nil
     if dorm_id_changed?
@@ -174,7 +174,7 @@ class User
   end
 
 
-  def notify_face3
+  def notify_face
     add = nil
     bbb = nil
     if dorm_id_changed?
@@ -195,7 +195,7 @@ class User
       end
     end
     if avatar_changed?
-      add ||= send_face(:add, HouseMgr.find(dorm.parent_ids).try(:access_ips))
+      add ||= send_face('add', HouseMgr.find(dorm.parent_ids).try(:access_ips))
     end
     if ic_card_changed?
       unless changes['ic_card'][0].blank?
@@ -207,11 +207,11 @@ class User
     end
   end
 
-  def send_face(status = :add, access_ips = {})
-    Face.create(status: status, access_ips: access_ips, user: self, face_id: face_id, facility_ids: facility_ids)
+  def send_face(status = 'add', access_ips = {})
+    Face.create(status: status, access_ips: access_ips, user: self, face_id: self.face_id, facility_ids: self.facility_ids, house: self.house)
   end
 
-  def send_card(status = :add, card_access_ips = {})
+  def send_card(status = 'add', card_access_ips = {})
     Card.create(status: status, card_access_ips: card_access_ips, user: self, ic_card: self.ic_card, facility_ids: self.facility_ids, house: self.house)
   end
 

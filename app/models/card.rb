@@ -5,6 +5,7 @@ class Card
   field :ic_card, type: String, default: 0
   field :facility_ids, type: Array, default: []
   field :counts, type: Integer, default: 0
+  field :user_name, type: String, default: ''
   belongs_to :user
   belongs_to :house
 
@@ -17,6 +18,7 @@ class Card
       doc.card_access_ips = doc.house.try(:card_access_ips) if doc.card_access_ips.blank?
       doc.ic_card ||= doc.user.try(:ic_card)
       doc.facility_ids = doc.user.facility_ids
+      doc.user_name = doc.user.name
     end
   end
 

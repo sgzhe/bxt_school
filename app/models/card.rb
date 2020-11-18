@@ -25,7 +25,7 @@ class Card
 
   set_callback(:save, :before) do |doc|
     doc.counts += 1
-    if counts > 20
+    if counts > 30
       doc.status = 'fail'
     end
     if doc.status == 'add'
